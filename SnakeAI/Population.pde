@@ -50,7 +50,9 @@ class Population {
       bestSnake.brain.show(0, 0, 360, 790, bestSnake.vision, bestSnake.decision);  // Show the brain of the best snake.
     } else {
       for (int i = 0; i < snakes.length; i++) {
-        snakes[i].show();
+        if (snakes[i].dead == false) {
+            snakes[i].show();
+        }
       }
     }
   }
