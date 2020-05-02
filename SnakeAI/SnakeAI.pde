@@ -3,8 +3,11 @@
 // Adicionar obstáculos.
 
 final int SIZE = 20;
-final int hidden_nodes = 16;
-final int hidden_layers = 2;
+
+final int inputNodesNumber = 24;
+final int hiddenNodesNumber = 16;
+final int hiddenLayersNumber = 2;
+final int outputNodesNumber = 4;
 
 int highscore = 0;
 
@@ -12,11 +15,12 @@ float mutationRate = 0.05;
 float defaultMutation = mutationRate;
 
 boolean humanPlaying = false;  // False for AI, true to play yourself.
-boolean replayBest = false;  // Shows only the best of each generation.
-boolean showSnakesVision = false;  // Show snake's vision.
+boolean replayBest = true;  // Shows only the best of each generation.
+boolean showSnakesVision = true;  // Show snake's vision.
 boolean modelLoaded = false;
 
 ArrayList<Integer> evolution;
+
 PFont font;
 Button graphButton;
 Button loadButton;

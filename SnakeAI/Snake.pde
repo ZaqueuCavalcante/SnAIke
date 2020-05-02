@@ -1,61 +1,54 @@
 class Snake {
 
-  int score = 1;  // Length/amount of squares of the snake.
-  int lifeLeft = 50;  // Amount of moves the snake can make before it dies.
-  int lifetime = 0;  // Amount of time the snake has been alive.
-  int xVel, yVel;  // Orthogonal components of snake speed.
-  int foodIterate = 0;  // Iterator to run through the foodlist (used for replay).
-  
-  int xInitialPosition = xDivisoryLine + SIZE + SIZE/2 + rinkWidth/2;
-  int yInitialPosition = SIZE + SIZE/2 + rinkHeight/2;
-
-  float fitness = 0;
-
+  PVector head;  // Head of snake.
+  ArrayList<PVector> body;  // Snakes body.
+  NeuralNet brain;  // Snakes brain.
+  float[] vision;  // Snakes vision.
+  float[] decision;  // Snakes decision.  
   boolean dead = false;
   boolean replay = false;  // If this snake is a replay of best snake.
+  color skinColor = color(random(255), random(255), random(255));
 
-  float[] vision;  // Snakes vision.
-  float[] decision;  // Snakes decision.
+  int xInitialPosition = xDivisoryLine + SIZE + SIZE/2 + rinkWidth/2;
+  int yInitialPosition = SIZE + SIZE/2 + rinkHeight/2;
+  int xVel, yVel;  // Orthogonal components of snake speed.
 
-  PVector head;  // Head of snake.
-
-  ArrayList<PVector> body;  // Snakes body.
-  ArrayList<Food> foodList;  // List of food positions (used to replay the best snake).
+  int score = 1;  // Length/amount of squares of the snake.
+  int lifeLeft = 2*(rinkWidth + rinkHeight)/SIZE;  // Amount of moves the snake can make before it dies.
+  int lifetime = 0;  // Amount of time the snake has been alive.
+  float fitness = 0;  // It measures how adapted the snake is, that is, how efficient it is in eating food and avoiding obstacles.
 
   Food food;
-  NeuralNet brain;
+  ArrayList<Food> foodList;  // List of food positions (used to replay the best snake).
+  int foodIterate = 0;  // Iterator to run through the foodList (used for replay).
 
   Snake() {
-    this(hidden_layers);
-  }
-
-  Snake(int layers) {
     head = new PVector(xInitialPosition, yInitialPosition);
     food = new Food();
     body = new ArrayList<PVector>();
     if (!humanPlaying) {
-      vision = new float[24];
-      decision = new float[4];
+      vision = new float[inputNodesNumber];
+      decision = new float[outputNodesNumber];
       foodList = new ArrayList<Food>();
       foodList.add(food.clone());
-      brain = new NeuralNet(24, hidden_nodes, 4, layers);
+      brain = new NeuralNet(inputNodesNumber, hiddenNodesNumber, hiddenLayersNumber, outputNodesNumber);
       body.add(new PVector(xInitialPosition, yInitialPosition+SIZE));  
       score += 1;
     }
   }
 
-  Snake(ArrayList<Food> foods) {  // This constructor passes in a list of food positions so that a replay can replay the best snake.
+  Snake(ArrayList<Food> foodsArray) {  // This constructor passes in a list of food positions so that a replay can replay the best snake.
+    head = new PVector(xInitialPosition, yInitialPosition);
     replay = true;
-    vision = new float[24];
-    decision = new float[4];
+    vision = new float[inputNodesNumber];
+    decision = new float[outputNodesNumber];
     body = new ArrayList<PVector>();
-    foodList = new ArrayList<Food>(foods.size());
-    for (Food f : foods) {  // Clone all the food positions in the foodList.
+    foodList = new ArrayList<Food>(foodsArray.size());
+    for (Food f : foodsArray) {  // Clone all the food positions in the foodList.
       foodList.add(f.clone());
     }
     food = foodList.get(foodIterate);
     foodIterate ++;
-    head = new PVector(xInitialPosition, yInitialPosition);
     body.add(new PVector(xInitialPosition, yInitialPosition+SIZE));
     score += 1;
   }
@@ -69,15 +62,17 @@ class Snake {
     return false;
   }
 
-  boolean foodCollide(float x, float y) {  // Check if a position collides with the food.
-    if (x == food.position.x && y == food.position.y) {
+  boolean foodCollide() {  // Check if the head position collides with the food.
+    if (head.x == food.position.x && head.y == food.position.y) {
       return true;
     }
     return false;
   }
 
-  boolean wallCollide(float x, float y) {  // Check if a position collides with the wall.
-    if (x >= width-(SIZE) || x < 400+SIZE || y >= height-(SIZE) || y < SIZE) {
+  boolean wallCollide() {  // Check if the head position collides with the wall.
+    boolean squareInsideWidth = (head.x <= xRink+SIZE/2) || (head.x >= xRink+rinkWidth-SIZE/2);
+    boolean squareInsideHeight = (head.y <= yRink+SIZE/2) || (head.y >= yRink+rinkHeight-SIZE/2);
+    if (squareInsideWidth || squareInsideHeight) {
       return true;
     }
     return false;
@@ -85,7 +80,7 @@ class Snake {
 
   void show() {
     food.show();
-    fill(255);
+    fill(skinColor);
     stroke(0);
     for (int i = 0; i < body.size(); i++) {
       rectMode(CENTER);
@@ -95,8 +90,8 @@ class Snake {
     rectMode(CENTER);
     rect(head.x, head.y, SIZE, SIZE);
   }
-  
-  void eat() { 
+
+  void eat() {
     int snakeLength = body.size() - 1;
     score ++;
     if (!humanPlaying && !modelLoaded) {
@@ -126,18 +121,18 @@ class Snake {
       foodIterate ++;
     }
   }
-  
+
   void move() {
     if (!dead) {
       if (!humanPlaying && !modelLoaded) {
         lifetime ++;
         lifeLeft --;
       }
-      if (foodCollide(head.x, head.y)) {
+      if (foodCollide()) {
         eat();
       }
       shiftBody();
-      if (wallCollide(head.x, head.y)) {
+      if (wallCollide()) {
         dead = true;
       } else if (bodyCollide(head.x, head.y)) {
         dead = true;
@@ -171,13 +166,13 @@ class Snake {
   }
 
   Snake clone() {  // Clone the snake.
-    Snake clone = new Snake(hidden_layers);
+    Snake clone = new Snake();
     clone.brain = brain.clone();
     return clone;
   }
 
   Snake crossover(Snake parent) {  // Crossover the snake with another snake.
-    Snake child = new Snake(hidden_layers);
+    Snake child = new Snake();
     child.brain = brain.crossover(parent.brain);
     return child;
   }

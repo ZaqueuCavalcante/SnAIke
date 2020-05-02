@@ -1,13 +1,13 @@
 class NeuralNet {
 
-  int inputNodesNumber, hiddenNodesNumber, outputNodesNumber, hiddenLayersNumber;
+  int inputNodesNumber, hiddenNodesNumber, hiddenLayersNumber, outputNodesNumber;
   Matrix[] weights;
 
-  NeuralNet(int inputNodesNumber_, int hiddenNodesNumber_, int outputNodesNumber_, int hiddenLayersNumber_) {
+  NeuralNet(int inputNodesNumber_, int hiddenNodesNumber_, int hiddenLayersNumber_, int outputNodesNumber_) {
     inputNodesNumber = inputNodesNumber_;
     hiddenNodesNumber = hiddenNodesNumber_;
-    outputNodesNumber = outputNodesNumber_;
     hiddenLayersNumber = hiddenLayersNumber_;
+    outputNodesNumber = outputNodesNumber_;
 
     weights = new Matrix[hiddenLayersNumber+1];
     weights[0] = new Matrix(hiddenNodesNumber, inputNodesNumber+1);
@@ -53,7 +53,7 @@ class NeuralNet {
   }
 
   NeuralNet clone() {
-    NeuralNet clone = new NeuralNet(inputNodesNumber, hiddenNodesNumber, outputNodesNumber, hiddenLayersNumber);
+    NeuralNet clone = new NeuralNet(inputNodesNumber, hiddenNodesNumber, hiddenLayersNumber, outputNodesNumber);
     for (int i=0; i<weights.length; i++) {
       clone.weights[i] = weights[i].clone();
     }
