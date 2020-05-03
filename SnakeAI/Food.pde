@@ -10,8 +10,8 @@ class Food {
   // Várias comidas na tela.
 
   Food() {
-    float x = screen.xVerticalLine + screen.pixelSize + screen.pixelSize/2 + floor(random(rink.Width/screen.pixelSize))*screen.pixelSize;
-    float y = screen.pixelSize + screen.pixelSize/2 + floor(random(rink.Height/screen.pixelSize))*screen.pixelSize;
+    float x = screen.xVerticalLine + rink.pixelSize + rink.pixelSize/2 + floor(random(rink.Width/rink.pixelSize))*rink.pixelSize;
+    float y = rink.pixelSize + rink.pixelSize/2 + floor(random(rink.Height/rink.pixelSize))*rink.pixelSize;
     position = new PVector(x, y);
     Color = color(255, 0, 0);
     // A comida não pode ser gerada em cima da cobra!!
@@ -19,10 +19,10 @@ class Food {
   }
 
   void show() {
-    stroke(0);
+    stroke(255);
     fill(Color);
     rectMode(CENTER);
-    rect(position.x, position.y, screen.pixelSize, screen.pixelSize);
+    rect(position.x, position.y, rink.pixelSize, rink.pixelSize);
   }
 
   Food clone() {

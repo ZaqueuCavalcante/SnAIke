@@ -4,7 +4,7 @@ class Body {
   color Color;
 
   Body() {
-    positions = new ArrayList<PVector>(1);
+    positions = new ArrayList<PVector>();
     Color = color(random(255), random(255), random(255));
   }
 
@@ -18,13 +18,13 @@ class Body {
     stroke(255);
     for (int i = 0; i < positions.size(); i++) {
       rectMode(CENTER);
-      rect(positions.get(i).x, positions.get(i).y, screen.pixelSize, screen.pixelSize);
+      rect(positions.get(i).x, positions.get(i).y, rink.pixelSize, rink.pixelSize);
     }
   }
 
   void move() {  // Shift the body to follow the head.
-    float xFrontPixel = snake.head.x;
-    float yFrontPixel = snake.head.y;
+    float xFrontPixel = snake.head.position.x;
+    float yFrontPixel = snake.head.position.y;
     float xBackPixel;
     float yBackPixel;
     for (int i = 0; i < positions.size(); i++) {

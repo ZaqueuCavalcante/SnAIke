@@ -1,10 +1,10 @@
-//class Population {
+class Population {
 
 //  Snake[] snakes;
 //  Snake bestSnake;
 
 //  int bestSnakeScore = 0;
-//  int generation = 0;
+  int generation = 0;
 
 //  float bestFitness = 0;
 //  float fitnessSum = 0;
@@ -120,4 +120,4 @@
 //      fitnessSum += snakes[i].fitness;
 //    }
 //  }
-//}
+}

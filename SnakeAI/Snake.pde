@@ -3,40 +3,36 @@ class Snake {
   Head head;
   Body body;
 
+  Radar radar;
+
   //  NeuralNet brain;  // Snakes brain.
   //  float[] vision;  // Snakes vision.
   //  float[] decision;  // Snakes decision.  
   boolean dead = false;
   //  boolean replay = false;  // If this snake is a replay of best snake.
 
-  int xVelocity, yVelocity;  // Orthogonal components of snake speed.
+  //int xVelocity, yVelocity;
+  PVector velocity;
   float theta;
 
   int score = 0;  // Length/amount of pixels of the snake.
-  int remainingMoves = (rink.Width + rink.Height)/(2*screen.pixelSize);  // Amount of moves the snake can make before it dies.
+  int remainingMoves = 100;  // Amount of moves the snake can make before it dies.
   //  int lifetime = 0;  // Amount of time the snake has been alive.
   //  float fitness = 0;  // It measures how adapted the snake is, that is, how efficient it is in eating food and avoiding obstacles.
 
-  //  Food food;
-  //  ArrayList<Food> foodList;  // List of food positions (used to replay the best snake).
-  //  int foodIterate = 0;  // Iterator to run through the foodList (used for replay).
-
   Snake() {
     setTheta();
+    velocity = new PVector();
     setVelocity();
     head = new Head();
     body = new Body();
-    body.addPixel(head.x, head.y+screen.pixelSize);
-    body.addPixel(head.x, head.y+2*screen.pixelSize);
-    body.addPixel(head.x, head.y+3*screen.pixelSize);
-    body.addPixel(head.x, head.y+4*screen.pixelSize);
-    //body.addPixel(head.x, head.y+5*screen.pixelSize);
-    //body.addPixel(head.x, head.y+6*screen.pixelSize);
-    //body.addPixel(head.x, head.y+7*screen.pixelSize);
-    //body.addPixel(head.x, head.y+8*screen.pixelSize);
-    //body.addPixel(head.x, head.y+9*screen.pixelSize);
-    //body.addPixel(head.x, head.y+10*screen.pixelSize);
+    body.addPixel(head.position.x, head.position.y+rink.pixelSize);
+    body.addPixel(head.position.x, head.position.y+2*rink.pixelSize);
+    body.addPixel(head.position.x, head.position.y+3*rink.pixelSize);
+    body.addPixel(head.position.x, head.position.y+4*rink.pixelSize);
     increaseScore();
+
+    radar = new Radar(head.position, food.position);
   }
 
   void increaseScore() {
@@ -44,6 +40,16 @@ class Snake {
   }
   void increaseRemainingMoves() {
     remainingMoves += 100;
+  }
+  void decreaseRemainingMoves() {
+    remainingMoves --;
+  }
+  boolean remainingMovesEnd() {
+    if (remainingMoves == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void setTheta() {
@@ -53,43 +59,12 @@ class Snake {
   void show() {
     head.show();
     body.show();
+    radar.show();
   }
-
-
-  //  Snake() {
-  //    head = new PVector(xInitialPosition, yInitialPosition);
-  //    food = new Food();
-  //    body = new ArrayList<PVector>();
-  //    if (!humanPlaying) {
-  //      vision = new float[inputNodesNumber];
-  //      decision = new float[outputNodesNumber];
-  //      foodList = new ArrayList<Food>();
-  //      foodList.add(food.clone());
-  //      brain = new NeuralNet(inputNodesNumber, hiddenNodesNumber, hiddenLayersNumber, outputNodesNumber);
-  //      body.add(new PVector(xInitialPosition, yInitialPosition+SIZE));  
-  //      score += 1;
-  //    }
-  //  }
-
-  //  Snake(ArrayList<Food> foodsArray) {  // This constructor passes in a list of food positions so that a replay can replay the best snake.
-  //    head = new PVector(xInitialPosition, yInitialPosition);
-  //    replay = true;
-  //    vision = new float[inputNodesNumber];
-  //    decision = new float[outputNodesNumber];
-  //    body = new ArrayList<PVector>();
-  //    foodList = new ArrayList<Food>(foodsArray.size());
-  //    for (Food f : foodsArray) {  // Clone all the food positions in the foodList.
-  //      foodList.add(f.clone());
-  //    }
-  //    food = foodList.get(foodIterate);
-  //    foodIterate ++;
-  //    body.add(new PVector(xInitialPosition, yInitialPosition+SIZE));
-  //    score += 1;
-  //  }
 
   boolean bodyCollide() {  // Check if the head collides with self body.
     for (int i = 0; i < body.positions.size(); i++) {
-      if (head.x == body.positions.get(i).x && head.y == body.positions.get(i).y) {
+      if (head.position.x == body.positions.get(i).x && head.position.y == body.positions.get(i).y) {
         return true;
       }
     }
@@ -97,15 +72,15 @@ class Snake {
   }
 
   boolean foodCollide() {  // Checks if the head collides with the food.
-    if (head.x == food.position.x && head.y == food.position.y) {
+    if (head.position.x == food.position.x && head.position.y == food.position.y) {
       return true;
     }
     return false;
   }
 
   boolean wallCollide() {  // Checks if the head collides with the wall.
-    boolean headInsideRinkWidth = (head.x < rink.x) || (head.x > rink.x+rink.Width);
-    boolean headInsideRinkHeight = (head.y < rink.y) || (head.y > rink.y+rink.Height);
+    boolean headInsideRinkWidth = (head.position.x < rink.x) || (head.position.x > rink.x+rink.Width);
+    boolean headInsideRinkHeight = (head.position.y < rink.y) || (head.position.y > rink.y+rink.Height);
     if (headInsideRinkWidth || headInsideRinkHeight) {
       return true;
     }
@@ -113,11 +88,12 @@ class Snake {
   }
 
   void eat() {
-    body.addPixel(head.x, head.y+screen.pixelSize);
+    body.addPixel(head.position.x, head.position.y+rink.pixelSize);
     food = new Food();
+    radar.changeDestinyPoint(food.position);
     increaseScore();
     increaseRemainingMoves();
-    
+
     //int snakeLength = body.size() - 1;
     //score ++;
     //if (!humanPlaying && !modelLoaded) {
@@ -149,23 +125,26 @@ class Snake {
   }
 
   void move() { 
-    //if (!humanPlaying && !modelLoaded) {
-    //  lifetime ++;
-    //  lifeLeft --;
-    //}
     if (wallCollide()) {
       die();
     }
     if (bodyCollide()) {
       die();
     }
+    if (remainingMovesEnd()) {
+      die();
+    }
     if (foodCollide()) {
       eat();
     }
     if (isNotDead()) {
-      
+
       body.move();
       head.move();
+      decreaseRemainingMoves();
+      radar.calculateDistance();
+      print(radar.distanceToDistinyPoint);
+      print("\n");
     }
   }
 
@@ -173,13 +152,17 @@ class Snake {
     dead = true;
   }
 
+  boolean isDead() {
+    return dead;
+  }
+
   boolean isNotDead() {
     return !dead;
   }
 
   void setVelocity() {
-    xVelocity = screen.pixelSize*int(cos(theta));
-    yVelocity = screen.pixelSize*int(sin(theta));
+    velocity.x = rink.pixelSize*int(cos(theta));
+    velocity.y = rink.pixelSize*int(sin(theta));
   }
   void moveLeft() { 
     theta -= PI/2;
