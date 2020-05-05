@@ -2,10 +2,6 @@
 // Uma pode matar a outra, se comer seu rabo.
 // Adicionar obstáculos.
 
-//boolean replayBest = true;  // Shows only the best of each generation.
-//boolean showSnakesVision = true;  // Show snake's vision.
-//boolean modelLoaded = false;
-
 Population population;
 int populationSize = 2000;
 
@@ -18,21 +14,20 @@ Rink rink;
 
 Snake snake;
 
-Food food;
-
 boolean humanPlaying = true;
 
 Brain brain;
 
 void setup() {
-  screen = new Screen(width, height, 400, 8);
+  screen = new Screen(width, height, 400, 20);
   rink = new Rink(420, 20, 760, 760, 20);
+  
 
-  brain = new Brain(10);
+  brain = new Brain(4, 8, 2);
 
   if (humanPlaying) {
-    food = new Food();
-    snake = new Snake();
+    rink.addFood();
+    snake = new Snake(rink);
   } else {
     population = new Population();
   }
@@ -53,10 +48,10 @@ void draw() {
     snake.show();
     snake.move();
 
-    food.show();
+    rink.food.show();
 
     if (snake.isDead()) {
-      snake = new Snake();
+      snake = new Snake(rink);
     }
   }
 

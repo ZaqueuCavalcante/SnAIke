@@ -25,8 +25,8 @@ class Radar {
   }
   
   PVector calculateDistance() {
-    distanceToDistinyPoint.x = abs(destinyPoint.x - originPoint.x);
-    distanceToDistinyPoint.y = abs(destinyPoint.y - originPoint.y);
+    distanceToDistinyPoint.x = destinyPoint.x - originPoint.x;
+    distanceToDistinyPoint.y = destinyPoint.y - originPoint.y;
     distanceToDistinyPoint.z = sqrt(pow(distanceToDistinyPoint.x, 2) + pow(distanceToDistinyPoint.y, 2));
     return distanceToDistinyPoint;
   }

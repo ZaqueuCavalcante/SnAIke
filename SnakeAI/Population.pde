@@ -1,7 +1,7 @@
 class Population {
 
-//  Snake[] snakes;
-//  Snake bestSnake;
+  Snake[] snakes;
+  Snake bestSnake;
 
 //  int bestSnakeScore = 0;
   int generation = 0;

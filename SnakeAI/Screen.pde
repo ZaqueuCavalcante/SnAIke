@@ -2,7 +2,7 @@ class Screen {
 
   int Width;
   int Height;
-  int FPS;  // Frames per second.
+  float FPS;  // Frames per second.
   int xVerticalLine;
 
   PFont font;
@@ -13,7 +13,7 @@ class Screen {
   Button increaseMutationRateButton;
   Button decreaseMutationRateButton;
 
-  Screen(int Width_, int Height_, int xVerticalLine_, int FPS_) { 
+  Screen(int Width_, int Height_, int xVerticalLine_, float FPS_) { 
     Width = Width_;
     Height = Height_;
     xVerticalLine = xVerticalLine_;

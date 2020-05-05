@@ -2,6 +2,8 @@ class Food {
 
   PVector position;
   color Color;
+  
+  Rink rink;
 
   // Ideias futuras:
   // Fazer a comida se mexer -> Mais devagar que a cobra.
@@ -9,7 +11,8 @@ class Food {
   // Comidas tóxicas ou venenos -> Ingerir pode reduzir seu tamanho ou matar a cobra.
   // Várias comidas na tela.
 
-  Food() {
+  Food(Rink rink_) {
+    rink = rink_;
     float x = screen.xVerticalLine + rink.pixelSize + rink.pixelSize/2 + floor(random(rink.Width/rink.pixelSize))*rink.pixelSize;
     float y = rink.pixelSize + rink.pixelSize/2 + floor(random(rink.Height/rink.pixelSize))*rink.pixelSize;
     position = new PVector(x, y);
@@ -23,12 +26,5 @@ class Food {
     fill(Color);
     rectMode(CENTER);
     rect(position.x, position.y, rink.pixelSize, rink.pixelSize);
-  }
-
-  Food clone() {
-    Food clone = new Food();
-    clone.position.x = position.x;
-    clone.position.y = position.y;
-    return clone;
   }
 }
