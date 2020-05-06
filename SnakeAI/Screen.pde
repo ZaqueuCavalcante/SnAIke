@@ -55,7 +55,8 @@ class Screen {
     textSize(20);
     textAlign(LEFT);
     text("SCORE : " + snake.score, 20, 60);
-    text("BEST SCORE : ", 20, 90);
+    text("BEST SCORE : ", 180, 60);
+    text("FITNESS : " + snake.fitness, 20, 90);
     text("GENERATION : ", 20, 120);
     text("REMAINING MOVES : " + snake.remainingMoves, 20, 150);
     text("MUTATION RATE : ", 20, 180);

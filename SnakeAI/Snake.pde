@@ -5,19 +5,21 @@ class Snake {
   Brain brain;
   Radar radar;
   
-  Rink rink;
-  
-  boolean dead = false;
+  boolean dead;
 
   PVector velocity;
   float theta;
 
-  int score = 0;  // Length/amount of pixels of the snake.
-  int remainingMoves = 100;  // Amount of moves the snake can make before it dies.
-  float fitness = 0;  // It measures how adapted the snake is, that is, how efficient it is in eating food and avoiding obstacles.
+  int score;  // Length/amount of pixels of the snake.
+  int remainingMoves;  // Amount of moves the snake can make before it dies.
+  float fitness;  // It measures how adapted the snake is, that is, how efficient it is in eating food and avoiding obstacles.
 
-  Snake(Rink rink_) {
-    rink = rink_;
+  Snake() {
+    dead = false;
+    score = 0;
+    remainingMoves = 100;
+    fitness = 0;
+    
     setTheta();
     velocity = new PVector();
     setVelocity();
@@ -27,6 +29,8 @@ class Snake {
     increaseScore();
 
     radar = new Radar(head.position, rink.food.position);
+    
+    brain = new Brain(4, 8, 2);
   }
 
   void increaseScore() {
@@ -55,6 +59,15 @@ class Snake {
     body.show();
     radar.show();
   }
+  
+  void calculateFitness() {
+    fitness = this.score*10 + this.remainingMoves/10;
+  }
+  
+  //Snake deepCopy() {
+  //  Snake snakeCopy = new Snake();
+    
+  //}
 
   boolean bodyCollide() {  // Check if the head collides with self body.
     for (int i = 0; i < body.positions.size(); i++) {
@@ -107,8 +120,9 @@ class Snake {
       head.move();
       decreaseRemainingMoves();
       radar.calculateDistance();
+      snake.calculateFitness();
       print(radar.distanceToDistinyPoint);
-      //print(random(-1000.0, 1000.0));
+      //print(fitness);
       print("\n");
     }
   }

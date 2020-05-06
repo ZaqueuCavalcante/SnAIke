@@ -27,9 +27,9 @@ void setup() {
 
   if (humanPlaying) {
     rink.addFood();
-    snake = new Snake(rink);
+    snake = new Snake();
   } else {
-    population = new Population();
+    population = new Population(100);
   }
 //evolution = new ArrayList<Integer>();
 }
@@ -51,7 +51,7 @@ void draw() {
     rink.food.show();
 
     if (snake.isDead()) {
-      snake = new Snake(rink);
+      snake = new Snake();
     }
   }
 
