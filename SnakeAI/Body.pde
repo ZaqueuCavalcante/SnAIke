@@ -1,37 +1,52 @@
 class Body {
 
-  ArrayList<PVector> positions;
+  ArrayList<PVector> position;
+  float pixelSideSize;
   color Color;
 
   Body() {
-    positions = new ArrayList<PVector>();
-    Color = color(random(255), random(255), random(255));
+    position = new ArrayList<PVector>();
+    setColor(color(random(255), random(255), random(255)));
   }
 
-  void addPixel(float xPixel, float yPixel) {
-    PVector newPixel = new PVector(xPixel, yPixel);
-    positions.add(newPixel);
+  void setFirstPixelPosition(float x_, float y_) {
+    position.add(new PVector(x_, y_));
+  }
+  void setPixelSideSize(float pixelSideSize_) {
+    pixelSideSize = pixelSideSize_;
+  }
+  void setColor(color Color_) {
+    Color = Color_;
+  }
+
+  void addPixel() {
+    PVector newPixelPosition = new PVector();
+    newPixelPosition.x = position.get(0).x;
+    newPixelPosition.y = position.get(0).y + pixelSideSize;
+    position.add(newPixelPosition);
   }
 
   void show() {
     fill(Color);
     stroke(255);
-    for (int i = 0; i < positions.size(); i++) {
+    for (int i = 0; i < position.size(); i++) {
       rectMode(CENTER);
-      rect(positions.get(i).x, positions.get(i).y, rink.pixelSize, rink.pixelSize);
+      rect(position.get(i).x, position.get(i).y, pixelSideSize, pixelSideSize);
     }
   }
 
   void move() {  // Shift the body to follow the head.
-    float xFrontPixel = snake.head.position.x;
-    float yFrontPixel = snake.head.position.y;
+    float xFrontPixel;
+    float yFrontPixel;
     float xBackPixel;
     float yBackPixel;
-    for (int i = 0; i < positions.size(); i++) {
-      xBackPixel = positions.get(i).x;
-      yBackPixel = positions.get(i).y;
-      positions.get(i).x = xFrontPixel;
-      positions.get(i).y = yFrontPixel;
+    for (int i = 0; i < position.size(); i++) {
+      xFrontPixel = position.get(i).x;
+      yFrontPixel = position.get(i).y;
+      xBackPixel = position.get(i+1).x;
+      yBackPixel = position.get(i+1).y;
+      position.get(i+1).x = xFrontPixel;
+      position.get(i).y = yFrontPixel;
       xFrontPixel = xBackPixel;
       yFrontPixel = yBackPixel;
     }

@@ -1,24 +1,34 @@
 class Head {
-
+  
   PVector position;
+  float pixelSideSize;
   color Color;
 
   Head() {
     position = new PVector();
-    position.x = screen.xVerticalLine + rink.pixelSize + rink.pixelSize/2 + rink.Width/2;
-    position.y = rink.pixelSize + rink.pixelSize/2 + rink.Height/2;
-    Color = color(100);
+    setColor(color(100));
+  }
+  
+  void setPosition(float x_, float y_) {
+    position.x = x_;
+    position.y = y_;
+  }
+  void setPixelSideSize(float sideSize_) {
+    pixelSideSize = sideSize_;
+  }
+  void setColor(color Color_) {
+    Color = Color_;
   }
 
-  void move() {
-    position.x += snake.velocity.x;
-    position.y += snake.velocity.y;
+  void move(float xVelocity, float yVelocity) {
+    position.x += xVelocity;
+    position.y += yVelocity;
   }
 
   void show() {
     fill(Color);
     stroke(255);
     rectMode(CENTER);
-    rect(position.x, position.y, rink.pixelSize, rink.pixelSize);
+    rect(position.x, position.y, pixelSideSize, pixelSideSize);
   }
 }

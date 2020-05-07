@@ -1,47 +1,50 @@
 class Snake {
 
-  Head head;
-  Body body;
-  Brain brain;
-  Radar radar;
-  
   boolean dead;
 
-  PVector velocity;
+  Head head;
+  Body body;
+
+  Brain brain;
+  Radar radar;
+
   float theta;
+  PVector velocity;
 
   int score;  // Length/amount of pixels of the snake.
   int remainingMoves;  // Amount of moves the snake can make before it dies.
   float fitness;  // It measures how adapted the snake is, that is, how efficient it is in eating food and avoiding obstacles.
 
   Snake() {
-    dead = false;
+    live();
+
+    head = new Head();
+    body = new Body();
+
+    //radar = new Radar(head.position, rink.food.position);
+
+    //brain = new Brain(4, 8, 2);
+
+    setTheta(3*PI/2);
+    velocity = new PVector();
+    setVelocity();
+
     score = 0;
     remainingMoves = 100;
     fitness = 0;
-    
-    setTheta();
-    velocity = new PVector();
-    setVelocity();
-    head = new Head();
-    body = new Body();
-    body.addPixel(head.position.x, head.position.y+rink.pixelSize);
-    increaseScore();
-
-    radar = new Radar(head.position, rink.food.position);
-    
-    brain = new Brain(4, 8, 2);
   }
 
-  void increaseScore() {
-    score ++;
-  }
-  void increaseRemainingMoves() {
-    remainingMoves += 100;
-  }
+  void live() { dead = false; }
+  void die() { dead = true; }
+  boolean isDead() { return dead; }
+  boolean isNotDead() { return !dead; }
+
+  void increaseScore(int scoreIncrement) {
+    score += scoreIncrement; }
+  void increaseRemainingMoves(int remainingMovesIncrement) {
+    remainingMoves += remainingMovesIncrement; }
   void decreaseRemainingMoves() {
-    remainingMoves --;
-  }
+    remainingMoves --; }
   boolean remainingMovesEnd() {
     if (remainingMoves == 0) {
       return true;
@@ -50,60 +53,48 @@ class Snake {
     }
   }
 
-  void setTheta() {
-    theta = 3*PI/2;
-  }
-
   void show() {
     head.show();
     body.show();
-    radar.show();
+    //radar.show();
   }
-  
+
   void calculateFitness() {
-    fitness = this.score*10 + this.remainingMoves/10;
+    fitness = score*10 + remainingMoves/10;
   }
-  
-  //Snake deepCopy() {
-  //  Snake snakeCopy = new Snake();
-    
-  //}
 
   boolean bodyCollide() {  // Check if the head collides with self body.
-    for (int i = 0; i < body.positions.size(); i++) {
-      if (head.position.x == body.positions.get(i).x && head.position.y == body.positions.get(i).y) {
+    for (int i = 0; i < body.position.size(); i++) {
+      if (head.position.x == body.position.get(i).x && head.position.y == body.position.get(i).y) {
         return true;
       }
     }
     return false;
   }
-
-  boolean foodCollide() {  // Checks if the head collides with the food.
-    if (head.position.x == rink.food.position.x && head.position.y == rink.food.position.y) {
+  boolean foodCollide(Food food) {  // Checks if the head collides with the food.
+    if (head.position.x == food.position.x && head.position.y == food.position.y) {
       return true;
     }
     return false;
   }
-
-  boolean wallCollide() {  // Checks if the head collides with the wall.
-    boolean headInsideRinkWidth = (head.position.x < rink.x) || (head.position.x > rink.x+rink.Width);
-    boolean headInsideRinkHeight = (head.position.y < rink.y) || (head.position.y > rink.y+rink.Height);
+  boolean wallCollide(Rink rink) {  // Checks if the head collides with the rink's wall.
+    boolean headInsideRinkWidth = (head.position.x < rink.position.x) || (head.position.x > rink.position.x+rink.Width);
+    boolean headInsideRinkHeight = (head.position.y < rink.position.y) || (head.position.y > rink.position.y+rink.Height);
     if (headInsideRinkWidth || headInsideRinkHeight) {
       return true;
     }
     return false;
   }
 
-  void eat() {
-    body.addPixel(head.position.x, head.position.y+rink.pixelSize);
-    rink.addFood();
-    radar.changeDestinyPoint(rink.food.position);
-    increaseScore();
-    increaseRemainingMoves();
+  void eat(Food food) {
+    body.addPixel();
+    radar.changeDestinyPoint(food.position);
+    increaseScore(1);
+    increaseRemainingMoves(100);
   }
 
-  void move() { 
-    if (wallCollide()) {
+  void move(Rink rink, Food food) { 
+    if (wallCollide(rink)) {
       die();
     }
     if (bodyCollide()) {
@@ -112,41 +103,33 @@ class Snake {
     if (remainingMovesEnd()) {
       die();
     }
-    if (foodCollide()) {
-      eat();
+    if (foodCollide(food)) {
+      eat(food);
     }
     if (isNotDead()) {
       body.move();
-      head.move();
+      head.move(velocity.x, velocity.y);
       decreaseRemainingMoves();
       radar.calculateDistance();
-      snake.calculateFitness();
+      calculateFitness();
       print(radar.distanceToDistinyPoint);
-      //print(fitness);
       print("\n");
     }
   }
-
-  void die() {
-    dead = true;
-  }
-  boolean isDead() {
-    return dead;
-  }
-  boolean isNotDead() {
-    return !dead;
-  }
   
+  void setTheta(float newTheta) {
+    theta += newTheta;
+  }
   void setVelocity() {
-    velocity.x = rink.pixelSize*int(cos(theta));
-    velocity.y = rink.pixelSize*int(sin(theta));
+    velocity.x = head.pixelSideSize*int(cos(theta));
+    velocity.y = head.pixelSideSize*int(sin(theta));
   }
   void moveLeft() { 
-    theta -= PI/2;
+    setTheta(-PI/2);
     setVelocity();
   }
   void moveRight() { 
-    theta += PI/2;
+    setTheta(PI/2);
     setVelocity();
   }
 }

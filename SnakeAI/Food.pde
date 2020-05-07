@@ -1,30 +1,39 @@
 class Food {
 
   PVector position;
+  float pixelSideSize;
+  int nutritionalValue;
   color Color;
-  
-  Rink rink;
 
-  // Ideias futuras:
   // Fazer a comida se mexer -> Mais devagar que a cobra.
   // Comidas com cores diferentes -> Pontuações diferentes.
   // Comidas tóxicas ou venenos -> Ingerir pode reduzir seu tamanho ou matar a cobra.
   // Várias comidas na tela.
 
-  Food(Rink rink_) {
-    rink = rink_;
-    float x = screen.xVerticalLine + rink.pixelSize + rink.pixelSize/2 + floor(random(rink.Width/rink.pixelSize))*rink.pixelSize;
-    float y = rink.pixelSize + rink.pixelSize/2 + floor(random(rink.Height/rink.pixelSize))*rink.pixelSize;
-    position = new PVector(x, y);
-    Color = color(255, 0, 0);
-    // A comida não pode ser gerada em cima da cobra!!
-    // O vetor de posições do corpo da cobra deve ser global, para evitar choque.
+  Food() {
+    position = new PVector();
+    setColor(color(255, 0, 0));
+    setNutritionalValue(1);
+  }
+
+  void setPosition(float x_, float y_) {
+    position.x = x_;
+    position.y = y_;
+  }
+  void setPixelSideSize(float sideSize_) {
+    pixelSideSize = sideSize_;
+  }
+  void setNutritionalValue(int nutritionalValue_) {
+    nutritionalValue = nutritionalValue_;
+  }
+  void setColor(color Color_) {
+    Color = Color_;
   }
 
   void show() {
-    stroke(255);
     fill(Color);
+    stroke(255);
     rectMode(CENTER);
-    rect(position.x, position.y, rink.pixelSize, rink.pixelSize);
+    rect(position.x, position.y, pixelSideSize, pixelSideSize);
   }
 }
