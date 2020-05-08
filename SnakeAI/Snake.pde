@@ -21,13 +21,9 @@ class Snake {
     head = new Head();
     body = new Body();
 
-    //radar = new Radar(head.position, rink.food.position);
+    radar = new Radar();
 
     //brain = new Brain(4, 8, 2);
-
-    setTheta(3*PI/2);
-    velocity = new PVector();
-    setVelocity();
 
     score = 0;
     remainingMoves = 100;
@@ -52,11 +48,17 @@ class Snake {
       return false;
     }
   }
+  
+  void setInitialVelocity() {
+    setTheta(3*PI/2);
+    velocity = new PVector();
+    setVelocity();
+  }
 
   void show() {
     head.show();
     body.show();
-    //radar.show();
+    radar.show();
   }
 
   void calculateFitness() {
@@ -88,7 +90,7 @@ class Snake {
 
   void eat(Food food) {
     body.addPixel();
-    radar.changeDestinyPoint(food.position);
+    radar.setDestinyPoint(food.position);
     increaseScore(1);
     increaseRemainingMoves(100);
   }
@@ -107,8 +109,9 @@ class Snake {
       eat(food);
     }
     if (isNotDead()) {
-      body.move();
+      PVector headPreviousPosition = new PVector(head.position.x, head.position.y);
       head.move(velocity.x, velocity.y);
+      body.move(headPreviousPosition);
       decreaseRemainingMoves();
       radar.calculateDistance();
       calculateFitness();

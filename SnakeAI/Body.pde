@@ -21,8 +21,9 @@ class Body {
 
   void addPixel() {
     PVector newPixelPosition = new PVector();
-    newPixelPosition.x = position.get(0).x;
-    newPixelPosition.y = position.get(0).y + pixelSideSize;
+    int lastPixelIndex = position.size() - 1;
+    newPixelPosition.x = position.get(lastPixelIndex).x;
+    newPixelPosition.y = position.get(lastPixelIndex).y + pixelSideSize;
     position.add(newPixelPosition);
   }
 
@@ -35,17 +36,17 @@ class Body {
     }
   }
 
-  void move() {  // Shift the body to follow the head.
+  void move(PVector headPosition) {  // Shift the body to follow the head.
     float xFrontPixel;
     float yFrontPixel;
     float xBackPixel;
     float yBackPixel;
     for (int i = 0; i < position.size(); i++) {
-      xFrontPixel = position.get(i).x;
-      yFrontPixel = position.get(i).y;
-      xBackPixel = position.get(i+1).x;
-      yBackPixel = position.get(i+1).y;
-      position.get(i+1).x = xFrontPixel;
+      xFrontPixel = headPosition.x;
+      yFrontPixel = headPosition.y;
+      xBackPixel = position.get(i).x;
+      yBackPixel = position.get(i).y;
+      position.get(i).x = xFrontPixel;
       position.get(i).y = yFrontPixel;
       xFrontPixel = xBackPixel;
       yFrontPixel = yBackPixel;

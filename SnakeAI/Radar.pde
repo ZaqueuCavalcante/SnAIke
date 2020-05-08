@@ -5,11 +5,18 @@ class Radar {
   PVector distanceToDistinyPoint;  // x -> Horizontal distance; y -> Vertical distance; z -> Euclidean distance.
   color Color;
 
-  Radar(PVector originPoint_, PVector destinyPoint_) {
-    originPoint = originPoint_;
-    destinyPoint = destinyPoint_;
+  Radar() {
+    originPoint = new PVector();
+    destinyPoint = new PVector();
     distanceToDistinyPoint = new PVector();
     Color = color(144, 238, 117);
+  }
+  
+  void setOriginPoint(PVector originPoint_) {
+    originPoint = originPoint_;
+  }
+  void setDestinyPoint(PVector destinyPoint_) {
+    destinyPoint = destinyPoint_;
   }
 
   void show() {
@@ -18,10 +25,6 @@ class Radar {
     line(originPoint.x, originPoint.y, destinyPoint.x, originPoint.y);
     line(destinyPoint.x, originPoint.y, destinyPoint.x, destinyPoint.y);
     //strokeWeight(1);
-  }
-  
-  void changeDestinyPoint(PVector newDestinyPoint) {
-    destinyPoint = newDestinyPoint;
   }
   
   PVector calculateDistance() {

@@ -66,9 +66,15 @@ class Rink {
     snake.head.setPosition(x, y);
     snake.head.setPixelSideSize(pixelSize);
     
+    snake.setInitialVelocity();
+    
     snake.body.setFirstPixelPosition(x, y + pixelSize);
     snake.body.setPixelSideSize(pixelSize);
-    //snake.show();
+    
+    snake.radar.setOriginPoint(snake.head.position);
+    snake.radar.setDestinyPoint(food.position);
+    
+    snake.show();
   }
 
   void showPixelStrokes() {
