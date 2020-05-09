@@ -5,7 +5,7 @@ class Neuron {
   FloatList weights;
   String outputName;
   float outputValue;
-  
+
   float activationPotential;
 
   boolean activated;
@@ -17,11 +17,14 @@ class Neuron {
   Neuron() {
     position = new PVector();
     radius = 25.0;
-    
+
     deactivate();
 
     inputValues = new FloatList();
     weights = new FloatList();
+
+    inputName = "";
+    outputName = "";
   }
 
   void setPosition(float x_, float y_) {
@@ -83,5 +86,13 @@ class Neuron {
     stroke(255);
     ellipseMode(CENTER);
     ellipse(position.x, position.y, radius, radius);
+    if (inputName != "" || outputName != "") {
+      fill(150);
+      textSize(25);
+      textAlign(RIGHT);
+      text(inputName, position.x - radius, position.y + 0.30*radius);
+      textAlign(LEFT);
+      text(outputName, position.x + radius, position.y + 0.30*radius);
+    }
   }
 }
