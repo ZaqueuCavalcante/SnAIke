@@ -7,7 +7,11 @@ Rink rink;
 
 boolean humanPlaying = true;
 
-Neuron neuron;
+//Neuron neuron;
+
+Layer layer;
+
+Link link;
 
 void setup() {
   size(1200, 800);
@@ -22,12 +26,27 @@ void setup() {
 
   rink.addFood();
   rink.addSnake();
+  
+  layer = new Layer();
+  layer.setCenterPosition(65, 500);
+  layer.setNeuronsNumber(4);
+  layer.setVerticalDistance(80);
+  layer.setNeuronsPostions();
+  layer.neurons.get(0).setInputName("Bias");
+  layer.neurons.get(1).setInputName("Dx");
+  layer.neurons.get(2).setInputName("Dy");
+  layer.neurons.get(3).setInputName("Theta");
+  
+  layer.neurons.get(0).setOutputValue(42);
+  
+  link = new Link(layer.neurons.get(0), layer.neurons.get(1));
+  print(link.valueCarried);
 
-  neuron = new Neuron();
-  neuron.setPosition(300, 300);
+  //neuron = new Neuron();
+  //neuron.setPosition(300, 300);
 
-  neuron.setInputName("Input");
-  neuron.setOuputName("Output");
+  //neuron.setInputName("Input");
+  //neuron.setOuputName("Output");
 }
 
 void draw() {
@@ -49,8 +68,12 @@ void draw() {
   if (rink.snake.isDead()) {
     rink.addSnake();
   }
+  
+  link.show();
+  layer.show();
+  
 
-  neuron.show();
+  //neuron.show();
 
   //if (rink.snake.isDead()) {
   //  rink.addSnake();

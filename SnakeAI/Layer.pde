@@ -25,9 +25,9 @@ class Layer {
   float setFirstNeuronVerticalPosition() {
     float firstNeuronVerticalPosition;
     if (neuronsNumber % 2 == 0) {
-      firstNeuronVerticalPosition = verticalDistance/2 + (neuronsNumber/2 - 1)*verticalDistance;
+      firstNeuronVerticalPosition = centerPosition.y - (verticalDistance/2 + (neuronsNumber/2 - 1)*verticalDistance);
     } else {
-      firstNeuronVerticalPosition = (neuronsNumber/2)*verticalDistance;
+      firstNeuronVerticalPosition = centerPosition.y - (neuronsNumber/2)*verticalDistance;
     }
     return firstNeuronVerticalPosition;
   }

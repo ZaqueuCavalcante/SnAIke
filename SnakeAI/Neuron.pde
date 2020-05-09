@@ -88,7 +88,7 @@ class Neuron {
     ellipse(position.x, position.y, radius, radius);
     if (inputName != "" || outputName != "") {
       fill(150);
-      textSize(25);
+      textSize(20);
       textAlign(RIGHT);
       text(inputName, position.x - radius, position.y + 0.30*radius);
       textAlign(LEFT);
