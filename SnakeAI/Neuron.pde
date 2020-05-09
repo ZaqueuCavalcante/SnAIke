@@ -5,6 +5,8 @@ class Neuron {
   FloatList weights;
   String outputName;
   float outputValue;
+  
+  float activationPotential;
 
   boolean activated;
 
@@ -12,28 +14,35 @@ class Neuron {
   float radius;
   color Color;
 
-  Neuron(PVector position_) {
-    position  = position_;
+  Neuron() {
+    position = new PVector();
     radius = 25.0;
-    Color = color(100);
+    
+    deactivate();
 
     inputValues = new FloatList();
     weights = new FloatList();
   }
 
-  void setInputValues(FloatList inputValues_) {
-    inputValues = inputValues_;
+  void setPosition(float x_, float y_) {
+    position.x = x_;
+    position.y = y_;
   }
 
-  void setweights(FloatList weights_) {
-    weights = weights_;
+  void setInputName(String inputName_) {
+    inputName = inputName_;
   }
-
-  void show() {
-    fill(Color);
-    stroke(255);
-    ellipseMode(CENTER);
-    ellipse(position.x, position.y, radius, radius);
+  void addInputValue(float inputValue) {
+    inputValues.append(inputValue);
+  }
+  void addWeight(float weight) {
+    weights.append(weight);
+  }
+  void setOuputName(String outputName_) {
+    outputName = outputName_;
+  }
+  void setOutputValue(float outputValue_) {
+    outputValue = outputValue_;
   }
 
   void deactivate() {
@@ -45,14 +54,12 @@ class Neuron {
     Color = color(0, 255, 0);
   }
 
-  float calculateActivationPotential() {
-    float activationPotential = 0.0;
+  void calculateActivationPotential() {
+    activationPotential = 0.0;
     for (int i = 0; i < weights.size(); i++) {
       activationPotential += weights.get(i)*inputValues.get(i);
     }
-    return activationPotential;
   }
-
   float ReLUFunction(float input) {
     if (input < 0.0) {
       return 0.0;
@@ -69,5 +76,12 @@ class Neuron {
   }
   float SigmoidFunction(float input) {
     return 1.0 / (1.0 + exp(-input));
+  }
+
+  void show() {
+    fill(Color);
+    stroke(255);
+    ellipseMode(CENTER);
+    ellipse(position.x, position.y, radius, radius);
   }
 }

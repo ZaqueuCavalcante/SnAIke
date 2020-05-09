@@ -2,16 +2,15 @@
 // Uma pode matar a outra, se comer seu rabo.
 // Adicionar obstáculos.
 
-public void settings() {
-  size(1200, 800);
-}
-
 Screen screen;
 Rink rink;
 
 boolean humanPlaying = true;
 
+Neuron neuron;
+
 void setup() {
+  size(1200, 800);
   screen = new Screen(width, height);
   screen.setFPS(20);
 
@@ -24,7 +23,11 @@ void setup() {
   rink.addFood();
   rink.addSnake();
 
-  //rink.snake.body.addPixel();
+  neuron = new Neuron();
+  neuron.setPosition(300, 300);
+
+  neuron.setInputName("Input");
+  neuron.setOuputName("Output");
 }
 
 void draw() {
@@ -46,6 +49,8 @@ void draw() {
   if (rink.snake.isDead()) {
     rink.addSnake();
   }
+
+  neuron.show();
 
   //if (rink.snake.isDead()) {
   //  rink.addSnake();
@@ -74,14 +79,12 @@ void mousePressed() {
     print("\n");
   }
   if (screen.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
-    //mutationRate *= 2;
-    //defaultMutation = mutationRate;
+    //mutationRate += 0.5;
     print("MR ++");
     print("\n");
   }
   if (screen.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
-    //mutationRate /= 2;
-    //defaultMutation = mutationRate;
+    //mutationRate -= 0.5;
     print("MR --");
     print("\n");
   }

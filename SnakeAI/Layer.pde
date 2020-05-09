@@ -1,30 +1,49 @@
 class Layer {
 
   ArrayList<Neuron> neurons;
-  Neuron firstNeuron;
-  int numberOfNeurons;
+
+  PVector centerPosition;
+  int neuronsNumber;
   float verticalDistance;
 
-  Layer(Neuron firstNeuron_, int numberOfNeurons_, float verticalDistance_) {
-    firstNeuron = firstNeuron_;
-    numberOfNeurons = numberOfNeurons_;
+  Layer() {
     neurons = new ArrayList<Neuron>();
-    neurons.add(firstNeuron);
+    centerPosition = new PVector();
+  }
+
+  void setCenterPosition(float x_, float y_) {
+    centerPosition.x = x_;
+    centerPosition.y = y_;
+  }
+  void setNeuronsNumber(int neuronsNumber_) {
+    neuronsNumber = neuronsNumber_;
+  }
+  void setVerticalDistance(float verticalDistance_) {
     verticalDistance = verticalDistance_;
-    makeRestLayer(numberOfNeurons);
   }
 
-  void addNewNeuron() {
+  float setFirstNeuronVerticalPosition() {
+    float firstNeuronVerticalPosition;
+    if (neuronsNumber % 2 == 0) {
+      firstNeuronVerticalPosition = verticalDistance/2 + (neuronsNumber/2 - 1)*verticalDistance;
+    } else {
+      firstNeuronVerticalPosition = (neuronsNumber/2)*verticalDistance;
+    }
+    return firstNeuronVerticalPosition;
+  }
+
+  void setNeuronsPostions() {
+    Neuron firstNeuron = new Neuron();
+    firstNeuron.setPosition(centerPosition.x, setFirstNeuronVerticalPosition());
+    neurons.add(firstNeuron);
+
     PVector newNeuronPosition = new PVector();
-    newNeuronPosition.x = firstNeuron.position.x;
-    newNeuronPosition.y = neurons.get(neurons.size()-1).position.y + verticalDistance;
-    Neuron newNeuron = new Neuron(newNeuronPosition);
-    neurons.add(newNeuron);
-  }
-
-  void makeRestLayer(int numberOfNeurons) {
-    for (int i = 0; i < numberOfNeurons-1; i++) {
-      addNewNeuron();
+    newNeuronPosition.x = centerPosition.x;
+    for (int i = 0; i < neuronsNumber-1; i++) {
+      newNeuronPosition.y = neurons.get(i).position.y + verticalDistance;
+      Neuron newNeuron = new Neuron();
+      newNeuron.setPosition(centerPosition.x, newNeuronPosition.y);
+      neurons.add(newNeuron);
     }
   }
 
@@ -33,5 +52,4 @@ class Layer {
       neurons.get(i).show();
     }
   }
-  
 }

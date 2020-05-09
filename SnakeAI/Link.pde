@@ -11,10 +11,15 @@ class Link {
   Link(Neuron sourceNeuron_, Neuron arrivalNeuron_) {
     sourceNeuron = sourceNeuron_;
     arrivalNeuron = arrivalNeuron_;
+    
     weight = random(-1000.0, 1000.0);
     valueCarried = sourceNeuron.outputValue;
     
     Color = color(80);
+  }
+  
+  void setWeight(float weight_) {
+    weight = weight_;
   }
 
   void show() {

@@ -3,7 +3,6 @@ class Screen {
   int Width;
   int Height;
   float FPS;  // Frames per second.
-  int xVerticalLine;
 
   PFont font;
 
@@ -25,31 +24,24 @@ class Screen {
     Height = Height_;
     setFont();
     setButtons();
-    setVerticalLine(400);
+  }
+
+  void setFPS(float FPS_) {
+    FPS = FPS_;
+    frameRate(FPS);
   }
 
   void setFont() {
     font = createFont("agencyfb-bold.ttf", 32);
     textFont(font);
   }
+
   void setButtons() {
     saveButton = new Button(50, 15, 100, 30, "Save");
     loadButton = new Button(150, 15, 100, 30, "Load");
     graphButton = new Button(250, 15, 100, 30, "Graph");
     increaseMutationRateButton = new Button(225, 170, 20, 20, "+");
     decreaseMutationRateButton = new Button(250, 170, 20, 20, "-");
-  }
-  void setVerticalLine(int xVerticalLine_) {
-    xVerticalLine = xVerticalLine_;
-  }
-  void setFPS(float FPS_) {
-    FPS = FPS_;
-    frameRate(FPS);
-  }
-  void setAppearance(int backgroundColor, int strokeColor) {
-    background(backgroundColor);
-    stroke(strokeColor);
-    noFill();
   }
 
   void setScore(int score_) {
@@ -70,14 +62,20 @@ class Screen {
   void setMutationRate(float mutationRate_) {
     mutationRate = mutationRate_;
   }
+  
+  void setAppearance(int backgroundColor, int strokeColor) {
+    background(backgroundColor);
+    stroke(strokeColor);
+    noFill();
+  }
 
   void show() {
-    setAppearance(0, 255);
-    showVerticalLine();
+    setAppearance(20, 255);
+    showVerticalLine(400);
     showButtons();
     showParameters();
   }
-  void showVerticalLine() {
+  void showVerticalLine(float xVerticalLine) {
     stroke(255);
     line(xVerticalLine, 0, xVerticalLine, Height);
   }

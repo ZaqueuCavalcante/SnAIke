@@ -5,7 +5,7 @@ class Snake {
   Head head;
   Body body;
 
-  Brain brain;
+  //Brain brain;
   Radar radar;
 
   float theta;
