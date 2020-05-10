@@ -41,7 +41,7 @@ class Neuron {
   void addWeight(float weight) {
     weights.append(weight);
   }
-  void setOuputName(String outputName_) {
+  void setOutputName(String outputName_) {
     outputName = outputName_;
   }
   void setOutputValue(float outputValue_) {

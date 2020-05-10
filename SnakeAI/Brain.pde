@@ -1,68 +1,95 @@
-//class Brain {
+class Brain {
 
-//  int numberInputNeurons;
-//  int numberHiddenNeurons;
-//  int numberOutputNeurons;
+  PVector firstLayerCenterPosition;
 
-//  Layer inputLayer;
-//  Layer hiddenLayer;
-//  Layer outputLayer;
+  int inputNeuronsNumber;
+  int hiddenNeuronsNumber;
+  int outputNeuronsNumber;
 
-//  PVector inputLayerFirstNeuronPosition;
-//  PVector hiddenLayerFirstNeuronPosition;
-//  PVector outputLayerFirstNeuronPosition;
+  float horizontalDistanceBetweenLayers;
+  float verticalDistanceBetweenNeurons;
 
-//  float horizontalDistance;
-//  float verticalDistance;
+  Layer inputLayer;
+  Layer hiddenLayer;
+  Layer outputLayer;
 
-//  ArrayList<Link> links;
+  ArrayList<Link> links;
 
-//  Brain(int numberInputNeurons_, int numberHiddenNeurons_, int numberOutputNeurons_) {
-//    horizontalDistance = 100.0;
-//    verticalDistance = 70.0;
+  //link = new Link(layer.neurons.get(0), layer.neurons.get(1));
 
-//    links = new ArrayList<Link>();
+  Brain() {
+    firstLayerCenterPosition = new PVector();
 
-//    numberInputNeurons = numberInputNeurons_;
-//    inputLayerFirstNeuronPosition = new PVector();
-//    inputLayerFirstNeuronPosition.x = 80.0;
-//    inputLayerFirstNeuronPosition.y = 220.0 + (height-220.0)/2 - numberInputNeurons*verticalDistance/2;
-//    Neuron inputLayerFirstNeuron = new Neuron(inputLayerFirstNeuronPosition);
-//    inputLayer = new Layer(inputLayerFirstNeuron, numberInputNeurons, verticalDistance);
+    inputLayer = new Layer();
+    hiddenLayer = new Layer();
+    outputLayer = new Layer();
 
-//    numberHiddenNeurons = numberHiddenNeurons_;
-//    hiddenLayerFirstNeuronPosition = new PVector();
-//    hiddenLayerFirstNeuronPosition.x = inputLayerFirstNeuronPosition.x + horizontalDistance;
-//    hiddenLayerFirstNeuronPosition.y = inputLayerFirstNeuronPosition.y + (numberInputNeurons-numberHiddenNeurons)*verticalDistance/2;
-//    Neuron hiddenLayerFirstNeuron = new Neuron(hiddenLayerFirstNeuronPosition);
-//    hiddenLayer = new Layer(hiddenLayerFirstNeuron, numberHiddenNeurons, verticalDistance);
+    links = new ArrayList<Link>();
+  }
 
-//    numberOutputNeurons = numberOutputNeurons_;
-//    outputLayerFirstNeuronPosition = new PVector();
-//    outputLayerFirstNeuronPosition.x = inputLayerFirstNeuronPosition.x + 2*horizontalDistance;
-//    outputLayerFirstNeuronPosition.y = inputLayerFirstNeuronPosition.y + (numberInputNeurons-numberOutputNeurons)*verticalDistance/2;
-//    Neuron outputLayerFirstNeuron = new Neuron(outputLayerFirstNeuronPosition);
-//    outputLayer = new Layer(outputLayerFirstNeuron, numberOutputNeurons, verticalDistance);
+  void setFirstLayerCenterPosition(float x_, float y_) {
+    firstLayerCenterPosition.x = x_;
+    firstLayerCenterPosition.y = y_;
+  }
+  void setInputNeuronsNumber(int inputNeuronsNumber_) {
+    inputNeuronsNumber = inputNeuronsNumber_;
+  }
+  void setHiddenNeuronsNumber(int hiddenNeuronsNumber_) {
+    hiddenNeuronsNumber = hiddenNeuronsNumber_;
+  }
+  void setOutputNeuronsNumber(int outputNeuronsNumber_) {
+    outputNeuronsNumber = outputNeuronsNumber_;
+  }
+  void setHorizontalDistanceBetweenLayers(float horizontalDistance) {
+    horizontalDistanceBetweenLayers = horizontalDistance;
+  }
+  void setVerticalDistanceBetweenNeurons(float verticalDistance) {
+    verticalDistanceBetweenNeurons = verticalDistance;
+  }
 
-//    connectLayers(inputLayer, hiddenLayer);
-//    connectLayers(hiddenLayer, outputLayer);
-//  }
+  void setInputLayer() {
+    inputLayer.setCenterPosition(firstLayerCenterPosition.x, firstLayerCenterPosition.y);
+    inputLayer.setNeuronsNumber(inputNeuronsNumber);
+    inputLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
+    inputLayer.setNeuronsPostions();
+    inputLayer.neurons.get(0).setInputName("Bias");
+    inputLayer.neurons.get(1).setInputName("Dx");
+    inputLayer.neurons.get(2).setInputName("Dy");
+    inputLayer.neurons.get(3).setInputName("Theta");
+    inputLayer.neurons.get(0).setOutputValue(42);
+  }
 
-//  void show() {
-//    for (Link link : links) {
-//      link.show();
-//    }
-//    inputLayer.show();
-//    hiddenLayer.show();
-//    outputLayer.show();
-//  }
+  void setHiddenLayer() {
+    hiddenLayer.setCenterPosition(firstLayerCenterPosition.x + horizontalDistanceBetweenLayers, firstLayerCenterPosition.y);
+    hiddenLayer.setNeuronsNumber(hiddenNeuronsNumber);
+    hiddenLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
+    hiddenLayer.setNeuronsPostions();
+  }
+  void setOutputLayer() {
+    outputLayer.setCenterPosition(firstLayerCenterPosition.x + 2*horizontalDistanceBetweenLayers, firstLayerCenterPosition.y);
+    outputLayer.setNeuronsNumber(outputNeuronsNumber);
+    outputLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
+    outputLayer.setNeuronsPostions();
+    outputLayer.neurons.get(0).setOutputName("Left");
+    outputLayer.neurons.get(1).setOutputName("Right");
+    outputLayer.neurons.get(0).setOutputValue(42);
+  }
 
-//  void connectLayers(Layer leftLayer, Layer rightLayer) {
-//    for (int i = 0; i < leftLayer.numberOfNeurons; i++) {
-//      for (int j = 0; j < rightLayer.numberOfNeurons; j++) {
-//        Link link = new Link(leftLayer.neurons.get(i), rightLayer.neurons.get(j));
-//        links.add(link);
-//      }
-//    }
-//  }
-//}
+  void show() {
+    for (Link link : links) {
+      link.show();
+    }
+    inputLayer.show();
+    hiddenLayer.show();
+    outputLayer.show();
+  }
+
+  void connectLayers(Layer leftLayer, Layer rightLayer) {
+    for (int i = 0; i < leftLayer.neuronsNumber; i++) {
+      for (int j = 0; j < rightLayer.neuronsNumber; j++) {
+        Link link = new Link(leftLayer.neurons.get(i), rightLayer.neurons.get(j));
+        links.add(link);
+      }
+    }
+  }
+}
