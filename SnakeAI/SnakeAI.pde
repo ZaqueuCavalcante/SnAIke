@@ -1,12 +1,13 @@
 // Duas ou mais cobras competindo no mesmo ambiente.
 // Uma pode matar a outra, se comer seu rabo.
-// Adicionar obstáculos.
+// Adicionar obstáculos. Pedras.
+// Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
+// Tentar fugir dela.
 
 Screen screen;
 Rink rink;
 
 boolean humanPlaying = true;
-
 
 void setup() {
   size(1200, 800);
@@ -35,6 +36,8 @@ void draw() {
 
   rink.show();
   rink.showPixelStrokes();
+  
+  rink.snake.brain.links.get(3).Color = color(255, 0, 0);
 
   rink.snake.show();
   rink.food.show();

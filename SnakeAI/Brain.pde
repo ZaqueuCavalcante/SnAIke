@@ -15,8 +15,6 @@ class Brain {
 
   ArrayList<Link> links;
 
-  //link = new Link(layer.neurons.get(0), layer.neurons.get(1));
-
   Brain() {
     firstLayerCenterPosition = new PVector();
 
@@ -77,8 +75,11 @@ class Brain {
 
   void show() {
     for (Link link : links) {
+      print(link.weight);
+      print("\n");
       link.show();
     }
+    print("---------------------------");
     inputLayer.show();
     hiddenLayer.show();
     outputLayer.show();
