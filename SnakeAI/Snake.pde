@@ -41,7 +41,7 @@ class Snake {
     remainingMoves += remainingMovesIncrement; }
   void decreaseRemainingMoves() {
     remainingMoves --; }
-  boolean remainingMovesEnd() {
+  boolean remainingMovesFinish() {
     if (remainingMoves == 0) {
       return true;
     } else {
@@ -88,25 +88,26 @@ class Snake {
     return false;
   }
 
-  void eat(Food food) {
+  void eat() {
     body.addPixel();
-    radar.setDestinyPoint(food.position);
     increaseScore(1);
     increaseRemainingMoves(100);
   }
 
-  void move(Rink rink, Food food) { 
+  void move(Rink rink) { 
     if (wallCollide(rink)) {
       die();
     }
     if (bodyCollide()) {
       die();
     }
-    if (remainingMovesEnd()) {
+    if (remainingMovesFinish()) {
       die();
     }
-    if (foodCollide(food)) {
-      eat(food);
+    if (foodCollide(rink.food)) {
+      eat();
+      rink.addFood();
+      radar.setDestinyPoint(rink.food.position);
     }
     if (isNotDead()) {
       PVector headPreviousPosition = new PVector(head.position.x, head.position.y);

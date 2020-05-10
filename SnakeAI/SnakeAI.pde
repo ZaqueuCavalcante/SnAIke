@@ -40,7 +40,6 @@ void setup() {
   layer.neurons.get(0).setOutputValue(42);
   
   link = new Link(layer.neurons.get(0), layer.neurons.get(1));
-  print(link.valueCarried);
 
   //neuron = new Neuron();
   //neuron.setPosition(300, 300);
@@ -63,14 +62,14 @@ void draw() {
 
   rink.snake.show();
   rink.food.show();
-  rink.snake.move(rink, rink.food);
+  rink.snake.move(rink);
 
   if (rink.snake.isDead()) {
     rink.addSnake();
   }
   
   link.show();
-  layer.show();
+  layer.show(); //<>//
   
 
   //neuron.show();
