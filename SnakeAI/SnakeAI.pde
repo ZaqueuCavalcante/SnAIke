@@ -7,7 +7,6 @@ Rink rink;
 
 boolean humanPlaying = true;
 
-Brain brain;
 
 void setup() {
   size(1200, 800);
@@ -22,24 +21,7 @@ void setup() {
 
   rink.addFood();
   rink.addSnake();
-  
-  brain = new Brain();
-  brain.setFirstLayerCenterPosition(80, 500);
-  brain.setInputNeuronsNumber(4);
-  brain.setHiddenNeuronsNumber(8);
-  brain.setOutputNeuronsNumber(2);
-  brain.setHorizontalDistanceBetweenLayers(120);
-  brain.setVerticalDistanceBetweenNeurons(70);
-  
-  brain.setInputLayer();
-  brain.setHiddenLayer();
-  brain.setOutputLayer();
-  
-  brain.connectLayers(brain.inputLayer, brain.hiddenLayer);
-  brain.connectLayers(brain.hiddenLayer, brain.outputLayer);
-  
-  
-  
+
 }
 
 void draw() {
@@ -61,8 +43,6 @@ void draw() {
   if (rink.snake.isDead()) {
     rink.addSnake();
   }
-  
-  brain.show();
  //<>//
   //if (rink.snake.isDead()) {
   //  rink.addSnake();

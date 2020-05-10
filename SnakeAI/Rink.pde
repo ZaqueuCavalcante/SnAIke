@@ -60,20 +60,34 @@ class Rink {
 
   void addSnake() {
     snake = new Snake();
-    
+
     float x = position.x + pixelSize/2 + Width/2;
     float y = position.y + pixelSize/2 + Height/2;
     snake.head.setPosition(x, y);
     snake.head.setPixelSideSize(pixelSize);
-    
+
     snake.setInitialVelocity();
-    
+
     snake.body.setFirstPixelPosition(x, y + pixelSize);
     snake.body.setPixelSideSize(pixelSize);
-    
+
     snake.radar.setOriginPoint(snake.head.position);
     snake.radar.setDestinyPoint(food.position);
-    
+
+    snake.brain.setFirstLayerCenterPosition(80, 500);
+    snake.brain.setInputNeuronsNumber(4);
+    snake.brain.setHiddenNeuronsNumber(8);
+    snake.brain.setOutputNeuronsNumber(2);
+    snake.brain.setHorizontalDistanceBetweenLayers(120);
+    snake.brain.setVerticalDistanceBetweenNeurons(70);
+
+    snake.brain.setInputLayer();
+    snake.brain.setHiddenLayer();
+    snake.brain.setOutputLayer();
+
+    snake.brain.connectLayers(snake.brain.inputLayer, snake.brain.hiddenLayer);
+    snake.brain.connectLayers(snake.brain.hiddenLayer, snake.brain.outputLayer);
+
     snake.show();
   }
 

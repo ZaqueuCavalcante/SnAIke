@@ -5,7 +5,7 @@ class Snake {
   Head head;
   Body body;
 
-  //Brain brain;
+  Brain brain;
   Radar radar;
 
   float theta;
@@ -23,24 +23,35 @@ class Snake {
 
     radar = new Radar();
 
-    //brain = new Brain(4, 8, 2);
+    brain = new Brain();
 
     score = 0;
     remainingMoves = 100;
     fitness = 0;
   }
 
-  void live() { dead = false; }
-  void die() { dead = true; }
-  boolean isDead() { return dead; }
-  boolean isNotDead() { return !dead; }
+  void live() { 
+    dead = false;
+  }
+  void die() { 
+    dead = true;
+  }
+  boolean isDead() { 
+    return dead;
+  }
+  boolean isNotDead() { 
+    return !dead;
+  }
 
   void increaseScore(int scoreIncrement) {
-    score += scoreIncrement; }
+    score += scoreIncrement;
+  }
   void increaseRemainingMoves(int remainingMovesIncrement) {
-    remainingMoves += remainingMovesIncrement; }
+    remainingMoves += remainingMovesIncrement;
+  }
   void decreaseRemainingMoves() {
-    remainingMoves --; }
+    remainingMoves --;
+  }
   boolean remainingMovesFinish() {
     if (remainingMoves == 0) {
       return true;
@@ -48,7 +59,7 @@ class Snake {
       return false;
     }
   }
-  
+
   void setInitialVelocity() {
     setTheta(3*PI/2);
     velocity = new PVector();
@@ -59,6 +70,7 @@ class Snake {
     head.show();
     body.show();
     radar.show();
+    brain.show();
   }
 
   void calculateFitness() {
@@ -120,7 +132,7 @@ class Snake {
       //print("\n");
     }
   }
-  
+
   void setTheta(float newTheta) {
     theta += newTheta;
   }
