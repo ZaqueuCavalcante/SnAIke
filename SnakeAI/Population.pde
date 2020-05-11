@@ -11,7 +11,7 @@ class Population {
 
   Population() {
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setSize(int size_) {
     size = size_;
   }
@@ -38,8 +38,7 @@ class Population {
       ranking[i] = i;
     }
   }
-  // - - - - - - - - //
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void calculateSnakeFitness(Snake snake) {
     snake.fitness = snake.score*10 + snake.remainingMoves/10;
   }
@@ -65,7 +64,7 @@ class Population {
       snakesFitness[j] = -1.0;
     }
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void parentSelection() {
     // Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
     // Esta probabilidade é proporcional à posição da cobra no ranking.
@@ -79,8 +78,8 @@ class Population {
   void mutation() {
     // Realiza a mutação nas cobras da população, com uma determianda mutationRate.
   }
-
-  boolean allIsDead() {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  boolean allSnakesIsDead() {
     for (int i = 0; i < snakes.length; i++) {
       if (snakes[i].isNotDead()) {
         return false;
@@ -88,11 +87,13 @@ class Population {
     }
     return true;
   }
-
-  void show() {
-    bestSnake.show();
-    bestSnake.brain.show();
-    for (int i = 0; i < snakes.length; i++) {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void show(int snakesAmount) {
+    snakes[bestSnakeIndex].brain.show();
+    if (snakesAmount > size) {
+      snakesAmount = size;
+    } 
+    for (int i = 0; i < snakesAmount; i++) {
       if (snakes[i].isNotDead()) {
         snakes[i].show();
       }
