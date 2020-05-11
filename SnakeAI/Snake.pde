@@ -123,7 +123,6 @@ class Snake {
       body.move(headPreviousPosition);
       decreaseRemainingMoves();
       radar.calculateDistance();
-      calculateFitness();
       //print(radar.distanceToDistinyPoint);
       //print("\n");
     }
