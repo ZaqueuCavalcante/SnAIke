@@ -73,10 +73,6 @@ class Snake {
     brain.show();
   }
 
-  void calculateFitness() {
-    fitness = score*10 + remainingMoves/10;
-  }
-
   boolean bodyCollide() {  // Check if the head collides with self body.
     for (int i = 0; i < body.position.size(); i++) {
       if (head.position.x == body.position.get(i).x && head.position.y == body.position.get(i).y) {
