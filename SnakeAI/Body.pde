@@ -8,7 +8,7 @@ class Body {
     position = new ArrayList<PVector>();
     setColor(color(random(255), random(255), random(255)));
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFirstPixelPosition(float x_, float y_) {
     position.add(new PVector(x_, y_));
   }
@@ -18,7 +18,7 @@ class Body {
   void setColor(color Color_) {
     Color = Color_;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addPixel() {
     PVector newPixelPosition = new PVector();
     int lastPixelIndex = position.size() - 1;
@@ -27,17 +27,8 @@ class Body {
     position.add(newPixelPosition);
     print(position.get(1).x);
   }
-
-  void show() {
-    fill(Color);
-    stroke(255);
-    for (int i = 0; i < position.size(); i++) {
-      rectMode(CENTER);
-      rect(position.get(i).x, position.get(i).y, pixelSideSize, pixelSideSize);
-    }
-  }
-
-  void move(PVector headPosition) {  // Shift the body to follow the head.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void move(PVector headPosition) {
     float xFrontPixel = headPosition.x;
     float yFrontPixel = headPosition.y;
     float xBackPixel;
@@ -49,6 +40,15 @@ class Body {
       position.get(i).y = yFrontPixel;
       xFrontPixel = xBackPixel;
       yFrontPixel = yBackPixel;
+    }
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void show() {
+    fill(Color);
+    stroke(255);
+    for (int i = 0; i < position.size(); i++) {
+      rectMode(CENTER);
+      rect(position.get(i).x, position.get(i).y, pixelSideSize, pixelSideSize);
     }
   }
 }

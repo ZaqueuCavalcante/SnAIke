@@ -11,7 +11,7 @@ class Button {
     Height = Height_;
     text = text_;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   boolean mouseAbove(float xMouse, float yMouse) {
     boolean mouseInsideWidth = x-Width/2 <= xMouse && xMouse <= x+Width/2;
     boolean mouseInsideHeight = y-Height/2 <= yMouse && yMouse <= y+Height/2;
@@ -20,7 +20,7 @@ class Button {
     }
     return false;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     fill(255);
     stroke(0);

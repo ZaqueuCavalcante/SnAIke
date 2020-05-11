@@ -85,6 +85,14 @@ class Rink {
     snake.brain.setHiddenLayer();
     snake.brain.setOutputLayer();
 
+    snake.brain.inputLayer.neurons.get(0).setInputName("Bias");
+    snake.brain.inputLayer.neurons.get(1).setInputName("Dx");
+    snake.brain.inputLayer.neurons.get(2).setInputName("Dy");
+    snake.brain.inputLayer.neurons.get(3).setInputName("Theta");
+
+    snake.brain.outputLayer.neurons.get(0).setOutputName("Left");
+    snake.brain.outputLayer.neurons.get(1).setOutputName("Right");
+
     snake.brain.connectLayers(snake.brain.inputLayer, snake.brain.hiddenLayer);
     snake.brain.connectLayers(snake.brain.hiddenLayer, snake.brain.outputLayer);
 
