@@ -71,17 +71,21 @@ class Population {
     int[] coupleIndexes = new int[2];
     int motherIndex;
     int fatherIndex;
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     
     motherIndex = int(random(size));
     fatherIndex = int(random(size));
     
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     coupleIndexes[0] = motherIndex;
     coupleIndexes[1] = fatherIndex;
+    return coupleIndexes;
   }
 
-  void crossover() {
-    // Recebe uma lista de pares de pais e mães.
-    // Realiza o crozamento entre eles.
+  Snake crossover(int motherIndex, int fatherIndex) {
+    // Deve misturar o vetor de pesos das duas cobras.
+    Snake son = 
+    
   }
 
   void mutation() {
