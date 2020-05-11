@@ -65,9 +65,18 @@ class Population {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void parentSelection() {
+  int[] selectCouple() {
     // Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
     // Esta probabilidade é proporcional à posição da cobra no ranking.
+    int[] coupleIndexes = new int[2];
+    int motherIndex;
+    int fatherIndex;
+    
+    motherIndex = int(random(size));
+    fatherIndex = int(random(size));
+    
+    coupleIndexes[0] = motherIndex;
+    coupleIndexes[1] = fatherIndex;
   }
 
   void crossover() {
