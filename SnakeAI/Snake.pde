@@ -29,6 +29,20 @@ class Snake {
     remainingMoves = 100;
     fitness = 0;
   }
+  
+  Snake clone() {
+    Snake clonedSnake = new Snake();
+    // Todos os atributos têm que ser repassados por valor --_--.
+    
+    float x = head.position.x;
+    float y = head.position.y;
+    clonedSnake.head.setPosition(x, y);
+    
+    float pixelSize = head.pixelSideSize;
+    clonedSnake.head.setPixelSideSize(pixelSize);
+    
+    return clonedSnake;
+  }
 
   void live() { 
     dead = false;
