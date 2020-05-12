@@ -23,8 +23,8 @@ class Population {
   }
 
   void setInitialSnakes() {
-    snakes = new Snake[size]; 
-    for (int i = 0; i < snakes.length; i++) {
+    snakes = new Snake[size];
+    for (int i = 0; i < size; i++) {
       snakes[i] = new Snake();
     }
   }
@@ -65,17 +65,17 @@ class Population {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  int[] selectCouple() {
+  int[] selectCouple() {  // REFAZER !!!! Possibilidade de colocar esses métodos dentro da classe Snake????
     // Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
     // Esta probabilidade é proporcional à posição da cobra no ranking.
     int[] coupleIndexes = new int[2];
     int motherIndex;
     int fatherIndex;
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    
+
     motherIndex = int(random(size));
     fatherIndex = int(random(size));
-    
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     coupleIndexes[0] = motherIndex;
     coupleIndexes[1] = fatherIndex;
@@ -83,13 +83,46 @@ class Population {
   }
 
   Snake crossover(int motherIndex, int fatherIndex) {
-    // Deve misturar o vetor de pesos das duas cobras.
-    Snake son = 
-    
+    Snake mother = snakes[motherIndex].clone();
+    Snake father = snakes[fatherIndex].clone();
+
+    int genomeSize = mother.brain.links.size();
+    int cutLocation = int(random(1, genomeSize));
+
+    for (int i = cutLocation; i < genomeSize; i++) {
+      mother.brain.links.get(i).weight = father.brain.links.get(i).weight;
+    }
+  
+    Snake son = mother.clone();
+    return son;
   }
 
-  void mutation() {
-    // Realiza a mutação nas cobras da população, com uma determianda mutationRate.
+  void mutation(Snake snake) {
+    float snakeMutationProbability = random(0, 100);
+    if (snakeMutationProbability <= mutationRate) {
+      int genomeSize = snake.brain.links.size();
+      int genesNumberThatWillMutate = int(random(1, genomeSize));
+      for (int i = 0; i < genesNumberThatWillMutate; i++) {
+        int geneThatWillMutate = int(random(0, genomeSize));
+        float newWeight = random(-1000.0, 1000.0);
+        snake.brain.links.get(geneThatWillMutate).weight = newWeight;
+      }
+    }
+  }
+
+  void generateNewPopulation() {
+    Snake[] newSnakes = new Snake[size];
+    for (int i = 0; i < size; i++) {
+      int[] coupleIndexes = selectCouple();
+      int motherIndex = coupleIndexes[0];
+      int fatherIndex = coupleIndexes[1];
+      Snake newSnake = crossover(motherIndex, fatherIndex);
+      mutation(newSnake);
+      newSnakes[i] =  newSnake;
+    }
+    for (int i = 0; i < size; i++) {
+      snakes[i] =  newSnakes[i];
+    }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   boolean allSnakesIsDead() {
