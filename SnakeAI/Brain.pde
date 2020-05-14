@@ -53,14 +53,12 @@ class Brain {
     inputLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
     inputLayer.setNeuronsPostions();
   }
-
   void setHiddenLayer() {
     hiddenLayer.setCenterPosition(firstLayerCenterPosition.x + horizontalDistanceBetweenLayers, firstLayerCenterPosition.y);
     hiddenLayer.setNeuronsNumber(hiddenNeuronsNumber);
     hiddenLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
     hiddenLayer.setNeuronsPostions();
   }
-  
   void setOutputLayer() {
     outputLayer.setCenterPosition(firstLayerCenterPosition.x + 2*horizontalDistanceBetweenLayers, firstLayerCenterPosition.y);
     outputLayer.setNeuronsNumber(outputNeuronsNumber);
