@@ -1,5 +1,9 @@
 class Neuron {
 
+  PVector position;
+  float radius;
+  color Color;
+
   String inputName;
   FloatList inputValues;
   FloatList weights;
@@ -7,31 +11,31 @@ class Neuron {
   float outputValue;
 
   float activationPotential;
-
   boolean activated;
-
-  PVector position;
-  float radius;
-  color Color;
 
   Neuron() {
     position = new PVector();
-    radius = 25.0;
-
-    deactivate();
-
-    inputValues = new FloatList();
-    weights = new FloatList();
+    setRadius(25.0);
 
     inputName = "";
+    inputValues = new FloatList();
+    weights = new FloatList();
     outputName = "";
-  }
 
+    deactivate();
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPosition(float x_, float y_) {
     position.x = x_;
     position.y = y_;
   }
-
+  void setRadius(float radius_) {
+    radius = radius_;
+  }
+  void setColor(color Color_) {
+    Color = Color_;
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setInputName(String inputName_) {
     inputName = inputName_;
   }
@@ -47,16 +51,7 @@ class Neuron {
   void setOutputValue(float outputValue_) {
     outputValue = outputValue_;
   }
-
-  void deactivate() {
-    activated = false;
-    Color = color(100);
-  }
-  void activate() {
-    activated = true;
-    Color = color(0, 255, 0);
-  }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void calculateActivationPotential() {
     activationPotential = 0.0;
     for (int i = 0; i < weights.size(); i++) {
@@ -80,7 +75,19 @@ class Neuron {
   float SigmoidFunction(float input) {
     return 1.0 / (1.0 + exp(-input));
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void deactivate() {
+    activated = false;
+    setColor(color(100));
+  }
+  void activate() {
+    activated = true;
+    setColor(color(0, 255, 0));
+  }
+  boolean isActivated() {
+    return activated;
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     fill(Color);
     stroke(255);

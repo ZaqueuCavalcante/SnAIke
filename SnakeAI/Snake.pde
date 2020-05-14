@@ -1,92 +1,38 @@
 class Snake {
 
-  boolean dead;
-
   Head head;
   Body body;
-
   Brain brain;
   Radar radar;
 
   float theta;
   PVector velocity;
 
-  int score;  // Length/amount of pixels of the snake.
-  int remainingMoves;  // Amount of moves the snake can make before it dies.
-  float fitness;  // It measures how adapted the snake is, that is, how efficient it is in eating food and avoiding obstacles.
+  int score; 
+  int remainingMoves;  
+  float fitness;  
+
+  boolean dead;
 
   Snake() {
-    live();
-
     head = new Head();
     body = new Body();
-
     radar = new Radar();
-
     brain = new Brain();
 
-    score = 0;
-    remainingMoves = 100;
-    fitness = 0;
-  }
-  
-  Snake clone() {
-    Snake clonedSnake = new Snake();
-    // Todos os atributos têm que ser repassados por valor --_--.
-    
-    float x = head.position.x;
-    float y = head.position.y;
-    clonedSnake.head.setPosition(x, y);
-    
-    float pixelSize = head.pixelSideSize;
-    clonedSnake.head.setPixelSideSize(pixelSize);
-    
-    return clonedSnake;
-  }
+    setScore(0);
+    setRemainingMoves(100);
+    setFitness(0.0);
 
-  void live() { 
-    dead = false;
+    live();
   }
-  void die() { 
-    dead = true;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void eat() {
+    body.addPixel();
+    increaseScore(1);
+    increaseRemainingMoves(100);
   }
-  boolean isDead() { 
-    return dead;
-  }
-  boolean isNotDead() { 
-    return !dead;
-  }
-
-  void increaseScore(int scoreIncrement) {
-    score += scoreIncrement;
-  }
-  void increaseRemainingMoves(int remainingMovesIncrement) {
-    remainingMoves += remainingMovesIncrement;
-  }
-  void decreaseRemainingMoves() {
-    remainingMoves --;
-  }
-  boolean remainingMovesFinish() {
-    if (remainingMoves == 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void setInitialVelocity() {
-    setTheta(3*PI/2);
-    velocity = new PVector();
-    setVelocity();
-  }
-
-  void show() {
-    head.show();
-    body.show();
-    radar.show();
-    brain.show();
-  }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   boolean bodyCollide() {  // Check if the head collides with self body.
     for (int i = 0; i < body.position.size(); i++) {
       if (head.position.x == body.position.get(i).x && head.position.y == body.position.get(i).y) {
@@ -109,13 +55,7 @@ class Snake {
     }
     return false;
   }
-
-  void eat() {
-    body.addPixel();
-    increaseScore(1);
-    increaseRemainingMoves(100);
-  }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void move(Rink rink) { 
     if (wallCollide(rink)) {
       die();
@@ -141,13 +81,21 @@ class Snake {
       //print("\n");
     }
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setTheta(float newTheta) {
     theta += newTheta;
   }
+  float getTheta() {
+    return theta;
+  }
+  void setInitialVelocity() {
+    setTheta(3*PI/2);
+    velocity = new PVector();
+    setVelocity();
+  }
   void setVelocity() {
-    velocity.x = head.pixelSideSize*int(cos(theta));
-    velocity.y = head.pixelSideSize*int(sin(theta));
+    velocity.x = head.pixelSideSize*int(cos(getTheta()));
+    velocity.y = head.pixelSideSize*int(sin(getTheta()));
   }
   void moveLeft() { 
     setTheta(-PI/2);
@@ -156,5 +104,80 @@ class Snake {
   void moveRight() { 
     setTheta(PI/2);
     setVelocity();
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void setScore(int score_) {
+    score = score_;
+  }
+  int getScore() {
+    return score;
+  }
+  void increaseScore(int scoreIncrement) {
+    score += scoreIncrement;
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void setRemainingMoves(int remainingMoves_) {
+    remainingMoves = remainingMoves_;
+  }
+  int getRemainingMoves() {
+    return remainingMoves;
+  }
+  void increaseRemainingMoves(int remainingMovesIncrement) {
+    remainingMoves += remainingMovesIncrement;
+  }
+  void decreaseRemainingMoves() {
+    remainingMoves --;
+  }
+  boolean remainingMovesFinish() {
+    if (remainingMoves == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void setFitness(float fitness_) {
+    fitness = fitness_;
+  }
+  float getFitness() {
+    return fitness;
+  }
+  void calculateFitness() {
+    float fitnessCalculated  = score*10 + remainingMoves/10;
+    setFitness(fitnessCalculated);
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void live() { 
+    dead = false;
+  }
+  void die() { 
+    dead = true;
+  }
+  boolean isDead() { 
+    return dead;
+  }
+  boolean isNotDead() { 
+    return !dead;
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  Snake clone() {
+    Snake clonedSnake = new Snake();
+    // Todos os atributos têm que ser repassados por valor --_--.
+
+    float x = head.position.x;
+    float y = head.position.y;
+    clonedSnake.head.setPosition(x, y);
+
+    float pixelSize = head.pixelSideSize;
+    clonedSnake.head.setPixelSideSize(pixelSize);
+
+    return clonedSnake;
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void show() {
+    head.show();
+    body.show();
+    radar.show();
+    brain.show();
   }
 }

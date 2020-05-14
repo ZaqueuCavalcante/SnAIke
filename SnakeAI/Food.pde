@@ -15,7 +15,7 @@ class Food {
     setColor(color(255, 0, 0));
     setNutritionalValue(1);
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPosition(float x_, float y_) {
     position.x = x_;
     position.y = y_;
@@ -29,7 +29,7 @@ class Food {
   void setColor(color Color_) {
     Color = Color_;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     fill(Color);
     stroke(255);

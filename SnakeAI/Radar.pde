@@ -13,20 +13,20 @@ class Radar {
 
     Color = color(144, 238, 117);
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setOriginPoint(PVector originPoint_) {
     originPoint = originPoint_;
   }
   void setDestinyPoint(PVector destinyPoint_) {
     destinyPoint = destinyPoint_;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void calculateDistance() {
     distanceToDistinyPoint.x = destinyPoint.x - originPoint.x;
     distanceToDistinyPoint.y = destinyPoint.y - originPoint.y;
     distanceToDistinyPoint.z = sqrt(pow(distanceToDistinyPoint.x, 2) + pow(distanceToDistinyPoint.y, 2));
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     stroke(Color);
     line(originPoint.x, originPoint.y, destinyPoint.x, originPoint.y);

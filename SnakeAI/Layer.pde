@@ -10,7 +10,7 @@ class Layer {
     neurons = new ArrayList<Neuron>();
     centerPosition = new PVector();
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setCenterPosition(float x_, float y_) {
     centerPosition.x = x_;
     centerPosition.y = y_;
@@ -21,7 +21,7 @@ class Layer {
   void setVerticalDistance(float verticalDistance_) {
     verticalDistance = verticalDistance_;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   float setFirstNeuronVerticalPosition() {
     float firstNeuronVerticalPosition;
     if (neuronsNumber % 2 == 0) {
@@ -31,22 +31,19 @@ class Layer {
     }
     return firstNeuronVerticalPosition;
   }
-
   void setNeuronsPostions() {
     Neuron firstNeuron = new Neuron();
     firstNeuron.setPosition(centerPosition.x, setFirstNeuronVerticalPosition());
     neurons.add(firstNeuron);
-
-    PVector newNeuronPosition = new PVector();
-    newNeuronPosition.x = centerPosition.x;
+    float newNeuronPositionY;
     for (int i = 0; i < neuronsNumber-1; i++) {
-      newNeuronPosition.y = neurons.get(i).position.y + verticalDistance;
       Neuron newNeuron = new Neuron();
-      newNeuron.setPosition(centerPosition.x, newNeuronPosition.y);
+      newNeuronPositionY = neurons.get(i).position.y + verticalDistance;
+      newNeuron.setPosition(centerPosition.x, newNeuronPositionY);
       neurons.add(newNeuron);
     }
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     for (int i = 0; i < neurons.size(); i++) {
       neurons.get(i).show();

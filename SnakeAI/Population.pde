@@ -5,9 +5,8 @@ class Population {
   float mutationRate;
 
   Snake[] snakes;
-  int bestSnakeIndex;
-
   int[] ranking;
+  int bestSnakeIndex;
 
   Population() {
   }
@@ -15,42 +14,43 @@ class Population {
   void setSize(int size_) {
     size = size_;
   }
+  void setGeneration(int generation_) {
+    generation = generation_;
+  }
+  int getGeneration() {
+    return generation;
+  }
   void updateGeneration() {
     generation ++;
   }
   void setMutationRate(float mutationRate_) {
     mutationRate = mutationRate_;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setInitialSnakes() {
     snakes = new Snake[size];
     for (int i = 0; i < size; i++) {
       snakes[i] = new Snake();
     }
   }
-  void setBestSnakeIndex(int index) {
-    bestSnakeIndex = index;
-  }
-
   void setInitialRanking() {
     ranking = new int[size];
-    for (int i = 0; i < snakes.length; i++) {
+    for (int i = 0; i < size; i++) {
       ranking[i] = i;
     }
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void calculateSnakeFitness(Snake snake) {
-    snake.fitness = snake.score*10 + snake.remainingMoves/10;
+  void setBestSnakeIndex(int index) {
+    bestSnakeIndex = index;
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   float[] calculateAllSnakesFitness() {
     float[] snakesFitness = new float[size];
     for (int i = 0; i < size; i++) {
-      calculateSnakeFitness(snakes[i]);
+      snakes[i].calculateFitness();
       snakesFitness[i] = snakes[i].fitness;
     }
     return snakesFitness;
   }
-
   void updateRanking() {
     float[] snakesFitness = calculateAllSnakesFitness();
     float maxFitness;
@@ -81,7 +81,7 @@ class Population {
     coupleIndexes[1] = fatherIndex;
     return coupleIndexes;
   }
-
+  
   Snake crossover(int motherIndex, int fatherIndex) {
     Snake mother = snakes[motherIndex].clone();
     Snake father = snakes[fatherIndex].clone();
@@ -92,7 +92,7 @@ class Population {
     for (int i = cutLocation; i < genomeSize; i++) {
       mother.brain.links.get(i).weight = father.brain.links.get(i).weight;
     }
-  
+
     Snake son = mother.clone();
     return son;
   }
@@ -109,7 +109,7 @@ class Population {
       }
     }
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void generateNewPopulation() {
     Snake[] newSnakes = new Snake[size];
     for (int i = 0; i < size; i++) {

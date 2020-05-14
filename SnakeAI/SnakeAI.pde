@@ -12,7 +12,7 @@ boolean humanPlaying = true;
 void setup() {
   size(1200, 800);
   screen = new Screen(width, height);
-  screen.setFPS(20);
+  screen.setFPS(5);
 
   rink = new Rink();
   rink.setPosition(420, 20);
@@ -22,7 +22,6 @@ void setup() {
 
   rink.addFood();
   rink.addSnake();
-
 }
 
 void draw() {
@@ -45,16 +44,7 @@ void draw() {
 
   if (rink.snake.isDead()) {
     rink.addSnake();
-  }
- //<>//
-  //if (rink.snake.isDead()) {
-  //  rink.addSnake();
-  //}
-
-  //int index = int(random(0, 4));
-  //int[] values = {10, 6, 12, 42};
-  //print(random(0, 255));
-  //print('\n');
+  } //<>//
 }
 
 void mousePressed() {

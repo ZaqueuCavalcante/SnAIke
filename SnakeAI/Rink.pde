@@ -17,7 +17,7 @@ class Rink {
   Rink() {
     position = new PVector();
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPosition(float x_, float y_) {
     position.x = x_;
     position.y = y_;
@@ -26,6 +26,7 @@ class Rink {
     Width = Width_;
     Height = Height_;
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPixelSize(int pixelSize_) {
     pixelSize = pixelSize_;
   }
@@ -44,11 +45,11 @@ class Rink {
       //print('\n');
     }
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFreePositions() {
     freePositions = new ArrayList<int[]>();
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addFood() {
     food = new Food();
     float x = position.x + pixelSize/2 + floor(random(Width/pixelSize))*pixelSize;
@@ -57,7 +58,7 @@ class Rink {
     food.setPixelSideSize(pixelSize);
     food.show();
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addSnake() {
     snake = new Snake();
 
@@ -98,7 +99,7 @@ class Rink {
 
     snake.show();
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void showPixelStrokes() {
     noFill();
     stroke(50);
@@ -109,7 +110,7 @@ class Rink {
       }
     }
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     noFill();
     stroke(255);
