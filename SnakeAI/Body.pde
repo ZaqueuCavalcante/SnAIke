@@ -1,7 +1,6 @@
 class Body {
 
   ArrayList<PVector> position;
-  float pixelSideSize;
   color Color;
 
   Body() {
@@ -11,9 +10,6 @@ class Body {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFirstPixelPosition(float x, float y) {
     this.position.add(new PVector(x, y));
-  }
-  void setPixelSideSize(float pixelSideSize) {
-    this.pixelSideSize = pixelSideSize;
   }
   void setColor(color Color) {
     this.Color = Color;
@@ -44,7 +40,7 @@ class Body {
     stroke(255);
     for (int i = 0; i < this.position.size(); i++) {
       rectMode(CENTER);
-      rect(this.position.get(i).x, this.position.get(i).y, this.pixelSideSize, this.pixelSideSize);
+      rect(this.position.get(i).x, this.position.get(i).y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
     }
   }
 }
