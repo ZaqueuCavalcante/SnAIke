@@ -21,7 +21,7 @@ class Vector {
     translate(this.x, this.y);
     float angle = atan2(this.originPoint.x - this.x, this.y - this.originPoint.y);
     rotate(angle);
-    triangle(0, 0, -5, -12, 5, -12);
+    triangle(0, 0, -50, -120, 50, -120);
     popMatrix();
   }
 }

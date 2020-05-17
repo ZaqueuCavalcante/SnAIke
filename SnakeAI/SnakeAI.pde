@@ -44,7 +44,7 @@ void draw() {
   rink.food.show();
   rink.snake.move(rink);
 
-  if (rink.snake.isDead()) {
+  if (rink.snake.isDead()) { //<>//
     rink.addSnake();
   }
 
@@ -83,10 +83,10 @@ void keyPressed() {
     if (key == CODED) {
       switch(keyCode) {
       case LEFT:
-        rink.snake.moveLeft();
+        rink.snake.head.moveLeft();
         break;
       case RIGHT:
-        rink.snake.moveRight();
+        rink.snake.head.moveRight();
         break;
       }
     }

@@ -5,9 +5,6 @@ class Snake {
   Brain brain;
   Radar radar;
 
-  float theta;
-  Vector velocity;
-
   int score; 
   int remainingMoves;  
   float fitness;  
@@ -19,8 +16,6 @@ class Snake {
     this.body = new Body();
     this.radar = new Radar();
     this.brain = new Brain();
-
-    this.velocity = new Vector();
 
     this.setScore(0);
     this.setRemainingMoves(100);
@@ -110,30 +105,30 @@ class Snake {
     }
     if (isNotDead()) {
       PVector headPreviousPosition = new PVector(head.position.x, head.position.y);
-      head.move(velocity.x, velocity.y);
+      head.move();
       body.move(headPreviousPosition);
       decreaseRemainingMoves();
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setTheta(float newTheta) {
-    theta += newTheta;
-  }
-  float getTheta() {
-    return theta;
-  }
-  void setVelocity() {
-    velocity.x = PIXEL_SIDE_SIZE*int(cos(getTheta()));
-    velocity.y = PIXEL_SIDE_SIZE*int(sin(getTheta()));
-  }
-  void moveLeft() { 
-    setTheta(-PI/2);
-    setVelocity();
-  }
-  void moveRight() { 
-    setTheta(PI/2);
-    setVelocity();
-  }
+  //void setTheta(float newTheta) {
+  //  theta += newTheta;
+  //}
+  //float getTheta() {
+  //  return theta;
+  //}
+  //void setVelocity() {
+  //  velocity.x = PIXEL_SIDE_SIZE*int(cos(getTheta()));
+  //  velocity.y = PIXEL_SIDE_SIZE*int(sin(getTheta()));
+  //}
+  //void moveLeft() { 
+  //  setTheta(-PI/2);
+  //  setVelocity();
+  //}
+  //void moveRight() { 
+  //  setTheta(PI/2);
+  //  setVelocity();
+  //}
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setScore(int score_) {
     score = score_;

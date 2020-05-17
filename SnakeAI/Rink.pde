@@ -60,9 +60,8 @@ class Rink {
     float x = position.x + PIXEL_SIDE_SIZE/2 + Width/2;
     float y = position.y + PIXEL_SIDE_SIZE/2 + Height/2;
     snake.setInitialPosition(x, y);
-
-    snake.setTheta(3*PI/2);
-    snake.setVelocity();
+    
+    //snake.head.setVelocity();
 
     snake.radar.setHeadPosition(snake.head);
 
