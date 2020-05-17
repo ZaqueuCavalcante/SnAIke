@@ -5,27 +5,23 @@ class Body {
   color Color;
 
   Body() {
-    position = new ArrayList<PVector>();
-    setColor(color(random(255), random(255), random(255)));
+    this.position = new ArrayList<PVector>();
+    this.setColor(color(random(255), random(255), random(255)));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setFirstPixelPosition(float x_, float y_) {
-    position.add(new PVector(x_, y_));
+  void setFirstPixelPosition(float x, float y) {
+    this.position.add(new PVector(x, y));
   }
-  void setPixelSideSize(float pixelSideSize_) {
-    pixelSideSize = pixelSideSize_;
+  void setPixelSideSize(float pixelSideSize) {
+    this.pixelSideSize = pixelSideSize;
   }
-  void setColor(color Color_) {
-    Color = Color_;
+  void setColor(color Color) {
+    this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addPixel() {
     PVector newPixelPosition = new PVector();
-    int lastPixelIndex = position.size() - 1;
-    newPixelPosition.x = position.get(lastPixelIndex).x;
-    newPixelPosition.y = position.get(lastPixelIndex).y + pixelSideSize;
-    position.add(newPixelPosition);
-    print(position.get(1).x);
+    this.position.add(newPixelPosition);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void move(PVector headPosition) {
@@ -33,22 +29,22 @@ class Body {
     float yFrontPixel = headPosition.y;
     float xBackPixel;
     float yBackPixel;
-    for (int i = 0; i < position.size(); i++) {
-      xBackPixel = position.get(i).x;
-      yBackPixel = position.get(i).y;
-      position.get(i).x = xFrontPixel;
-      position.get(i).y = yFrontPixel;
+    for (int i = 0; i < this.position.size(); i++) {
+      xBackPixel = this.position.get(i).x;
+      yBackPixel = this.position.get(i).y;
+      this.position.get(i).x = xFrontPixel;
+      this.position.get(i).y = yFrontPixel;
       xFrontPixel = xBackPixel;
       yFrontPixel = yBackPixel;
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
-    fill(Color);
+    fill(this.Color);
     stroke(255);
-    for (int i = 0; i < position.size(); i++) {
+    for (int i = 0; i < this.position.size(); i++) {
       rectMode(CENTER);
-      rect(position.get(i).x, position.get(i).y, pixelSideSize, pixelSideSize);
+      rect(this.position.get(i).x, this.position.get(i).y, this.pixelSideSize, this.pixelSideSize);
     }
   }
 }
