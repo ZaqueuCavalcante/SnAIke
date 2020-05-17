@@ -1,7 +1,6 @@
 class Food {
 
   PVector position;
-  float pixelSideSize;
   int nutritionalValue;
   color Color;
 
@@ -20,9 +19,6 @@ class Food {
     this.position.x = x;
     this.position.y = y;
   }
-  void setPixelSideSize(float sideSize) {
-    this.pixelSideSize = sideSize;
-  }
   void setNutritionalValue(int nutritionalValue) {
     this.nutritionalValue = nutritionalValue;
   }
@@ -34,6 +30,6 @@ class Food {
     fill(this.Color);
     stroke(255);
     rectMode(CENTER);
-    rect(this.position.x, this.position.y, this.pixelSideSize, this.pixelSideSize);
+    rect(this.position.x, this.position.y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
   }
 }
