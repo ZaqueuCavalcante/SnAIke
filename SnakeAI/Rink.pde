@@ -67,7 +67,8 @@ class Rink {
     snake.head.setPosition(x, y);
     snake.head.setPixelSideSize(pixelSize);
 
-    snake.setInitialVelocity();
+    snake.setTheta(3*PI/2);
+    snake.setVelocity();
 
     snake.body.setFirstPixelPosition(x, y + pixelSize);
     snake.body.setPixelSideSize(pixelSize);
