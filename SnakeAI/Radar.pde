@@ -1,35 +1,33 @@
 class Radar {
 
-  PVector originPoint;
-  PVector destinyPoint;
-  PVector distanceToDistinyPoint;  // x -> Horizontal distance; y -> Vertical distance; z -> Euclidean distance.
+  PVector headPosition;
+  PVector distanceToFood;
 
-  color Color;
+  float distanceToLeftWall;
+  float distanceToFronttWall;
+  float distanceToRightWall;
+
+  color Color; 
 
   Radar() {
-    originPoint = new PVector();
-    destinyPoint = new PVector();
-    distanceToDistinyPoint = new PVector();
+    headPosition = new PVector();
+    distanceToFood = new PVector();
 
     Color = color(144, 238, 117);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setOriginPoint(PVector originPoint_) {
-    originPoint = originPoint_;
-  }
-  void setDestinyPoint(PVector destinyPoint_) {
-    destinyPoint = destinyPoint_;
+  void setHeadPosition(Head head) {
+    this.headPosition.x = head.position.x;
+    this.headPosition.y = head.position.y;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void calculateDistance() {
-    distanceToDistinyPoint.x = destinyPoint.x - originPoint.x;
-    distanceToDistinyPoint.y = destinyPoint.y - originPoint.y;
-    distanceToDistinyPoint.z = sqrt(pow(distanceToDistinyPoint.x, 2) + pow(distanceToDistinyPoint.y, 2));
+  void calculateDistanceToFood(Food food) {
+    distanceToFood.x = food.position.x - headPosition.x;
+    distanceToFood.y = food.position.y - headPosition.y;
+    distanceToFood.z = sqrt(pow(distanceToFood.x, 2) + pow(distanceToFood.y, 2));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     stroke(Color);
-    line(originPoint.x, originPoint.y, destinyPoint.x, originPoint.y);
-    line(destinyPoint.x, originPoint.y, destinyPoint.x, destinyPoint.y);
   }
 }

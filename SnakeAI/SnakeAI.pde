@@ -4,29 +4,26 @@
 // Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
 // Tentar fugir dela.
 
+final float PIXEL_SIDE_SIZE = 20.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
+
 Screen screen;
 
 Rink rink;
 
 boolean humanPlaying = true;
 
-Vector vector;
-
 void setup() {
   size(1200, 800);
   screen = new Screen(width, height);
-  screen.setFPS(5);
+  screen.setFPS(10);
 
   rink = new Rink();
   rink.setPosition(420, 20);
   rink.setSideSizes(800-2*20, 800-2*20);
-  rink.setPixelSize(20);
   rink.setPixelPositions();
 
   rink.addFood();
   rink.addSnake();
-
-  vector = new Vector();
 }
 
 void draw() {
@@ -42,9 +39,7 @@ void draw() {
   rink.showPixelStrokes();
 
   rink.snake.brain.links.get(3).Color = color(255, 0, 0);
-
-  vector.setDestinyPoint(rink.snake.head.position.x, rink.snake.head.position.y);
-
+  
   rink.snake.show();
   rink.food.show();
   rink.snake.move(rink);
@@ -53,8 +48,6 @@ void draw() {
     rink.addSnake();
   }
 
-
-  vector.show();
 }
 
 void mousePressed() {

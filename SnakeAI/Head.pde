@@ -1,23 +1,24 @@
 class Head {
   
   PVector position;
-  float pixelSideSize;
+  Vector velocity;
   color Color;
 
   Head() {
     position = new PVector();
+    velocity = new Vector();
     setColor(color(100));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(float x_, float y_) {
-    position.x = x_;
-    position.y = y_;
+  void setPosition(float x, float y) {
+    this.position.x = x;
+    this.position.y = y;
   }
-  void setPixelSideSize(float sideSize_) {
-    pixelSideSize = sideSize_;
+  void setVelocity() {
+    
   }
-  void setColor(color Color_) {
-    Color = Color_;
+  void setColor(color Color) {
+    this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void move(float xVelocity, float yVelocity) {
@@ -29,7 +30,7 @@ class Head {
     fill(Color);
     stroke(255);
     rectMode(CENTER);
-    rect(position.x, position.y, pixelSideSize, pixelSideSize);
+    rect(position.x, position.y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
     //fill(255, 0, 0);
     //triangle(position.x, position.y-pixelSideSize/2,
     //         position.x-pixelSideSize/2, position.y,

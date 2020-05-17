@@ -6,7 +6,7 @@ class Snake {
   Radar radar;
 
   float theta;
-  PVector velocity;
+  Vector velocity;
 
   int score; 
   int remainingMoves;  
@@ -20,7 +20,7 @@ class Snake {
     this.radar = new Radar();
     this.brain = new Brain();
 
-    this.velocity = new PVector();
+    this.velocity = new Vector();
 
     this.setScore(0);
     this.setRemainingMoves(100);
@@ -29,11 +29,9 @@ class Snake {
     this.live();
   }
 
-  void setInitialPosition(float x, float y, float pixelSize) {
+  void setInitialPosition(float x, float y) {
     this.head.setPosition(x, y);
-    this.head.setPixelSideSize(pixelSize);
-    this.body.setFirstPixelPosition(x, y + pixelSize);
-    this.body.setPixelSideSize(pixelSize);
+    this.body.setFirstPixelPosition(x, y + PIXEL_SIDE_SIZE);
   }
 
   //  snake.radar.setOriginPoint(snake.head.position);
@@ -109,16 +107,12 @@ class Snake {
     if (foodCollide(rink.food)) {
       eat();
       rink.addFood();
-      radar.setDestinyPoint(rink.food.position);
     }
     if (isNotDead()) {
       PVector headPreviousPosition = new PVector(head.position.x, head.position.y);
       head.move(velocity.x, velocity.y);
       body.move(headPreviousPosition);
       decreaseRemainingMoves();
-      radar.calculateDistance();
-      //print(radar.distanceToDistinyPoint);
-      //print("\n");
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -129,8 +123,8 @@ class Snake {
     return theta;
   }
   void setVelocity() {
-    velocity.x = head.pixelSideSize*int(cos(getTheta()));
-    velocity.y = head.pixelSideSize*int(sin(getTheta()));
+    velocity.x = PIXEL_SIDE_SIZE*int(cos(getTheta()));
+    velocity.y = PIXEL_SIDE_SIZE*int(sin(getTheta()));
   }
   void moveLeft() { 
     setTheta(-PI/2);
@@ -202,9 +196,6 @@ class Snake {
     float x = head.position.x;
     float y = head.position.y;
     clonedSnake.head.setPosition(x, y);
-
-    float pixelSize = head.pixelSideSize;
-    clonedSnake.head.setPixelSideSize(pixelSize);
 
     return clonedSnake;
   }
