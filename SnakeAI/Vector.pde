@@ -1,20 +1,27 @@
 class Vector {
-  
+
   PVector originPoint;
-  PVector destinyPoint;
+  float x;
+  float y;
 
   Vector() {
     this.originPoint = new PVector(0, 0);
-    this.destinyPoint = new PVector(100, 100);
   }
-  
-  void setDestinyPoint(float x, float y) {
-    this.destinyPoint.x = x;
-    this.destinyPoint.y = y;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void setOriginPoint(float x, float y) {
+    this.originPoint.x = x;
+    this.originPoint.y = y;
   }
-  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
+    fill(255);
     stroke(255);
-    line(this.originPoint.x, this.originPoint.y, this.destinyPoint.x, this.destinyPoint.y);
+    line(this.originPoint.x, this.originPoint.y, this.x, this.y);
+    pushMatrix();
+    translate(this.x, this.y);
+    float angle = atan2(this.originPoint.x - this.x, this.y - this.originPoint.y);
+    rotate(angle);
+    triangle(0, 0, -5, -12, 5, -12);
+    popMatrix();
   }
 }
