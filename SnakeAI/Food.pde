@@ -11,29 +11,29 @@ class Food {
   // Várias comidas na tela.
 
   Food() {
-    position = new PVector();
-    setColor(color(255, 0, 0));
-    setNutritionalValue(1);
+    this.position = new PVector();
+    this.setColor(color(255, 0, 0));
+    this.setNutritionalValue(1);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(float x_, float y_) {
-    position.x = x_;
-    position.y = y_;
+  void setPosition(float x, float y) {
+    this.position.x = x;
+    this.position.y = y;
   }
-  void setPixelSideSize(float sideSize_) {
-    pixelSideSize = sideSize_;
+  void setPixelSideSize(float sideSize) {
+    this.pixelSideSize = sideSize;
   }
-  void setNutritionalValue(int nutritionalValue_) {
-    nutritionalValue = nutritionalValue_;
+  void setNutritionalValue(int nutritionalValue) {
+    this.nutritionalValue = nutritionalValue;
   }
-  void setColor(color Color_) {
-    Color = Color_;
+  void setColor(color Color) {
+    this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
-    fill(Color);
+    fill(this.Color);
     stroke(255);
     rectMode(CENTER);
-    rect(position.x, position.y, pixelSideSize, pixelSideSize);
+    rect(this.position.x, this.position.y, this.pixelSideSize, this.pixelSideSize);
   }
 }
