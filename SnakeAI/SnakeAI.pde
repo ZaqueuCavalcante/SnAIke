@@ -10,6 +10,8 @@ Screen screen;
 
 Rink rink;
 
+Population population;
+
 boolean humanPlaying = true;
 
 void setup() {
@@ -25,6 +27,8 @@ void setup() {
   
   rink.addFood(); //<>//
   rink.addSnake();
+  
+  population = new Population(10);
 }
 
 void draw() {
@@ -48,6 +52,9 @@ void draw() {
   if (rink.snake.isDead()) { //<>//
     rink.addSnake();
   }
+  
+  population.show(5);
+  population.setInitialSnakes();
 }
 
 void mousePressed() {

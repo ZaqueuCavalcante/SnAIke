@@ -17,13 +17,13 @@ class Rink {
     position = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(float x_, float y_) {
-    position.x = x_;
-    position.y = y_;
+  void setPosition(float x, float y) {
+    position.x = x;
+    position.y = y;
   }
-  void setSideSizes(float Width_, float Height_) {
-    Width = Width_;
-    Height = Height_;
+  void setSideSizes(float Width, float Height) {
+    this.Width = Width;
+    this.Height = Height;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPixelPositions() {
@@ -61,8 +61,6 @@ class Rink {
     float y = position.y + PIXEL_SIDE_SIZE/2 + int(verticalPixelNumber/2)*PIXEL_SIDE_SIZE;
     snake.setInitialPosition(x, y);
     
-    //snake.head.setVelocity();
-
     snake.radar.setHeadPosition(snake.head);
 
     snake.brain.setFirstLayerCenterPosition(80, 500);

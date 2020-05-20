@@ -145,7 +145,7 @@ class Population {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show(int snakesAmount) {
-    snakes[bestSnakeIndex].brain.show();
+    //snakes[bestSnakeIndex].brain.show();
     if (snakesAmount > size) {
       snakesAmount = size;
     } 

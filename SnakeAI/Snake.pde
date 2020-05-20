@@ -12,52 +12,45 @@ class Snake {
   boolean dead;
 
   Snake() {
-    this.head = new Head();
-    this.body = new Body();
-    this.radar = new Radar();
-    this.brain = new Brain();
+    head = new Head();
+    body = new Body();
+    radar = new Radar();
+    brain = new Brain();
 
-    this.setScore(0);
-    this.setRemainingMoves(100);
-    this.setFitness(0.0);
+    setScore(0);
+    setRemainingMoves(100);
+    setFitness(0.0);
 
-    this.live();
+    live();
   }
 
   void setInitialPosition(float x, float y) {
-    this.head.setPosition(x, y);
-    this.body.setFirstPixelPosition(x, y + PIXEL_SIDE_SIZE);
+    head.setPosition(x, y);
+    body.setFirstPixelPosition(x, y + PIXEL_SIDE_SIZE);
   }
+  void setBrain() {
+    brain.setFirstLayerCenterPosition(80, 500);
+    brain.setInputNeuronsNumber(4);
+    brain.setHiddenNeuronsNumber(8);
+    brain.setOutputNeuronsNumber(2);
+    brain.setHorizontalDistanceBetweenLayers(120);
+    brain.setVerticalDistanceBetweenNeurons(70);
 
-  //  snake.radar.setOriginPoint(snake.head.position);
-  //  snake.radar.setDestinyPoint(food.position);
+    brain.setInputLayer();
+    brain.setHiddenLayer();
+    brain.setOutputLayer();
 
-  //  snake.brain.setFirstLayerCenterPosition(80, 500);
-  //  snake.brain.setInputNeuronsNumber(4);
-  //  snake.brain.setHiddenNeuronsNumber(8);
-  //  snake.brain.setOutputNeuronsNumber(2);
-  //  snake.brain.setHorizontalDistanceBetweenLayers(120);
-  //  snake.brain.setVerticalDistanceBetweenNeurons(70);
+    brain.inputLayer.neurons.get(0).setInputName("Bias");
+    brain.inputLayer.neurons.get(1).setInputName("Dx");
+    brain.inputLayer.neurons.get(2).setInputName("Dy");
+    brain.inputLayer.neurons.get(3).setInputName("Theta");
 
-  //  snake.brain.setInputLayer();
-  //  snake.brain.setHiddenLayer();
-  //  snake.brain.setOutputLayer();
+    brain.outputLayer.neurons.get(0).setOutputName("Left");
+    brain.outputLayer.neurons.get(1).setOutputName("Right");
 
-  //  snake.brain.inputLayer.neurons.get(0).setInputName("Bias");
-  //  snake.brain.inputLayer.neurons.get(1).setInputName("Dx");
-  //  snake.brain.inputLayer.neurons.get(2).setInputName("Dy");
-  //  snake.brain.inputLayer.neurons.get(3).setInputName("Theta");
-
-  //  snake.brain.outputLayer.neurons.get(0).setOutputName("Left");
-  //  snake.brain.outputLayer.neurons.get(1).setOutputName("Right");
-
-  //  snake.brain.connectLayers(snake.brain.inputLayer, snake.brain.hiddenLayer);
-  //  snake.brain.connectLayers(snake.brain.hiddenLayer, snake.brain.outputLayer);
-
-
-
-  //  setTheta(3*PI/2);
-  //  setVelocity();
+    brain.connectLayers(brain.inputLayer, brain.hiddenLayer);
+    brain.connectLayers(brain.hiddenLayer, brain.outputLayer);
+  }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void eat() {
