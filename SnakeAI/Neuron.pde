@@ -1,6 +1,6 @@
 class Neuron {
 
-  PVector position;
+  Vector position;
   float radius;
   color Color;
 
@@ -14,7 +14,7 @@ class Neuron {
   boolean activated;
 
   Neuron() {
-    position = new PVector();
+    position = new Vector();
     setRadius(25.0);
 
     inputName = "";
@@ -101,5 +101,6 @@ class Neuron {
       textAlign(LEFT);
       text(outputName, position.x + radius, position.y + 0.30*radius);
     }
+    //position.show();
   }
 }
