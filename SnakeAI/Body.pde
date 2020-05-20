@@ -11,6 +11,9 @@ class Body {
   void setFirstPixelPosition(float x, float y) {
     this.position.add(new Vector(x, y));
   }
+  ArrayList<Vector> getPosition() {
+    return position;
+  }
   void setColor(color Color) {
     this.Color = Color;
   }
@@ -40,7 +43,7 @@ class Body {
     stroke(255);
     for (int i = 0; i < this.position.size(); i++) {
       rectMode(CENTER);
-      rect(this.position.get(i).x, this.position.get(i).y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
+      rect(this.position.get(i).x, this.position.get(i).y, PIXEL_SIZE, PIXEL_SIZE);
     }
   }
 }
