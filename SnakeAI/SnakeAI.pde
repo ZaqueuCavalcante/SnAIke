@@ -5,7 +5,6 @@
 // Tentar fugir dela.
 
 final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
-
 Canvas canvas;
 Rink rink;
 
