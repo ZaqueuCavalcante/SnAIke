@@ -1,22 +1,22 @@
 class Body {
 
-  ArrayList<PVector> position;
+  ArrayList<Vector> position;
   color Color;
 
   Body() {
-    this.position = new ArrayList<PVector>();
+    this.position = new ArrayList<Vector>();
     this.setColor(color(random(255), random(255), random(255)));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFirstPixelPosition(float x, float y) {
-    this.position.add(new PVector(x, y));
+    this.position.add(new Vector(x, y));
   }
   void setColor(color Color) {
     this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addPixel() {
-    PVector newPixelPosition = new PVector();
+    Vector newPixelPosition = new Vector();
     this.position.add(newPixelPosition);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
