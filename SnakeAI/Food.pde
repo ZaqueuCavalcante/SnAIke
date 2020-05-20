@@ -1,6 +1,6 @@
 class Food {
 
-  PVector position;
+  Vector position;
   int nutritionalValue;
   color Color;
 
@@ -10,7 +10,7 @@ class Food {
   // Várias comidas na tela.
 
   Food() {
-    this.position = new PVector();
+    this.position = new Vector();
     this.setColor(color(255, 0, 0));
     this.setNutritionalValue(1);
   }
@@ -31,5 +31,6 @@ class Food {
     stroke(255);
     rectMode(CENTER);
     rect(this.position.x, this.position.y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
+    position.show();
   }
 }
