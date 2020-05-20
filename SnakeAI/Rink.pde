@@ -1,8 +1,8 @@
 class Rink {
 
-  PVector position;
-  int Width;
-  int Height;
+  Vector position;
+  float Width;
+  float Height;
 
   PVector[][] pixelPositions;
   int horizontalPixelNumber;
@@ -14,14 +14,14 @@ class Rink {
   Food food;
 
   Rink() {
-    position = new PVector();
+    position = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPosition(float x_, float y_) {
     position.x = x_;
     position.y = y_;
   }
-  void setSideSizes(int Width_, int Height_) {
+  void setSideSizes(float Width_, float Height_) {
     Width = Width_;
     Height = Height_;
   }
@@ -29,9 +29,9 @@ class Rink {
   void setPixelPositions() {
     horizontalPixelNumber = int(Width/PIXEL_SIDE_SIZE);
     verticalPixelNumber = int(Height/PIXEL_SIDE_SIZE);
-    pixelPositions = new PVector[horizontalPixelNumber][verticalPixelNumber];
-    for (int row = 0; row < horizontalPixelNumber; row++) {
-      for (int column = 0; column < verticalPixelNumber; column++) {
+    pixelPositions = new PVector[verticalPixelNumber][horizontalPixelNumber];
+    for (int row = 0; row < verticalPixelNumber; row++) {
+      for (int column = 0; column < horizontalPixelNumber; column++) {
         PVector currentPixelPosition = new PVector();
         currentPixelPosition.x = position.x + PIXEL_SIDE_SIZE/2 + column*PIXEL_SIDE_SIZE;
         currentPixelPosition.y = position.y + PIXEL_SIDE_SIZE/2 + row*PIXEL_SIDE_SIZE;
@@ -48,8 +48,8 @@ class Rink {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addFood() {
     food = new Food();
-    float x = position.x + PIXEL_SIDE_SIZE/2 + floor(random(Width/PIXEL_SIDE_SIZE))*PIXEL_SIDE_SIZE;
-    float y = position.y + PIXEL_SIDE_SIZE/2 + floor(random(Height/PIXEL_SIDE_SIZE))*PIXEL_SIDE_SIZE;
+    float x = position.x + PIXEL_SIDE_SIZE/2 + int(random(Width/PIXEL_SIDE_SIZE))*PIXEL_SIDE_SIZE;
+    float y = position.y + PIXEL_SIDE_SIZE/2 + int(random(Height/PIXEL_SIDE_SIZE))*PIXEL_SIDE_SIZE;
     food.setPosition(x, y);
     food.show();
   }
@@ -57,8 +57,8 @@ class Rink {
   void addSnake() {
     snake = new Snake();
 
-    float x = position.x + PIXEL_SIDE_SIZE/2 + Width/2;
-    float y = position.y + PIXEL_SIDE_SIZE/2 + Height/2;
+    float x = position.x + PIXEL_SIDE_SIZE/2 + int(horizontalPixelNumber/2)*PIXEL_SIDE_SIZE;
+    float y = position.y + PIXEL_SIDE_SIZE/2 + int(verticalPixelNumber/2)*PIXEL_SIDE_SIZE;
     snake.setInitialPosition(x, y);
     
     //snake.head.setVelocity();
@@ -94,8 +94,8 @@ class Rink {
     noFill();
     stroke(50);
     rectMode(CENTER);
-    for (int row = 0; row < horizontalPixelNumber; row++) {
-      for (int column = 0; column < verticalPixelNumber; column++) {
+    for (int row = 0; row < verticalPixelNumber; row++) {
+      for (int column = 0; column < horizontalPixelNumber; column++) {
         rect(pixelPositions[row][column].x, pixelPositions[row][column].y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
       }
     }
@@ -106,5 +106,6 @@ class Rink {
     stroke(255);
     rectMode(CORNER);
     rect(position.x, position.y, Width, Height);
+    position.show();
   }
 }
