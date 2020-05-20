@@ -1,39 +1,27 @@
 class Head {
 
-  PVector position;
-  float theta;
+  Vector position;
   Vector velocity;
   color Color;
 
   Head() {
-    position = new PVector();
-    this.setTheta(3*PI/2);
+    position = new Vector();
     velocity = new Vector();
+    velocity.setSize(PIXEL_SIDE_SIZE);
+    velocity.setTheta(3*PI/2);
     setColor(color(100));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPosition(float x, float y) {
-    this.position.x = x;
-    this.position.y = y;
-  }
-  void setTheta(float newTheta) {
-    theta += newTheta;
-  }
-  float getTheta() {
-    return theta;
-  }
-  void setVelocity() {
-    velocity.setOriginPoint(this.position.x, this.position.y);
-    velocity.x = PIXEL_SIDE_SIZE*int(cos(getTheta()));
-    velocity.y = PIXEL_SIDE_SIZE*int(sin(getTheta()));
+    position.x = x;
+    position.y = y;
+    velocity.setOrigin(x, y);
   }
   void moveLeft() { 
-    setTheta(-PI/2);
-    setVelocity();
+    velocity.incrementTheta(-PI/2);
   }
   void moveRight() { 
-    setTheta(PI/2);
-    setVelocity();
+    velocity.incrementTheta(PI/2);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setColor(color Color) {
@@ -41,9 +29,9 @@ class Head {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void move() {
-    this.setVelocity();
-    position.x += velocity.x;
-    position.y += velocity.y;
+    position.x += velocity.size*int(cos(velocity.getTheta()));
+    position.y += velocity.size*int(sin(velocity.getTheta()));
+    velocity.setOrigin(position.x, position.y);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
@@ -51,12 +39,7 @@ class Head {
     stroke(255);
     rectMode(CENTER);
     rect(position.x, position.y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
-    
+    position.show();
     velocity.show();
-    
-    //fill(255, 0, 0);
-    //triangle(position.x, position.y-pixelSideSize/2,
-    //         position.x-pixelSideSize/2, position.y,
-    //         position.x+pixelSideSize/2, position.y);
   }
 }
