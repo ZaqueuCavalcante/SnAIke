@@ -2,13 +2,13 @@ class Layer {
 
   ArrayList<Neuron> neurons;
 
-  PVector centerPosition;
+  Vector centerPosition;
   int neuronsNumber;
   float verticalDistance;
 
   Layer() {
     neurons = new ArrayList<Neuron>();
-    centerPosition = new PVector();
+    centerPosition = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setCenterPosition(float x_, float y_) {
@@ -48,5 +48,6 @@ class Layer {
     for (int i = 0; i < neurons.size(); i++) {
       neurons.get(i).show();
     }
+    //centerPosition.show();
   }
 }

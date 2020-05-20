@@ -1,7 +1,7 @@
 class Radar {
 
-  PVector headPosition;
-  PVector distanceToFood;
+  Vector headPosition;
+  Vector distanceToFood;
 
   float distanceToLeftWall;
   float distanceToFronttWall;
@@ -10,8 +10,8 @@ class Radar {
   color Color; 
 
   Radar() {
-    headPosition = new PVector();
-    distanceToFood = new PVector();
+    headPosition = new Vector();
+    distanceToFood = new Vector();
 
     Color = color(144, 238, 117);
   }

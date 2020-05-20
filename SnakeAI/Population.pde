@@ -8,14 +8,21 @@ class Population {
   int[] ranking;
   int bestSnakeIndex;
 
-  Population() {
+   float[] snakesFitness;
+
+  int[] indexesArray;
+
+  Population(int size) {
+    this.size = size;
+    makeIndexesArray();
+    snakesFitness = new float[size];
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setSize(int size_) {
-    size = size_;
+  void setSize(int size) {
+    this.size = size;
   }
-  void setGeneration(int generation_) {
-    generation = generation_;
+  void setGeneration(int generation) {
+    this.generation = generation;
   }
   int getGeneration() {
     return generation;
@@ -23,8 +30,8 @@ class Population {
   void updateGeneration() {
     generation ++;
   }
-  void setMutationRate(float mutationRate_) {
-    mutationRate = mutationRate_;
+  void setMutationRate(float mutationRate) {
+    this.mutationRate = mutationRate;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setInitialSnakes() {
@@ -43,16 +50,14 @@ class Population {
     bestSnakeIndex = index;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  float[] calculateAllSnakesFitness() {
-    float[] snakesFitness = new float[size];
+  void calculateAllSnakesFitness() {
     for (int i = 0; i < size; i++) {
       snakes[i].calculateFitness();
       snakesFitness[i] = snakes[i].fitness;
     }
-    return snakesFitness;
   }
   void updateRanking() {
-    float[] snakesFitness = calculateAllSnakesFitness();
+    calculateAllSnakesFitness();
     float maxFitness;
     for (int i = 0; i < size; i++) {
       maxFitness = max(snakesFitness);
@@ -65,23 +70,28 @@ class Population {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  int[] selectCouple() {  // REFAZER !!!! Possibilidade de colocar esses métodos dentro da classe Snake????
+  void makeIndexesArray() {
+    indexesArray = new int[int(size*(size+1)/2)];
+    int indexCounter = 0;
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size-i; j++) {
+        indexesArray[indexCounter] = i;
+        indexCounter++;
+      }
+    }
+  }
+  int[] selectCouple() {
     // Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
-    // Esta probabilidade é proporcional à posição da cobra no ranking.
+    // Esta probabilidade é proporcional à posição da cobra no ranking. 
+    // Quanto menor o index, maior a chance de ser escolhido.
+    // Cobras nazistas do Rick and Morty.
+    // Note que eventualmente mãe e pai podem ser a mesma cobra. Equivaleria a um clone ou elitismo.
     int[] coupleIndexes = new int[2];
-    int motherIndex;
-    int fatherIndex;
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-
-    motherIndex = int(random(size));
-    fatherIndex = int(random(size));
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    coupleIndexes[0] = motherIndex;
-    coupleIndexes[1] = fatherIndex;
+    coupleIndexes[0] = indexesArray[int(random(indexesArray.length))];  // Mother index.
+    coupleIndexes[1] = indexesArray[int(random(indexesArray.length))];  // Father index.
     return coupleIndexes;
   }
-  
+
   Snake crossover(int motherIndex, int fatherIndex) {
     Snake mother = snakes[motherIndex].clone();
     Snake father = snakes[fatherIndex].clone();

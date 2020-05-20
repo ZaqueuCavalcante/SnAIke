@@ -3,6 +3,7 @@ class Screen {
   int Width;
   int Height;
   float FPS;  // Frames per second.
+  float xDivisoryLine;
 
   PFont font;
 
@@ -29,6 +30,9 @@ class Screen {
   void setFPS(float FPS_) {
     FPS = FPS_;
     frameRate(FPS);
+  }
+  void setDivisoryLine(float xDivisoryLine) {
+    this.xDivisoryLine = xDivisoryLine;
   }
 
   void setFont() {
@@ -62,22 +66,15 @@ class Screen {
   void setMutationRate(float mutationRate_) {
     mutationRate = mutationRate_;
   }
-  
+
   void setAppearance(int backgroundColor, int strokeColor) {
     background(backgroundColor);
     stroke(strokeColor);
     noFill();
   }
-
-  void show() {
-    setAppearance(20, 255);
-    showVerticalLine(400);
-    showButtons();
-    showParameters();
-  }
-  void showVerticalLine(float xVerticalLine) {
+  void showVerticalLine() {
     stroke(255);
-    line(xVerticalLine, 0, xVerticalLine, Height);
+    line(xDivisoryLine, 0, xDivisoryLine, Height);
   }
   void showButtons() {
     saveButton.show();
@@ -96,5 +93,11 @@ class Screen {
     text("GENERATION : " + generation, 20, 120);
     text("REMAINING MOVES : " + remainingMoves, 20, 150);
     text("MUTATION RATE : " + mutationRate, 20, 180);
+  }
+  void show() {
+    setAppearance(20, 255);
+    showVerticalLine();
+    showButtons();
+    showParameters();
   }
 }
