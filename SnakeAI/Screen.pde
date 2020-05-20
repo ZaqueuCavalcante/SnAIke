@@ -2,7 +2,7 @@ class Screen {
 
   int Width;
   int Height;
-  float FPS;  // Frames per second.
+  float FPS;
   float xDivisoryLine;
 
   PFont font;
@@ -20,26 +20,26 @@ class Screen {
   int remainingMoves;
   float mutationRate;
 
-  Screen(int Width_, int Height_) { 
-    Width = Width_;
-    Height = Height_;
+  Screen(int Width, int Height) { 
+    this.Width = Width;
+    this.Height = Height;
     setFont();
     setButtons();
   }
-
-  void setFPS(float FPS_) {
-    FPS = FPS_;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void setFPS(float FPS) {
+    this.FPS = FPS;
     frameRate(FPS);
   }
   void setDivisoryLine(float xDivisoryLine) {
     this.xDivisoryLine = xDivisoryLine;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFont() {
     font = createFont("agencyfb-bold.ttf", 32);
     textFont(font);
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setButtons() {
     saveButton = new Button(50, 15, 100, 30, "Save");
     loadButton = new Button(150, 15, 100, 30, "Load");
@@ -47,32 +47,27 @@ class Screen {
     increaseMutationRateButton = new Button(225, 170, 20, 20, "+");
     decreaseMutationRateButton = new Button(250, 170, 20, 20, "-");
   }
-
-  void setScore(int score_) {
-    score = score_;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void setScore(int score) {
+    this.score = score;
   }
-  void setBestScore(int bestScore_) {
-    bestScore = bestScore_;
+  void setBestScore(int bestScore) {
+    this.bestScore = bestScore;
   }
-  void setFitness(float fitness_) {
-    fitness = fitness_;
+  void setFitness(float fitness) {
+    this.fitness = fitness;
   }
-  void setGeneration(int generation_) {
-    generation = generation_;
+  void setGeneration(int generation) {
+    this.generation = generation;
   }
-  void setRemainingMoves(int remainingMoves_) {
-    remainingMoves = remainingMoves_;
+  void setRemainingMoves(int remainingMoves) {
+    this.remainingMoves = remainingMoves;
   }
-  void setMutationRate(float mutationRate_) {
-    mutationRate = mutationRate_;
+  void setMutationRate(float mutationRate) {
+    this.mutationRate = mutationRate;
   }
-
-  void setAppearance(int backgroundColor, int strokeColor) {
-    background(backgroundColor);
-    stroke(strokeColor);
-    noFill();
-  }
-  void showVerticalLine() {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void showDivisoryLine() {
     stroke(255);
     line(xDivisoryLine, 0, xDivisoryLine, Height);
   }
@@ -95,8 +90,10 @@ class Screen {
     text("MUTATION RATE : " + mutationRate, 20, 180);
   }
   void show() {
-    setAppearance(20, 255);
-    showVerticalLine();
+    background(20);
+    stroke(255);
+    noFill();
+    showDivisoryLine();
     showButtons();
     showParameters();
   }

@@ -20,12 +20,12 @@ void setup() {
   screen.setFPS(10);
   screen.setDivisoryLine(440);
 
-  rink = new Rink();
+  rink = new Rink(); //<>//
   rink.setPosition(screen.xDivisoryLine + PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
   rink.setSideSizes(width - screen.xDivisoryLine -2*PIXEL_SIDE_SIZE, height-2*PIXEL_SIDE_SIZE);
   rink.setPixelPositions();
   
-  rink.addFood(); //<>//
+  rink.addFood();
   rink.addSnake();
   
   population = new Population(10);

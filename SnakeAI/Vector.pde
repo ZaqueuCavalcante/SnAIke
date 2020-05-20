@@ -3,9 +3,7 @@ class Vector {
   PVector origin;
   float size;
   float theta;  // Angle made with the x axis, measured clockwise.
-  float x;
-  float y;
-  float z;
+  float x, y, z;
 
   Vector() {
     origin = new PVector();
