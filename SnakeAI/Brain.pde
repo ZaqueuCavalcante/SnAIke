@@ -1,6 +1,6 @@
 class Brain {
 
-  PVector firstLayerCenterPosition;
+  Vector firstLayerCenterPosition;
 
   int inputNeuronsNumber;
   int hiddenNeuronsNumber;
@@ -16,7 +16,7 @@ class Brain {
   ArrayList<Link> links;
 
   Brain() {
-    firstLayerCenterPosition = new PVector();
+    firstLayerCenterPosition = new Vector();
 
     inputLayer = new Layer();
     hiddenLayer = new Layer();
@@ -82,5 +82,6 @@ class Brain {
     inputLayer.show();
     hiddenLayer.show();
     outputLayer.show();
+    //firstLayerCenterPosition.show();
   }
 }
