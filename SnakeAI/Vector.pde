@@ -1,27 +1,55 @@
 class Vector {
 
-  PVector originPoint;
+  PVector origin;
+  float size;
+  float theta;  // Angle made with the x axis, measured clockwise.
   float x;
   float y;
+  float z;
 
   Vector() {
-    this.originPoint = new PVector(0, 0);
+    origin = new PVector();
+  }
+  Vector(float x, float y) {
+    origin = new PVector();
+    this.x = x;
+    this.y = y;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setOriginPoint(float x, float y) {
-    this.originPoint.x = x;
-    this.originPoint.y = y;
+  void setOrigin(float x, float y) {
+    origin.x = x;
+    origin.y = y;
+    updateTip();
+  }
+  void setSize(float newSize) {
+    size = newSize;
+  }
+  float getSize() {
+    return size;
+  }
+  void setTheta(float newTheta) {
+    theta = newTheta;
+  }
+  void incrementTheta(float angularIncrement) {
+    theta += angularIncrement;
+  }
+  float getTheta() {
+    return theta;
+  }
+  void updateTip() {
+    x = origin.x + size*cos(theta);
+    y = origin.y + size*sin(theta);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     fill(255);
     stroke(255);
-    line(this.originPoint.x, this.originPoint.y, this.x, this.y);
+    line(origin.x, origin.y, x, y);
     pushMatrix();
-    translate(this.x, this.y);
-    float angle = atan2(this.originPoint.x - this.x, this.y - this.originPoint.y);
+    translate(x, y);
+    float angle = atan2(origin.x - x, y - origin.y);
     rotate(angle);
-    triangle(0, 0, -50, -120, 50, -120);
+    triangle(0, 0, -5, -12, 5, -12);
     popMatrix();
   }
 }
