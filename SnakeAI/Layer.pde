@@ -21,6 +21,12 @@ class Layer {
   void setVerticalDistance(float verticalDistance_) {
     verticalDistance = verticalDistance_;
   }
+  void setNeuronInputName(int neuronIndex, String inputName) {
+    neurons.get(neuronIndex).setInputName(inputName);
+  }
+  void setNeuronOutputName(int neuronIndex, String outputName) {
+    neurons.get(neuronIndex).setOutputName(outputName);
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   float setFirstNeuronVerticalPosition() {
     float firstNeuronVerticalPosition;

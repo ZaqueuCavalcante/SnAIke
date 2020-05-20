@@ -53,8 +53,8 @@ void draw() {
     rink.addSnake();
   }
   
-  population.show(5);
-  population.setInitialSnakes();
+  //population.show(5);
+  //population.setInitialSnakes();
 }
 
 void mousePressed() {

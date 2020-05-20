@@ -14,16 +14,16 @@ class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    radar = new Radar();
     brain = new Brain();
-
+    radar = new Radar();
+    
     setScore(0);
     setRemainingMoves(100);
     setFitness(0.0);
 
     live();
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setInitialPosition(float x, float y) {
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIDE_SIZE);
@@ -40,13 +40,13 @@ class Snake {
     brain.setHiddenLayer();
     brain.setOutputLayer();
 
-    brain.inputLayer.neurons.get(0).setInputName("Bias");
-    brain.inputLayer.neurons.get(1).setInputName("Dx");
-    brain.inputLayer.neurons.get(2).setInputName("Dy");
-    brain.inputLayer.neurons.get(3).setInputName("Theta");
+    brain.inputLayer.setNeuronInputName(0, "Bias");
+    brain.inputLayer.setNeuronInputName(1, "Dx");
+    brain.inputLayer.setNeuronInputName(2, "Dy");
+    brain.inputLayer.setNeuronInputName(3, "Theta");
 
-    brain.outputLayer.neurons.get(0).setOutputName("Left");
-    brain.outputLayer.neurons.get(1).setOutputName("Right");
+    brain.outputLayer.setNeuronOutputName(0, "Left");
+    brain.outputLayer.setNeuronOutputName(0, "Right");
 
     brain.connectLayers(brain.inputLayer, brain.hiddenLayer);
     brain.connectLayers(brain.hiddenLayer, brain.outputLayer);
@@ -103,25 +103,6 @@ class Snake {
       decreaseRemainingMoves();
     }
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  //void setTheta(float newTheta) {
-  //  theta += newTheta;
-  //}
-  //float getTheta() {
-  //  return theta;
-  //}
-  //void setVelocity() {
-  //  velocity.x = PIXEL_SIDE_SIZE*int(cos(getTheta()));
-  //  velocity.y = PIXEL_SIDE_SIZE*int(sin(getTheta()));
-  //}
-  //void moveLeft() { 
-  //  setTheta(-PI/2);
-  //  setVelocity();
-  //}
-  //void moveRight() { 
-  //  setTheta(PI/2);
-  //  setVelocity();
-  //}
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setScore(int score_) {
     score = score_;

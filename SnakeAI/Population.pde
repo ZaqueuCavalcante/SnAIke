@@ -8,7 +8,7 @@ class Population {
   int[] ranking;
   int bestSnakeIndex;
 
-   float[] snakesFitness;
+  float[] snakesFitness;
 
   int[] indexesArray;
 
@@ -34,12 +34,16 @@ class Population {
     this.mutationRate = mutationRate;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setInitialSnakes() {
-    snakes = new Snake[size];
-    for (int i = 0; i < size; i++) {
-      snakes[i] = new Snake();
-    }
-  }
+  //void setInitialSnakes() {
+  //  snakes = new Snake[size];
+  //  for (int i = 0; i < size; i++) {
+  //    snakes[i] = new Snake();
+  //    float x = position.x + PIXEL_SIDE_SIZE/2 + int(horizontalPixelNumber/2)*PIXEL_SIDE_SIZE;
+  //    float y = position.y + PIXEL_SIDE_SIZE/2 + int(verticalPixelNumber/2)*PIXEL_SIDE_SIZE;
+  //    snakes[i].setInitialPosition(x, y);
+  //      snakes[i].
+  //  }
+  //}
   void setInitialRanking() {
     ranking = new int[size];
     for (int i = 0; i < size; i++) {
