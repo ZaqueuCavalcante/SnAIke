@@ -13,7 +13,6 @@ class Rink {
 
   Rink() {
     position = new Vector();
-    freePositions = new ArrayList<int[]>();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setPosition(Canvas canvas) {
@@ -43,15 +42,14 @@ class Rink {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void determineFreePositions(Snake snake) {
+    freePositions = new ArrayList<int[]>();
     for (int row = 0; row < verticalPixelNumber; row++) {
       for (int column = 0; column < horizontalPixelNumber; column++) {
         float pixelX = pixelPositions[row][column].x;
         float pixelY = pixelPositions[row][column].y;
-
         boolean headMatchX = (pixelX == snake.head.getPosition().x);
         boolean headMatchY = (pixelY == snake.head.getPosition().y);
         boolean headMatch = headMatchX && headMatchY;
-
         boolean bodyMatch = false;
         for (Vector bodyPosition : snake.body.position) {
           if (pixelX == bodyPosition.x && pixelY == bodyPosition.y) {
@@ -59,26 +57,27 @@ class Rink {
             break;
           }
         }
-
         if (!headMatch && !bodyMatch) {
           int[] freePositonIndexes = new int[2];
           freePositonIndexes[0] = row;
           freePositonIndexes[1] = column;
           freePositions.add(freePositonIndexes);
+          print(freePositonIndexes[0], freePositonIndexes[1]);
+          print("\n");
         }
       }
     }
+    print("------------\n");
   }
   void addFood() {
     food = new Food();
     int index = int(random(freePositions.size()));
     int[] freePosition = freePositions.get(index);
     int row = freePosition[0];
+    print("Index", row, "\n");
     int column = freePosition[1];
     float x = pixelPositions[row][column].x;
     float y = pixelPositions[row][column].y;
-    //float x = position.x + PIXEL_SIZE/2 + int(random(Width/PIXEL_SIZE))*PIXEL_SIZE;
-    //float y = position.y + PIXEL_SIZE/2 + int(random(Height/PIXEL_SIZE))*PIXEL_SIZE;
     food.setPosition(x, y);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -98,14 +97,7 @@ class Rink {
     stroke(255);
     rectMode(CORNER);
     rect(position.x, position.y, Width, Height);
+    showPixelStrokes();
     //position.show();
   }
 }
-//  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-//  void addSnake() {
-//    snake = new Snake();
-//    float x = position.x + PIXEL_SIDE_SIZE/2 + int(horizontalPixelNumber/2)*PIXEL_SIDE_SIZE;
-//    float y = position.y + PIXEL_SIDE_SIZE/2 + int(verticalPixelNumber/2)*PIXEL_SIDE_SIZE;
-//    snake.setInitialPosition(x, y);
-//    snake.setBrain();
-//  }

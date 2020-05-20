@@ -1,6 +1,6 @@
-// Duas ou mais cobras competindo no mesmo ambiente. //<>// //<>// //<>// //<>// //<>//
+// Duas ou mais cobras competindo no mesmo ambiente. //<>// //<>// //<>//
 // Uma pode matar a outra, se comer seu rabo.
-// Adicionar obstáculos. Pedras.
+// Adicionar obstáculos. Pedras. Análogo a classe Food.
 // Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
 // Tentar fugir dela.
 
@@ -10,7 +10,6 @@ Canvas canvas;
 Rink rink;
 
 Snake snake;
-
 
 boolean humanPlaying = true;
 
@@ -25,15 +24,10 @@ void setup() {
   rink.setPixelPositions();
 
   snake = new Snake();
-  float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
-  float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
-  snake.setInitialPosition(x, y);
+  snake.setInitialPosition(rink);
   snake.setBrain();
 
-
-
   rink.determineFreePositions(snake);
-
   rink.addFood();
 }
 
@@ -44,24 +38,22 @@ void draw() {
   //canvas.setGeneration(population.generation);
   //canvas.setRemainingMoves(rink.snake.remainingMoves);
   //canvas.setMutationRate(population.mutationRate);
-  canvas.show();
+  canvas.show(); //<>//
 
   rink.show();
-  rink.showPixelStrokes();
   rink.food.show();
 
   snake.show();
-
   snake.move(rink);
 
   if (snake.isDead()) {
     snake = new Snake();
-    float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
-    float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
-    snake.setInitialPosition(x, y);
+    snake.setInitialPosition(rink);
     snake.setBrain();
-  }
 
+    rink.determineFreePositions(snake);
+    rink.addFood();
+  }
   //population.show(5);
   //population.setInitialSnakes();
 }

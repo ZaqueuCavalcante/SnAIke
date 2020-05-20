@@ -5,7 +5,7 @@ class Body {
 
   Body() {
     this.position = new ArrayList<Vector>();
-    this.setColor(color(random(255), random(255), random(255)));
+    this.setColor(color(0,0,255));//(color(random(255), random(255), random(255)));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFirstPixelPosition(float x, float y) {
@@ -19,8 +19,11 @@ class Body {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void addPixel() {
-    Vector newPixelPosition = new Vector();
-    this.position.add(newPixelPosition);
+      Vector newPixelPosition = new Vector();
+      int lastIndex = position.size()-1;
+      newPixelPosition.x = position.get(lastIndex).x;
+      newPixelPosition.y = position.get(lastIndex).y;
+      position.add(newPixelPosition);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void move(PVector headPosition) {

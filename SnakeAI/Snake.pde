@@ -16,7 +16,7 @@ class Snake {
     body = new Body();
     brain = new Brain();
     radar = new Radar();
-    
+
     setScore(0);
     setRemainingMoves(100);
     setFitness(0.0);
@@ -24,7 +24,9 @@ class Snake {
     live();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setInitialPosition(float x, float y) {
+  void setInitialPosition(Rink rink) {
+    float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
+    float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
@@ -94,6 +96,7 @@ class Snake {
     }
     if (foodCollide(rink.food)) {
       eat();
+      rink.determineFreePositions(this);
       rink.addFood();
     }
     if (isNotDead()) {
