@@ -7,7 +7,7 @@ class Head {
   Head() {
     position = new Vector();
     velocity = new Vector();
-    velocity.setSize(PIXEL_SIDE_SIZE);
+    velocity.setSize(PIXEL_SIZE);
     velocity.setTheta(3*PI/2);
     setColor(color(100));
   }
@@ -16,6 +16,9 @@ class Head {
     position.x = x;
     position.y = y;
     velocity.setOrigin(x, y);
+  }
+  Vector getPosition() {
+    return position;
   }
   void moveLeft() { 
     velocity.incrementTheta(-PI/2);
@@ -38,8 +41,8 @@ class Head {
     fill(Color);
     stroke(255);
     rectMode(CENTER);
-    rect(position.x, position.y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
-    position.show();
-    velocity.show();
+    rect(position.x, position.y, PIXEL_SIZE, PIXEL_SIZE);
+    //position.show();
+    //velocity.show();
   }
 }

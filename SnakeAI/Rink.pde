@@ -7,61 +7,79 @@ class Rink {
   PVector[][] pixelPositions;
   int horizontalPixelNumber;
   int verticalPixelNumber;
-
   ArrayList<int[]> freePositions;
 
-  Snake snake;
   Food food;
 
   Rink() {
     position = new Vector();
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(float x, float y) {
-    position.x = x;
-    position.y = y;
-  }
-  void setSideSizes(float Width, float Height) {
-    this.Width = Width;
-    this.Height = Height;
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPixelPositions() {
-    horizontalPixelNumber = int(Width/PIXEL_SIDE_SIZE);
-    verticalPixelNumber = int(Height/PIXEL_SIDE_SIZE);
-    pixelPositions = new PVector[verticalPixelNumber][horizontalPixelNumber];
-    for (int row = 0; row < verticalPixelNumber; row++) {
-      for (int column = 0; column < horizontalPixelNumber; column++) {
-        PVector currentPixelPosition = new PVector();
-        currentPixelPosition.x = position.x + PIXEL_SIDE_SIZE/2 + column*PIXEL_SIDE_SIZE;
-        currentPixelPosition.y = position.y + PIXEL_SIDE_SIZE/2 + row*PIXEL_SIDE_SIZE;
-        pixelPositions[row][column] = currentPixelPosition;
-        //print(currentPixelPosition);
-      }
-      //print('\n');
-    }
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setFreePositions() {
     freePositions = new ArrayList<int[]>();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void addFood() {
-    food = new Food();
-    float x = position.x + PIXEL_SIDE_SIZE/2 + int(random(Width/PIXEL_SIDE_SIZE))*PIXEL_SIDE_SIZE;
-    float y = position.y + PIXEL_SIDE_SIZE/2 + int(random(Height/PIXEL_SIDE_SIZE))*PIXEL_SIDE_SIZE;
-    food.setPosition(x, y);
-    food.show();
+  void setPosition(Canvas canvas) {
+    position.x = canvas.xDivisoryLine + PIXEL_SIZE;
+    position.y = PIXEL_SIZE;
+  }
+  void setSideSizes(Canvas canvas) {
+    Width = width - canvas.xDivisoryLine - 2*PIXEL_SIZE;
+    Height = height - 2*PIXEL_SIZE;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void addSnake() {
-    snake = new Snake();
+  void setDimensions() {
+    horizontalPixelNumber = int(Width/PIXEL_SIZE);
+    verticalPixelNumber = int(Height/PIXEL_SIZE);
+    pixelPositions = new PVector[verticalPixelNumber][horizontalPixelNumber];
+  }
+  void setPixelPositions() {
+    setDimensions();
+    for (int row = 0; row < verticalPixelNumber; row++) {
+      for (int column = 0; column < horizontalPixelNumber; column++) {
+        PVector currentPixelPosition = new PVector();
+        currentPixelPosition.x = position.x + PIXEL_SIZE/2 + column*PIXEL_SIZE;
+        currentPixelPosition.y = position.y + PIXEL_SIZE/2 + row*PIXEL_SIZE;
+        pixelPositions[row][column] = currentPixelPosition;
+      }
+    }
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  void determineFreePositions(Snake snake) {
+    for (int row = 0; row < verticalPixelNumber; row++) {
+      for (int column = 0; column < horizontalPixelNumber; column++) {
+        float pixelX = pixelPositions[row][column].x;
+        float pixelY = pixelPositions[row][column].y;
 
-    float x = position.x + PIXEL_SIDE_SIZE/2 + int(horizontalPixelNumber/2)*PIXEL_SIDE_SIZE;
-    float y = position.y + PIXEL_SIDE_SIZE/2 + int(verticalPixelNumber/2)*PIXEL_SIDE_SIZE;
-    snake.setInitialPosition(x, y);
-    
-    snake.setBrain();
+        boolean headMatchX = (pixelX == snake.head.getPosition().x);
+        boolean headMatchY = (pixelY == snake.head.getPosition().y);
+        boolean headMatch = headMatchX && headMatchY;
+
+        boolean bodyMatch = false;
+        for (Vector bodyPosition : snake.body.position) {
+          if (pixelX == bodyPosition.x && pixelY == bodyPosition.y) {
+            bodyMatch = true;
+            break;
+          }
+        }
+
+        if (!headMatch && !bodyMatch) {
+          int[] freePositonIndexes = new int[2];
+          freePositonIndexes[0] = row;
+          freePositonIndexes[1] = column;
+          freePositions.add(freePositonIndexes);
+        }
+      }
+    }
+  }
+  void addFood() {
+    food = new Food();
+    int index = int(random(freePositions.size()));
+    int[] freePosition = freePositions.get(index);
+    int row = freePosition[0];
+    int column = freePosition[1];
+    float x = pixelPositions[row][column].x;
+    float y = pixelPositions[row][column].y;
+    //float x = position.x + PIXEL_SIZE/2 + int(random(Width/PIXEL_SIZE))*PIXEL_SIZE;
+    //float y = position.y + PIXEL_SIZE/2 + int(random(Height/PIXEL_SIZE))*PIXEL_SIZE;
+    food.setPosition(x, y);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void showPixelStrokes() {
@@ -70,7 +88,7 @@ class Rink {
     rectMode(CENTER);
     for (int row = 0; row < verticalPixelNumber; row++) {
       for (int column = 0; column < horizontalPixelNumber; column++) {
-        rect(pixelPositions[row][column].x, pixelPositions[row][column].y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
+        rect(pixelPositions[row][column].x, pixelPositions[row][column].y, PIXEL_SIZE, PIXEL_SIZE);
       }
     }
   }
@@ -80,6 +98,14 @@ class Rink {
     stroke(255);
     rectMode(CORNER);
     rect(position.x, position.y, Width, Height);
-    position.show();
+    //position.show();
   }
 }
+//  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+//  void addSnake() {
+//    snake = new Snake();
+//    float x = position.x + PIXEL_SIDE_SIZE/2 + int(horizontalPixelNumber/2)*PIXEL_SIDE_SIZE;
+//    float y = position.y + PIXEL_SIDE_SIZE/2 + int(verticalPixelNumber/2)*PIXEL_SIDE_SIZE;
+//    snake.setInitialPosition(x, y);
+//    snake.setBrain();
+//  }

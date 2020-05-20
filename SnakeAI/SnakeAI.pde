@@ -1,84 +1,93 @@
-// Duas ou mais cobras competindo no mesmo ambiente. //<>//
+// Duas ou mais cobras competindo no mesmo ambiente. //<>// //<>// //<>// //<>// //<>//
 // Uma pode matar a outra, se comer seu rabo.
 // Adicionar obstáculos. Pedras.
 // Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
 // Tentar fugir dela.
 
-final float PIXEL_SIDE_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
+final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
 
-Screen screen;
-
+Canvas canvas;
 Rink rink;
 
-Population population;
+Snake snake;
+
 
 boolean humanPlaying = true;
 
 void setup() {
   size(1800, 920);
-  screen = new Screen(width, height);
-  screen.setFPS(10);
-  screen.setDivisoryLine(440);
+  canvas = new Canvas(width, height);
+  canvas.setFPS(15);
 
-  rink = new Rink(); //<>//
-  rink.setPosition(screen.xDivisoryLine + PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
-  rink.setSideSizes(width - screen.xDivisoryLine -2*PIXEL_SIDE_SIZE, height-2*PIXEL_SIDE_SIZE);
+  rink = new Rink();
+  rink.setPosition(canvas);
+  rink.setSideSizes(canvas);
   rink.setPixelPositions();
-  
+
+  snake = new Snake();
+  float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
+  float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+  snake.setInitialPosition(x, y);
+  snake.setBrain();
+
+
+
+  rink.determineFreePositions(snake);
+
   rink.addFood();
-  rink.addSnake();
-  
-  population = new Population(10);
 }
 
 void draw() {
-  screen.setScore(rink.snake.score);
-  //screen.setBestScore(population.bestSnake.score);
-  screen.setFitness(rink.snake.fitness);
-  //screen.setGeneration(population.generation);
-  screen.setRemainingMoves(rink.snake.remainingMoves);
-  //screen.setMutationRate(population.mutationRate);
-  screen.show();
+  //canvas.setScore(rink.snake.score);
+  //canvas.setBestScore(population.bestSnake.score);
+  //canvas.setFitness(rink.snake.fitness);
+  //canvas.setGeneration(population.generation);
+  //canvas.setRemainingMoves(rink.snake.remainingMoves);
+  //canvas.setMutationRate(population.mutationRate);
+  canvas.show();
 
   rink.show();
   rink.showPixelStrokes();
-
-  rink.snake.brain.links.get(3).Color = color(255, 0, 0);
-  
-  rink.snake.show();
   rink.food.show();
-  rink.snake.move(rink);
 
-  if (rink.snake.isDead()) { //<>//
-    rink.addSnake();
+  snake.show();
+
+  snake.move(rink);
+
+  if (snake.isDead()) {
+    snake = new Snake();
+    float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
+    float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+    snake.setInitialPosition(x, y);
+    snake.setBrain();
   }
-  
+
   //population.show(5);
   //population.setInitialSnakes();
 }
 
 void mousePressed() {
-  if (screen.saveButton.mouseAbove(mouseX, mouseY)) {
+  if (canvas.saveButton.mouseAbove(mouseX, mouseY)) {
     //selectOutput("Save Snake Model", "fileSelectedOut");
     print("Save Snake Model");
     print("\n");
   }
-  if (screen.loadButton.mouseAbove(mouseX, mouseY)) {
+  if (canvas.loadButton.mouseAbove(mouseX, mouseY)) {
     //selectInput("Load Snake Model", "fileSelectedIn");
     print("Load Snake Model");
     print("\n");
   }
-  if (screen.graphButton.mouseAbove(mouseX, mouseY)) {
+  if (canvas.graphButton.mouseAbove(mouseX, mouseY)) {
     //graph = new EvolutionGraph();
     print("New graph");
     print("\n");
   }
-  if (screen.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
+  if (canvas.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
     //mutationRate += 0.5;
     print("MR ++");
     print("\n");
   }
-  if (screen.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
+  if (canvas.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
     //mutationRate -= 0.5;
     print("MR --");
     print("\n");
@@ -90,10 +99,10 @@ void keyPressed() {
     if (key == CODED) {
       switch(keyCode) {
       case LEFT:
-        rink.snake.head.moveLeft();
+        snake.head.moveLeft();
         break;
       case RIGHT:
-        rink.snake.head.moveRight();
+        snake.head.moveRight();
         break;
       }
     }

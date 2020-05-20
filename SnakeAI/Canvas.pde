@@ -1,4 +1,4 @@
-class Screen {
+class Canvas {
 
   int Width;
   int Height;
@@ -20,11 +20,12 @@ class Screen {
   int remainingMoves;
   float mutationRate;
 
-  Screen(int Width, int Height) { 
+  Canvas(int Width, int Height) { 
     this.Width = Width;
     this.Height = Height;
     setFont();
     setButtons();
+    setDivisoryLine(400);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFPS(float FPS) {

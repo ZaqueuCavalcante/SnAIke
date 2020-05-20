@@ -30,7 +30,7 @@ class Food {
     fill(this.Color);
     stroke(255);
     rectMode(CENTER);
-    rect(this.position.x, this.position.y, PIXEL_SIDE_SIZE, PIXEL_SIDE_SIZE);
+    rect(this.position.x, this.position.y, PIXEL_SIZE, PIXEL_SIZE);
     position.show();
   }
 }

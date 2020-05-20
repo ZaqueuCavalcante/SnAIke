@@ -26,7 +26,7 @@ class Snake {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setInitialPosition(float x, float y) {
     head.setPosition(x, y);
-    body.setFirstPixelPosition(x, y + PIXEL_SIDE_SIZE);
+    body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
   void setBrain() {
     brain.setFirstLayerCenterPosition(80, 500);
