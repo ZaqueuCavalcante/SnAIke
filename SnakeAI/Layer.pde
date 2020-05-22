@@ -1,34 +1,34 @@
-class Layer {
+public class Layer {
 
-  ArrayList<Neuron> neurons;
+  private ArrayList<Neuron> neurons;
 
-  Vector centerPosition;
-  int neuronsNumber;
-  float verticalDistance;
+  private Vector centerPosition;
+  private int neuronsNumber;
+  private float verticalDistance;
 
   Layer() {
     neurons = new ArrayList<Neuron>();
     centerPosition = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setCenterPosition(float x_, float y_) {
+  public void setCenterPosition(float x_, float y_) {
     centerPosition.x = x_;
     centerPosition.y = y_;
   }
-  void setNeuronsNumber(int neuronsNumber_) {
+  public void setNeuronsNumber(int neuronsNumber_) {
     neuronsNumber = neuronsNumber_;
   }
-  void setVerticalDistance(float verticalDistance_) {
+  public void setVerticalDistance(float verticalDistance_) {
     verticalDistance = verticalDistance_;
   }
-  void setNeuronInputName(int neuronIndex, String inputName) {
+  public void setNeuronInputName(int neuronIndex, String inputName) {
     neurons.get(neuronIndex).setInputName(inputName);
   }
-  void setNeuronOutputName(int neuronIndex, String outputName) {
+  public void setNeuronOutputName(int neuronIndex, String outputName) {
     neurons.get(neuronIndex).setOutputName(outputName);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  float setFirstNeuronVerticalPosition() {
+  public float setFirstNeuronVerticalPosition() {
     float firstNeuronVerticalPosition;
     if (neuronsNumber % 2 == 0) {
       firstNeuronVerticalPosition = centerPosition.y - (verticalDistance/2 + (neuronsNumber/2 - 1)*verticalDistance);
@@ -37,7 +37,7 @@ class Layer {
     }
     return firstNeuronVerticalPosition;
   }
-  void setNeuronsPostions() {
+  public void setNeuronsPostions() {
     Neuron firstNeuron = new Neuron();
     firstNeuron.setPosition(centerPosition.x, setFirstNeuronVerticalPosition());
     neurons.add(firstNeuron);
@@ -50,7 +50,7 @@ class Layer {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     for (int i = 0; i < neurons.size(); i++) {
       neurons.get(i).show();
     }
