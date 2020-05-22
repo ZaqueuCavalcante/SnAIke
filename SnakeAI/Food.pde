@@ -1,8 +1,8 @@
-class Food {
+public class Food {
 
-  Vector position;
-  int nutritionalValue;
-  color Color;
+  private Vector position;
+  private int nutritionalValue;
+  private color Color;
 
   // Fazer a comida se mexer -> Mais devagar que a cobra.
   // Comidas com cores diferentes -> Pontuações diferentes.
@@ -10,23 +10,23 @@ class Food {
   // Várias comidas na tela.
 
   Food() {
-    this.position = new Vector();
-    this.setColor(color(255, 0, 0));
-    this.setNutritionalValue(1);
+    position = new Vector();
+    Color = color(255, 0, 0);
+    nutritionalValue = 1;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(float x, float y) {
+  public void setPosition(float x, float y) {
     this.position.x = x;
     this.position.y = y;
   }
-  void setNutritionalValue(int nutritionalValue) {
+  public void setNutritionalValue(int nutritionalValue) {
     this.nutritionalValue = nutritionalValue;
   }
-  void setColor(color Color) {
+  public void setColor(color Color) {
     this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     fill(this.Color);
     stroke(255);
     rectMode(CENTER);
