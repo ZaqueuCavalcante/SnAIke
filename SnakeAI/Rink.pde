@@ -7,6 +7,7 @@ class Rink {
   PVector[][] pixelPositions;
   int horizontalPixelNumber;
   int verticalPixelNumber;
+  
   ArrayList<int[]> freePositions;
 
   Food food;
@@ -62,19 +63,15 @@ class Rink {
           freePositonIndexes[0] = row;
           freePositonIndexes[1] = column;
           freePositions.add(freePositonIndexes);
-          print(freePositonIndexes[0], freePositonIndexes[1]);
-          print("\n");
         }
       }
     }
-    print("------------\n");
   }
   void addFood() {
     food = new Food();
     int index = int(random(freePositions.size()));
     int[] freePosition = freePositions.get(index);
     int row = freePosition[0];
-    print("Index", row, "\n");
     int column = freePosition[1];
     float x = pixelPositions[row][column].x;
     float y = pixelPositions[row][column].y;
@@ -98,6 +95,5 @@ class Rink {
     rectMode(CORNER);
     rect(position.x, position.y, Width, Height);
     showPixelStrokes();
-    //position.show();
   }
 }

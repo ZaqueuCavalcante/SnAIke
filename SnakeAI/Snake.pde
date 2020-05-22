@@ -25,8 +25,10 @@ class Snake {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setInitialPosition(Rink rink) {
-    float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
-    float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+    //float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
+    //float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+    float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
+    float y = rink.position.y + PIXEL_SIZE/2 + int((rink.verticalPixelNumber-1))*PIXEL_SIZE;;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
@@ -163,19 +165,12 @@ class Snake {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   Snake clone() {
     Snake clonedSnake = new Snake();
-    // Todos os atributos têm que ser repassados por valor --_--.
-
-    float x = head.position.x;
-    float y = head.position.y;
-    clonedSnake.head.setPosition(x, y);
-
+    clonedSnake.brain = this.brain;
     return clonedSnake;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
     head.show();
     body.show();
-    radar.show();
-    brain.show();
   }
 }
