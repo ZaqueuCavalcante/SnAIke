@@ -1,8 +1,8 @@
-class Button {
+public class Button {
 
-  float x, y;
-  float Width, Height;
-  String text;
+  private float x, y;
+  private float Width, Height;
+  private String text;
 
   Button(float x_, float y_, float Width_, float Height_, String text_) {
     x = x_;
@@ -12,7 +12,7 @@ class Button {
     text = text_;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  boolean mouseAbove(float xMouse, float yMouse) {
+  public boolean mouseAbove(float xMouse, float yMouse) {
     boolean mouseInsideWidth = x-Width/2 <= xMouse && xMouse <= x+Width/2;
     boolean mouseInsideHeight = y-Height/2 <= yMouse && yMouse <= y+Height/2;
     if (mouseInsideWidth  &&  mouseInsideHeight) {
@@ -21,7 +21,7 @@ class Button {
     return false;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     fill(255);
     stroke(0);
     rectMode(CENTER);
