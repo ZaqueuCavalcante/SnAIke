@@ -1,4 +1,4 @@
-// Duas ou mais cobras competindo no mesmo ambiente. //<>// //<>// //<>// //<>//
+// Duas ou mais cobras competindo no mesmo ambiente. //<>//
 // Uma pode matar a outra, se comer seu rabo.
 // Adicionar obstáculos. Pedras. Análogo a classe Food.
 // Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
