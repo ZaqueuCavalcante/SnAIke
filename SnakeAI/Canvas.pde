@@ -1,47 +1,37 @@
-class Canvas {
+public class Canvas {
 
-  int Width;
-  int Height;
-  float FPS;
-  float xDivisoryLine;
+  private float xDivisoryLine;
+  private PFont font;
 
-  PFont font;
+  private Button saveButton;
+  private Button loadButton;
+  private Button graphButton;
+  private Button increaseMutationRateButton;
+  private Button decreaseMutationRateButton;
 
-  Button saveButton;
-  Button loadButton;
-  Button graphButton;
-  Button increaseMutationRateButton;
-  Button decreaseMutationRateButton;
+  private int score;
+  private int bestScore;
+  private float fitness;
+  private int generation;
+  private int remainingMoves;
+  private float mutationRate;
 
-  int score;
-  int bestScore;
-  float fitness;
-  int generation;
-  int remainingMoves;
-  float mutationRate;
-
-  Canvas(int Width, int Height) { 
-    this.Width = Width;
-    this.Height = Height;
+  Canvas() { 
     setFont();
     setButtons();
     setDivisoryLine(400);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setFPS(float FPS) {
-    this.FPS = FPS;
-    frameRate(FPS);
-  }
-  void setDivisoryLine(float xDivisoryLine) {
+  public void setDivisoryLine(float xDivisoryLine) {
     this.xDivisoryLine = xDivisoryLine;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setFont() {
+  public void setFont() {
     font = createFont("agencyfb-bold.ttf", 32);
     textFont(font);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setButtons() {
+  public void setButtons() {
     saveButton = new Button(50, 15, 100, 30, "Save");
     loadButton = new Button(150, 15, 100, 30, "Load");
     graphButton = new Button(250, 15, 100, 30, "Graph");
@@ -49,37 +39,37 @@ class Canvas {
     decreaseMutationRateButton = new Button(250, 170, 20, 20, "-");
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setScore(int score) {
+  public void setScore(int score) {
     this.score = score;
   }
-  void setBestScore(int bestScore) {
+  public void setBestScore(int bestScore) {
     this.bestScore = bestScore;
   }
-  void setFitness(float fitness) {
+  public void setFitness(float fitness) {
     this.fitness = fitness;
   }
-  void setGeneration(int generation) {
+  public void setGeneration(int generation) {
     this.generation = generation;
   }
-  void setRemainingMoves(int remainingMoves) {
+  public void setRemainingMoves(int remainingMoves) {
     this.remainingMoves = remainingMoves;
   }
-  void setMutationRate(float mutationRate) {
+  public void setMutationRate(float mutationRate) {
     this.mutationRate = mutationRate;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void showDivisoryLine() {
+  public void showDivisoryLine() {
     stroke(255);
-    line(xDivisoryLine, 0, xDivisoryLine, Height);
+    line(xDivisoryLine, 0, xDivisoryLine, height);
   }
-  void showButtons() {
+  public void showButtons() {
     saveButton.show();
     loadButton.show();
     graphButton.show();
     increaseMutationRateButton.show();
     decreaseMutationRateButton.show();
   }
-  void showParameters() {
+  public void showParameters() {
     fill(150);
     textSize(20);
     textAlign(LEFT);
@@ -90,7 +80,7 @@ class Canvas {
     text("REMAINING MOVES : " + remainingMoves, 20, 150);
     text("MUTATION RATE : " + mutationRate, 20, 180);
   }
-  void show() {
+  public void show() {
     background(20);
     stroke(255);
     noFill();
