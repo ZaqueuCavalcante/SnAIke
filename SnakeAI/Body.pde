@@ -1,11 +1,11 @@
-class Body {
+public class Body {
 
-  ArrayList<Vector> position;
-  color Color;
+  private ArrayList<Vector> position;
+  private color Color;
 
   Body() {
     this.position = new ArrayList<Vector>();
-    this.setColor(color(0,0,255));//(color(random(255), random(255), random(255)));
+    this.setColor(color(random(255), random(255), random(255)));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void setFirstPixelPosition(float x, float y) {
