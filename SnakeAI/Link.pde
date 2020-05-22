@@ -1,34 +1,34 @@
-class Link {
+public class Link {
 
-  Neuron sourceNeuron;
-  Neuron arrivalNeuron;
+  private Neuron sourceNeuron;
+  private Neuron arrivalNeuron;
 
-  float weight;
-  float valueCarried;
+  private float weight;
+  private float valueCarried;
 
-  color Color;
+  private color Color;
 
-  Link(Neuron sourceNeuron_, Neuron arrivalNeuron_) {
-    sourceNeuron = sourceNeuron_;
-    arrivalNeuron = arrivalNeuron_;
+  Link(Neuron sourceNeuron, Neuron arrivalNeuron) {
+    this.sourceNeuron = sourceNeuron;
+    this.arrivalNeuron = arrivalNeuron;
 
-    setWeight(random(-1000.0, 1000.0));
-    setValueCarried(sourceNeuron.outputValue);
+    weight = random(-1000.0, 1000.0);
+    valueCarried = sourceNeuron.outputValue;
 
-    setColor(color(80));
+    Color = color(80);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setWeight(float weight_) {
-    weight = weight_;
+  public void setWeight(float weight) {
+    this.weight = weight;
   }
-  void setValueCarried(float valueCarried_) {
-    valueCarried = valueCarried_;
+  public void setValueCarried(float valueCarried) {
+    this.valueCarried = valueCarried;
   }
-  void setColor(color Color_) {
-    Color = Color_;
+  public void setColor(color Color) {
+    this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     stroke(Color);
     line(sourceNeuron.position.x, sourceNeuron.position.y, arrivalNeuron.position.x, arrivalNeuron.position.y);
   }

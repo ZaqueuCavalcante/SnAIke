@@ -1,13 +1,13 @@
-class Radar {
+public class Radar {
 
-  Vector headPosition;
-  Vector distanceToFood;
+  private Vector headPosition;
+  private Vector distanceToFood;
 
-  float distanceToLeftWall;
-  float distanceToFronttWall;
-  float distanceToRightWall;
+  private float distanceToLeftWall;
+  private float distanceToFronttWall;
+  private float distanceToRightWall;
 
-  color Color; 
+  private color Color; 
 
   Radar() {
     headPosition = new Vector();
@@ -16,18 +16,18 @@ class Radar {
     Color = color(144, 238, 117);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setHeadPosition(Head head) {
+  public void setHeadPosition(Head head) {
     this.headPosition.x = head.position.x;
     this.headPosition.y = head.position.y;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void calculateDistanceToFood(Food food) {
+  public void calculateDistanceToFood(Food food) {
     distanceToFood.x = food.position.x - headPosition.x;
     distanceToFood.y = food.position.y - headPosition.y;
     distanceToFood.z = sqrt(pow(distanceToFood.x, 2) + pow(distanceToFood.y, 2));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     stroke(Color);
   }
 }

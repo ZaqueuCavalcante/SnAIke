@@ -1,94 +1,94 @@
-class Neuron {
+public class Neuron {
 
-  Vector position;
-  float radius;
-  color Color;
+  private Vector position;
+  private float radius;
+  private color Color;
 
-  String inputName;
-  FloatList inputValues;
-  FloatList weights;
-  String outputName;
-  float outputValue;
+  private String inputName;
+  private FloatList inputValues;
+  private FloatList weights;
+  private String outputName;
+  private float outputValue;
 
-  float activationPotential;
-  boolean activated;
+  private float activationPotential;
+  private boolean activated;
 
   Neuron() {
     position = new Vector();
-    setRadius(25.0);
+    radius = 25.0;
 
     inputName = "";
     inputValues = new FloatList();
     weights = new FloatList();
     outputName = "";
 
-    deactivate();
+    activated = false;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(float x_, float y_) {
-    position.x = x_;
-    position.y = y_;
+  public void setPosition(float x, float y) {
+    position.x = x;
+    position.y = y;
   }
-  void setRadius(float radius_) {
-    radius = radius_;
+  public void setRadius(float radius) {
+    this.radius = radius;
   }
-  void setColor(color Color_) {
-    Color = Color_;
+  public void setColor(color Color) {
+    this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setInputName(String inputName_) {
-    inputName = inputName_;
+  public void setInputName(String inputName) {
+    this.inputName = inputName;
   }
-  void addInputValue(float inputValue) {
+  public void addInputValue(float inputValue) {
     inputValues.append(inputValue);
   }
-  void addWeight(float weight) {
+  public void addWeight(float weight) {
     weights.append(weight);
   }
-  void setOutputName(String outputName_) {
-    outputName = outputName_;
+  public void setOutputName(String outputName) {
+    this.outputName = outputName;
   }
-  void setOutputValue(float outputValue_) {
-    outputValue = outputValue_;
+  public void setOutputValue(float outputValue) {
+    this.outputValue = outputValue;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void calculateActivationPotential() {
+  public void calculateActivationPotential() {
     activationPotential = 0.0;
     for (int i = 0; i < weights.size(); i++) {
       activationPotential += weights.get(i)*inputValues.get(i);
     }
   }
-  float ReLUFunction(float input) {
+  public float ReLUFunction(float input) {
     if (input < 0.0) {
       return 0.0;
     } else {
       return input;
     }
   }
-  float BinaryStepFunction(float input) {
+  public float BinaryStepFunction(float input) {
     if (input < 0.0) {
       return -1.0;
     } else {
       return 1.0;
     }
   }
-  float SigmoidFunction(float input) {
+  public float SigmoidFunction(float input) {
     return 1.0 / (1.0 + exp(-input));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void deactivate() {
+  private void deactivate() {
     activated = false;
     setColor(color(100));
   }
-  void activate() {
+  private void activate() {
     activated = true;
     setColor(color(0, 255, 0));
   }
-  boolean isActivated() {
+  public boolean isActivated() {
     return activated;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     fill(Color);
     stroke(255);
     ellipseMode(CENTER);

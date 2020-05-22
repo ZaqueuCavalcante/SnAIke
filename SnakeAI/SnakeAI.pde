@@ -5,7 +5,7 @@
 // Tentar fugir dela.
 
 final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
-final int POP_SIZE = 5;
+final int POP_SIZE = 10;
 Canvas canvas;
 Rink rink;
 
@@ -15,8 +15,9 @@ boolean humanPlaying = true;
 
 void setup() {
   size(1800, 920);
-  canvas = new Canvas(width, height);
-  canvas.setFPS(15);
+  frameRate(15);
+  canvas = new Canvas();
+
 
   rink = new Rink();
   rink.setPosition(canvas);
@@ -48,6 +49,12 @@ void draw() {
     rink.food.show();
 
     snake.show();
+    int rf = int(random(0, 4));
+    if (rf == 0) {
+      snake.head.moveLeft();
+    } else if (rf == 1) {
+      snake.head.moveRight();
+    }
     snake.move(rink);
   }
 

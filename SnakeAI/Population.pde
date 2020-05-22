@@ -1,16 +1,15 @@
-class Population {
+public class Population {
 
-  int size;
-  int generation;
-  float mutationRate;
+  private int size;
+  private int generation;
+  private float mutationRate;
 
-  Snake[] snakes;
-  int[] ranking;
-  int bestSnakeIndex;
+  private Snake[] snakes;
+  private int[] ranking;
 
-  float[] snakesFitness;
+  private float[] snakesFitness;
 
-  int[] indexesArray;
+  private int[] indexesArray;
 
   Population(int size) {
     this.size = size;
@@ -20,20 +19,20 @@ class Population {
     snakesFitness = new float[size];
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  int getGeneration() {
+  public int getGeneration() {
     return generation;
   }
-  void updateGeneration() {
+  public void updateGeneration() {
     generation ++;
   }
-  void setMutationRate(float mutationRate) {
+  public void setMutationRate(float mutationRate) {
     this.mutationRate = mutationRate;
   }
-  float getMutationRate() {
+  public float getMutationRate() {
     return mutationRate;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setInitialSnakes(Rink rink) {
+  public void setInitialSnakes(Rink rink) {
     snakes = new Snake[size];
     for (int i = 0; i < size; i++) {
       snakes[i] = new Snake();
@@ -41,28 +40,25 @@ class Population {
       snakes[i].setBrain();
     }
   }
-  void setPositions(Rink rink) {
+  public void setPositions(Rink rink) {
     for (Snake snake : snakes) {
       snake.setInitialPosition(rink);
     }
   }
-  void setInitialRanking() {
+  public void setInitialRanking() {
     ranking = new int[size];
     for (int i = 0; i < size; i++) {
       ranking[i] = i;
     }
   }
-  void setBestSnakeIndex(int index) {
-    bestSnakeIndex = index;
-  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void calculateAllSnakesFitness() {
+  public void calculateAllSnakesFitness() {
     for (int i = 0; i < size; i++) {
       snakes[i].calculateFitness();
       snakesFitness[i] = snakes[i].fitness;
     }
   }
-  void updateRanking() {
+  public void updateRanking() {
     calculateAllSnakesFitness();
     float maxFitness;
     for (int i = 0; i < size; i++) {
@@ -76,7 +72,7 @@ class Population {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void makeIndexesArray() {
+  public void makeIndexesArray() {
     indexesArray = new int[int(size*(size+1)/2)];
     int indexCounter = 0;
     for (int i = 0; i < size; i++) {
@@ -86,7 +82,7 @@ class Population {
       }
     }
   }
-  int[] selectCouple() {
+  public int[] selectCouple() {
     // Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
     // Esta probabilidade é proporcional à posição da cobra no ranking. 
     // Quanto menor o index, maior a chance de ser escolhido.
@@ -98,7 +94,7 @@ class Population {
     return coupleIndexes;
   }
 
-  Snake crossover(int motherIndex, int fatherIndex) {
+  public Snake crossover(int motherIndex, int fatherIndex) {
     Snake mother = snakes[motherIndex].clone();
     Snake father = snakes[fatherIndex].clone();
 
@@ -113,7 +109,7 @@ class Population {
     return son;
   }
 
-  void mutation(Snake snake) {
+  public void mutation(Snake snake) {
     float snakeMutationProbability = random(0, 100);
     if (snakeMutationProbability <= mutationRate) {
       int genomeSize = snake.brain.links.size();
@@ -126,7 +122,7 @@ class Population {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void generateNewPopulation() {
+  public void generateNewPopulation() {
     Snake[] newSnakes = new Snake[size];
     for (int i = 0; i < size; i++) {
       int[] coupleIndexes = selectCouple();
@@ -141,7 +137,7 @@ class Population {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  boolean allSnakesIsDead() {
+  public boolean allSnakesIsDead() {
     for (int i = 0; i < snakes.length; i++) {
       if (snakes[i].isNotDead()) {
         return false;
@@ -150,7 +146,7 @@ class Population {
     return true;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show(int snakesAmount) {
+  public void show(int snakesAmount) {
     //snakes[bestSnakeIndex].brain.show();
     if (snakesAmount > size) {
       snakesAmount = size;

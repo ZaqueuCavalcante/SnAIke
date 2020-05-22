@@ -1,15 +1,15 @@
-class Snake {
+public class Snake {
 
-  Head head;
-  Body body;
-  Brain brain;
-  Radar radar;
+  private Head head;
+  private Body body;
+  private Brain brain;
+  private Radar radar;
 
-  int score; 
-  int remainingMoves;  
-  float fitness;  
+  private int score; 
+  private int remainingMoves;  
+  private float fitness;  
 
-  boolean dead;
+  private boolean dead;
 
   Snake() {
     head = new Head();
@@ -24,15 +24,15 @@ class Snake {
     live();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setInitialPosition(Rink rink) {
-    //float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
-    //float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
-    float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
-    float y = rink.position.y + PIXEL_SIZE/2 + int((rink.verticalPixelNumber-1))*PIXEL_SIZE;;
+  public void setInitialPosition(Rink rink) {
+    float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
+    float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+    //float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
+    //float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
-  void setBrain() {
+  public void setBrain() {
     brain.setFirstLayerCenterPosition(80, 500);
     brain.setInputNeuronsNumber(4);
     brain.setHiddenNeuronsNumber(8);
@@ -57,13 +57,13 @@ class Snake {
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void eat() {
+  public void eat() {
     body.addPixel();
     increaseScore(1);
     increaseRemainingMoves(100);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  boolean bodyCollide() {  // Check if the head collides with self body.
+  public boolean bodyCollide() {  // Check if the head collides with self body.
     for (int i = 0; i < body.position.size(); i++) {
       if (head.position.x == body.position.get(i).x && head.position.y == body.position.get(i).y) {
         return true;
@@ -71,13 +71,13 @@ class Snake {
     }
     return false;
   }
-  boolean foodCollide(Food food) {  // Checks if the head collides with the food.
+  public boolean foodCollide(Food food) {  // Checks if the head collides with the food.
     if (head.position.x == food.position.x && head.position.y == food.position.y) {
       return true;
     }
     return false;
   }
-  boolean wallCollide(Rink rink) {  // Checks if the head collides with the rink's wall.
+  public boolean wallCollide(Rink rink) {  // Checks if the head collides with the rink's wall.
     boolean headInsideRinkWidth = (head.position.x < rink.position.x) || (head.position.x > rink.position.x+rink.Width);
     boolean headInsideRinkHeight = (head.position.y < rink.position.y) || (head.position.y > rink.position.y+rink.Height);
     if (headInsideRinkWidth || headInsideRinkHeight) {
@@ -86,7 +86,7 @@ class Snake {
     return false;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void move(Rink rink) { 
+  public void move(Rink rink) { 
     if (wallCollide(rink)) {
       die();
     }
@@ -109,29 +109,29 @@ class Snake {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setScore(int score_) {
+  public void setScore(int score_) {
     score = score_;
   }
-  int getScore() {
+  public int getScore() {
     return score;
   }
-  void increaseScore(int scoreIncrement) {
+  public void increaseScore(int scoreIncrement) {
     score += scoreIncrement;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setRemainingMoves(int remainingMoves_) {
+  public void setRemainingMoves(int remainingMoves_) {
     remainingMoves = remainingMoves_;
   }
-  int getRemainingMoves() {
+  public int getRemainingMoves() {
     return remainingMoves;
   }
-  void increaseRemainingMoves(int remainingMovesIncrement) {
+  public void increaseRemainingMoves(int remainingMovesIncrement) {
     remainingMoves += remainingMovesIncrement;
   }
-  void decreaseRemainingMoves() {
+  public void decreaseRemainingMoves() {
     remainingMoves --;
   }
-  boolean remainingMovesFinish() {
+  public boolean remainingMovesFinish() {
     if (remainingMoves == 0) {
       return true;
     } else {
@@ -139,37 +139,37 @@ class Snake {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setFitness(float fitness_) {
+  public void setFitness(float fitness_) {
     fitness = fitness_;
   }
-  float getFitness() {
+  public float getFitness() {
     return fitness;
   }
-  void calculateFitness() {
+  public void calculateFitness() {
     float fitnessCalculated  = score*10 + remainingMoves/10;
     setFitness(fitnessCalculated);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void live() { 
+  public void live() { 
     dead = false;
   }
-  void die() { 
+  public void die() { 
     dead = true;
   }
-  boolean isDead() { 
+  public boolean isDead() { 
     return dead;
   }
-  boolean isNotDead() { 
+  public boolean isNotDead() { 
     return !dead;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  Snake clone() {
+  public Snake clone() {
     Snake clonedSnake = new Snake();
     clonedSnake.brain = this.brain;
     return clonedSnake;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     head.show();
     body.show();
   }

@@ -1,36 +1,36 @@
-class Rink {
+public class Rink {
 
-  Vector position;
-  float Width;
-  float Height;
+  private Vector position;
+  private float Width;
+  private float Height;
 
-  PVector[][] pixelPositions;
-  int horizontalPixelNumber;
-  int verticalPixelNumber;
+  private PVector[][] pixelPositions;
+  private int horizontalPixelNumber;
+  private int verticalPixelNumber;
   
-  ArrayList<int[]> freePositions;
+  private ArrayList<int[]> freePositions;
 
-  Food food;
+  private Food food;
 
   Rink() {
     position = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setPosition(Canvas canvas) {
+  public void setPosition(Canvas canvas) {
     position.x = canvas.xDivisoryLine + PIXEL_SIZE;
     position.y = PIXEL_SIZE;
   }
-  void setSideSizes(Canvas canvas) {
+  public void setSideSizes(Canvas canvas) {
     Width = width - canvas.xDivisoryLine - 2*PIXEL_SIZE;
     Height = height - 2*PIXEL_SIZE;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setDimensions() {
+  public void setDimensions() {
     horizontalPixelNumber = int(Width/PIXEL_SIZE);
     verticalPixelNumber = int(Height/PIXEL_SIZE);
     pixelPositions = new PVector[verticalPixelNumber][horizontalPixelNumber];
   }
-  void setPixelPositions() {
+  public void setPixelPositions() {
     setDimensions();
     for (int row = 0; row < verticalPixelNumber; row++) {
       for (int column = 0; column < horizontalPixelNumber; column++) {
@@ -42,7 +42,7 @@ class Rink {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void determineFreePositions(Snake snake) {
+  public void determineFreePositions(Snake snake) {
     freePositions = new ArrayList<int[]>();
     for (int row = 0; row < verticalPixelNumber; row++) {
       for (int column = 0; column < horizontalPixelNumber; column++) {
@@ -67,7 +67,7 @@ class Rink {
       }
     }
   }
-  void addFood() {
+  public void addFood() {
     food = new Food();
     int index = int(random(freePositions.size()));
     int[] freePosition = freePositions.get(index);
@@ -78,7 +78,7 @@ class Rink {
     food.setPosition(x, y);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void showPixelStrokes() {
+  public void showPixelStrokes() {
     noFill();
     stroke(50);
     rectMode(CENTER);
@@ -89,7 +89,7 @@ class Rink {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     noFill();
     stroke(255);
     rectMode(CORNER);
