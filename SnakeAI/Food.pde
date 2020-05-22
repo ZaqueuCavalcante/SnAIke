@@ -31,6 +31,6 @@ class Food {
     stroke(255);
     rectMode(CENTER);
     rect(this.position.x, this.position.y, PIXEL_SIZE, PIXEL_SIZE);
-    position.show();
+    //position.show();
   }
 }
