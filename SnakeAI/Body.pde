@@ -8,17 +8,17 @@ public class Body {
     this.setColor(color(random(255), random(255), random(255)));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void setFirstPixelPosition(float x, float y) {
+  public void setFirstPixelPosition(float x, float y) {
     this.position.add(new Vector(x, y));
   }
-  ArrayList<Vector> getPosition() {
+  public ArrayList<Vector> getPosition() {
     return position;
   }
-  void setColor(color Color) {
+  public void setColor(color Color) {
     this.Color = Color;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void addPixel() {
+  public void addPixel() {
       Vector newPixelPosition = new Vector();
       int lastIndex = position.size()-1;
       newPixelPosition.x = position.get(lastIndex).x;
@@ -26,7 +26,7 @@ public class Body {
       position.add(newPixelPosition);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void move(PVector headPosition) {
+  public void move(PVector headPosition) {
     float xFrontPixel = headPosition.x;
     float yFrontPixel = headPosition.y;
     float xBackPixel;
@@ -41,7 +41,7 @@ public class Body {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  void show() {
+  public void show() {
     fill(this.Color);
     stroke(255);
     for (int i = 0; i < this.position.size(); i++) {
