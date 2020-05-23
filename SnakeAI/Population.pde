@@ -3,6 +3,7 @@ public class Population {
   private int size;
   private int generation;
   private float mutationRate;
+  private int bestScore;
 
   private Snake[] snakes;
   private int[] ranking;
@@ -14,9 +15,9 @@ public class Population {
   Population(int size) {
     this.size = size;
     generation = 0;
-    mutationRate = 4.2;
-    makeIndexesArray();
+    mutationRate = 5.0;
     snakesFitness = new float[size];
+    makeIndexesArray();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public int getGeneration() {
@@ -25,11 +26,19 @@ public class Population {
   public void updateGeneration() {
     generation ++;
   }
-  public void setMutationRate(float mutationRate) {
-    this.mutationRate = mutationRate;
-  }
   public float getMutationRate() {
     return mutationRate;
+  }
+  public void updateMutationRate(float inOrDecrement) {
+    mutationRate += inOrDecrement;
+    if (mutationRate < 0.0) {
+      mutationRate = 0.0;
+    } else if (mutationRate > 100.0) {
+      mutationRate = 100.0;
+    }
+  }
+  public int getBestScore() {
+    return bestScore;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setInitialSnakes(Rink rink) {

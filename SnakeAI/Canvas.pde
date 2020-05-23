@@ -9,13 +9,6 @@ public class Canvas {
   private Button increaseMutationRateButton;
   private Button decreaseMutationRateButton;
 
-  private int score;
-  private int bestScore;
-  private float fitness;
-  private int generation;
-  private int remainingMoves;
-  private float mutationRate;
-
   Canvas() { 
     setFont();
     setButtons();
@@ -39,25 +32,6 @@ public class Canvas {
     decreaseMutationRateButton = new Button(250, 170, 20, 20, "-");
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setScore(int score) {
-    this.score = score;
-  }
-  public void setBestScore(int bestScore) {
-    this.bestScore = bestScore;
-  }
-  public void setFitness(float fitness) {
-    this.fitness = fitness;
-  }
-  public void setGeneration(int generation) {
-    this.generation = generation;
-  }
-  public void setRemainingMoves(int remainingMoves) {
-    this.remainingMoves = remainingMoves;
-  }
-  public void setMutationRate(float mutationRate) {
-    this.mutationRate = mutationRate;
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void showDivisoryLine() {
     stroke(255);
     line(xDivisoryLine, 0, xDivisoryLine, height);
@@ -69,16 +43,17 @@ public class Canvas {
     increaseMutationRateButton.show();
     decreaseMutationRateButton.show();
   }
-  public void showParameters() {
+  public void showParameters(Population population) {
     fill(150);
     textSize(20);
     textAlign(LEFT);
-    text("SCORE : " + score, 20, 60);
-    text("BEST SCORE : " + bestScore, 180, 60);
-    text("FITNESS : " + fitness, 20, 90);
-    text("GENERATION : " + generation, 20, 120);
-    text("REMAINING MOVES : " + remainingMoves, 20, 150);
-    text("MUTATION RATE : " + mutationRate, 20, 180);
+    Snake bestSnake = population.snakes[0];
+    text("SCORE : " + bestSnake.score, 20, 60);
+    text("BEST SCORE : " + population.getBestScore(), 180, 60); 
+    text("FITNESS : " + bestSnake.fitness, 20, 90);
+    text("GENERATION : " + population.getGeneration(), 20, 120);
+    text("REMAINING MOVES : " + bestSnake.remainingMoves, 20, 150);
+    text("MUTATION RATE : " + population.getMutationRate(), 20, 180);
   }
   public void show() {
     background(20);
@@ -86,6 +61,5 @@ public class Canvas {
     noFill();
     showDivisoryLine();
     showButtons();
-    showParameters();
   }
 }

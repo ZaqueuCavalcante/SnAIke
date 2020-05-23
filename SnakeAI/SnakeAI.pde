@@ -35,13 +35,8 @@ void setup() {
 }
 
 void draw() {
-  //canvas.setScore(rink.snake.score);
-  //canvas.setBestScore(population.bestSnake.score);
-  //canvas.setFitness(rink.snake.fitness);
-  //canvas.setGeneration(population.generation);
-  //canvas.setRemainingMoves(rink.snake.remainingMoves);
-  //canvas.setMutationRate(population.mutationRate);
   canvas.show();
+  canvas.showParameters(population);
 
   rink.show();
 
@@ -87,14 +82,10 @@ void draw() {
       print("\n");
     }
     if (canvas.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
-      //mutationRate += 0.5;
-      print("MR ++");
-      print("\n");
+      population.updateMutationRate(+1.0);
     }
     if (canvas.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
-      //mutationRate -= 0.5;
-      print("MR --");
-      print("\n");
+      population.updateMutationRate(-1.0);
     }
   }
 
