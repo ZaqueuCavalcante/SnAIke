@@ -26,6 +26,13 @@ public class Radar {
     distanceToFood.y = food.position.y - headPosition.y;
     distanceToFood.z = sqrt(pow(distanceToFood.x, 2) + pow(distanceToFood.y, 2));
   }
+  public void calculateDistanceToWalls(Head head, Rink rink) {
+    
+    
+    distanceToLeftWall;
+    distanceToFronttWall;
+    distanceToRightWall;
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {
     stroke(Color);
