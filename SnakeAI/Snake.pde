@@ -14,7 +14,7 @@ public class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    brain = new Brain();
+    brain = new Brain(7, 10, 2);
     radar = new Radar();
 
     score = 0;
@@ -27,17 +27,18 @@ public class Snake {
   public void setInitialPosition(Rink rink) {
     float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
     float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
-    //float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
-    //float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;;
+    head.setPosition(x, y);
+    body.setFirstPixelPosition(x, y + PIXEL_SIZE);
+  }
+  public randomInitialPosition(Rink rink) {
+    float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
+    float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
   public void setBrain() {
-    brain.setFirstLayerCenterPosition(80, 500);
-    brain.setInputNeuronsNumber(4);
-    brain.setHiddenNeuronsNumber(8);
-    brain.setOutputNeuronsNumber(2);
-    brain.setHorizontalDistanceBetweenLayers(120);
+    brain.setFirstLayerCenterPosition(100, 550);
+    brain.setHorizontalDistanceBetweenLayers(110);
     brain.setVerticalDistanceBetweenNeurons(70);
 
     brain.setInputLayer();
@@ -48,9 +49,12 @@ public class Snake {
     brain.inputLayer.setNeuronInputName(1, "Dx");
     brain.inputLayer.setNeuronInputName(2, "Dy");
     brain.inputLayer.setNeuronInputName(3, "Theta");
+    brain.inputLayer.setNeuronInputName(4, "Left Wall");
+    brain.inputLayer.setNeuronInputName(5, "Front Wall");
+    brain.inputLayer.setNeuronInputName(6, "Right Wall");
 
     brain.outputLayer.setNeuronOutputName(0, "Left");
-    brain.outputLayer.setNeuronOutputName(0, "Right");
+    brain.outputLayer.setNeuronOutputName(1, "Right");
 
     brain.connectLayers(brain.inputLayer, brain.hiddenLayer);
     brain.connectLayers(brain.hiddenLayer, brain.outputLayer);
