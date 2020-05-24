@@ -6,7 +6,9 @@
 
 final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
 final int POP_SIZE = 10;
+
 Canvas canvas;
+
 Rink rink;
 
 Population population;
@@ -18,11 +20,8 @@ void setup() {
   frameRate(15);
   canvas = new Canvas();
 
-
   rink = new Rink();
-  rink.setPosition(canvas);
-  rink.setSideSizes(canvas);
-  rink.setPixelPositions();
+  rink.autoSize(canvas);
 
   population = new Population(POP_SIZE);
   population.setInitialSnakes(rink);
@@ -30,7 +29,7 @@ void setup() {
 
   for (Snake snake : population.snakes) {
     rink.determineFreePositions(snake);
-    rink.addFood();
+    //rink.addFood();
   }
 }
 
@@ -41,7 +40,7 @@ void draw() {
   rink.show();
 
   for (Snake snake : population.snakes) {
-    rink.food.show();
+    //rink.food.show();
 
     snake.show();
     int rf = int(random(0, 4));
@@ -50,7 +49,7 @@ void draw() {
     } else if (rf == 1) {
       snake.head.moveRight();
     }
-    snake.move(rink);
+    snake.move(rink, food);
   }
 
   if (population.allSnakesIsDead()) {
@@ -60,46 +59,40 @@ void draw() {
 
     for (Snake snake : population.snakes) {
       rink.determineFreePositions(snake);
-      rink.addFood();
+      //rink.addFood();
     }
   }
 }
-
-  void mousePressed() {
-    if (canvas.saveButton.mouseAbove(mouseX, mouseY)) {
-      //selectOutput("Save Snake Model", "fileSelectedOut");
-      print("Save Snake Model");
-      print("\n");
-    }
-    if (canvas.loadButton.mouseAbove(mouseX, mouseY)) {
-      //selectInput("Load Snake Model", "fileSelectedIn");
-      print("Load Snake Model");
-      print("\n");
-    }
-    if (canvas.graphButton.mouseAbove(mouseX, mouseY)) {
-      //graph = new EvolutionGraph();
-      print("New graph");
-      print("\n");
-    }
-    if (canvas.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
-      population.updateMutationRate(+1.0);
-    }
-    if (canvas.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
-      population.updateMutationRate(-1.0);
-    }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+void mousePressed() {
+  if (canvas.saveButton.mouseAbove(mouseX, mouseY)) {
+    //selectOutput("Save Snake Model", "fileSelectedOut");
   }
-
-  void keyPressed() {
-    if (humanPlaying) {
-      if (key == CODED) {
-        switch(keyCode) {
-        case LEFT:
-          population.snakes[0].head.moveLeft();
-          break;
-        case RIGHT:
-          population.snakes[0].head.moveRight();
-          break;
-        }
+  if (canvas.loadButton.mouseAbove(mouseX, mouseY)) {
+    //selectInput("Load Snake Model", "fileSelectedIn");
+  }
+  if (canvas.graphButton.mouseAbove(mouseX, mouseY)) {
+    //graph = new EvolutionGraph();
+  }
+  if (canvas.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
+    population.updateMutationRate(+1.0);
+  }
+  if (canvas.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
+    population.updateMutationRate(-1.0);
+  }
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+void keyPressed() {
+  if (humanPlaying) {
+    if (key == CODED) {
+      switch(keyCode) {
+      case LEFT:
+        population.snakes[0].head.moveLeft();
+        break;
+      case RIGHT:
+        population.snakes[0].head.moveRight();
+        break;
       }
     }
   }
+}
