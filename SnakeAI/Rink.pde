@@ -10,28 +10,30 @@ public class Rink {
   
   private ArrayList<int[]> freePositions;
 
-  private Food food;
-
   Rink() {
     position = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setPosition(Canvas canvas) {
-    position.x = canvas.xDivisoryLine + PIXEL_SIZE;
+  public void autoSize(Canvas canvas) {
+    setPosition(canvas.xDivisoryLine);
+    setSideSizes(canvas.xDivisoryLine);
+    setDimensions();
+    setPixelPositions();
+  }
+  private void setPosition(float offsetX) {
+    position.x = offsetX + PIXEL_SIZE;
     position.y = PIXEL_SIZE;
   }
-  public void setSideSizes(Canvas canvas) {
-    Width = width - canvas.xDivisoryLine - 2*PIXEL_SIZE;
+  private void setSideSizes(float offsetX) {
+    Width = width - offsetX - 2*PIXEL_SIZE;
     Height = height - 2*PIXEL_SIZE;
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setDimensions() {
+  private void setDimensions() {
     horizontalPixelNumber = int(Width/PIXEL_SIZE);
     verticalPixelNumber = int(Height/PIXEL_SIZE);
     pixelPositions = new PVector[verticalPixelNumber][horizontalPixelNumber];
   }
-  public void setPixelPositions() {
-    setDimensions();
+  private void setPixelPositions() {
     for (int row = 0; row < verticalPixelNumber; row++) {
       for (int column = 0; column < horizontalPixelNumber; column++) {
         PVector currentPixelPosition = new PVector();
@@ -42,22 +44,27 @@ public class Rink {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  private boolean checksHeadMatch(float x, float y, Head head) {
+    return (x == head.getPosition().x) && (y == head.getPosition().y);
+  }
+  private boolean checksBodyMatch(float x, float y, Body body) {
+    for (Vector bodyPosition : body.position) {
+      if ((pixelX == bodyPosition.x) && (pixelY == bodyPosition.y)) {
+        return true;
+      }
+    }
+    return false;
+  }
   public void determineFreePositions(Snake snake) {
     freePositions = new ArrayList<int[]>();
     for (int row = 0; row < verticalPixelNumber; row++) {
       for (int column = 0; column < horizontalPixelNumber; column++) {
         float pixelX = pixelPositions[row][column].x;
         float pixelY = pixelPositions[row][column].y;
-        boolean headMatchX = (pixelX == snake.head.getPosition().x);
-        boolean headMatchY = (pixelY == snake.head.getPosition().y);
-        boolean headMatch = headMatchX && headMatchY;
-        boolean bodyMatch = false;
-        for (Vector bodyPosition : snake.body.position) {
-          if (pixelX == bodyPosition.x && pixelY == bodyPosition.y) {
-            bodyMatch = true;
-            break;
-          }
-        }
+
+        boolean headMatch = checksHeadMatch(pixelX, pixelY, snake.head);
+        boolean bodyMatch = checksBodyMatch(pixelX, pixelY, snake.body);
+
         if (!headMatch && !bodyMatch) {
           int[] freePositonIndexes = new int[2];
           freePositonIndexes[0] = row;
@@ -66,16 +73,21 @@ public class Rink {
         }
       }
     }
+    print("Free positions = ", freePositions.size());
+    print("\n");
   }
-  public void addFood() {
-    food = new Food();
-    int index = int(random(freePositions.size()));
-    int[] freePosition = freePositions.get(index);
-    int row = freePosition[0];
-    int column = freePosition[1];
-    float x = pixelPositions[row][column].x;
-    float y = pixelPositions[row][column].y;
-    food.setPosition(x, y);
+  public void addFood(Snake snake, Food food) {
+    boolean foodOutside = (food.getPosition().x == 0.0) && (food.getPosition().y);
+    if (foodOutside) {
+      determineFreePositions(snake);
+      int index = int(random(freePositions.size()));
+      int[] freePosition = freePositions.get(index);
+      int row = freePosition[0];
+      int column = freePosition[1];
+      food.setPosition(pixelPositions[row][column].x, pixelPositions[row][column].y);
+    } else {
+      food.show();
+    }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void showPixelStrokes() {
