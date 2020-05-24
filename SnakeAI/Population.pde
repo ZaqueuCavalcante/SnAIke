@@ -7,6 +7,7 @@ public class Population {
 
   private Snake[] snakes;
   private int[] ranking;
+  private int bestSnakeIndex;
 
   private float[] snakesFitness;
 
@@ -79,6 +80,7 @@ public class Population {
       ranking[i] = j;
       snakesFitness[j] = -1.0;
     }
+    bestSnakeIndex = ranking[0];
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void makeIndexesArray() {
@@ -111,7 +113,7 @@ public class Population {
     int cutLocation = int(random(1, genomeSize));
 
     for (int i = cutLocation; i < genomeSize; i++) {
-      mother.brain.links.get(i).weight = father.brain.links.get(i).weight;
+      mother.brain.links.get(i).setWeight( father.brain.links.get(i).getWeight() );
     }
 
     Snake son = mother.clone();
