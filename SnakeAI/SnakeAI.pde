@@ -5,13 +5,16 @@
 // Tentar fugir dela.
 
 final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
-final int POP_SIZE = 10;
+final int POP_SIZE = 1;
 
 Canvas canvas;
 
 Rink rink;
 
 Population population;
+// population = new Population(POP_SIZE);
+// population.setInitialSnakes(rink);
+// population.setInitialRanking();
 
 boolean humanPlaying = true;
 
@@ -23,13 +26,8 @@ void setup() {
   rink = new Rink();
   rink.autoSize(canvas);
 
-  population = new Population(POP_SIZE);
-  population.setInitialSnakes(rink);
-  population.setInitialRanking();
-
   for (Snake snake : population.snakes) {
-    rink.determineFreePositions(snake);
-    //rink.addFood();
+    rink.addFood(snake, food);
   }
 }
 

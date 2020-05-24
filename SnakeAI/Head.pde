@@ -42,7 +42,5 @@ public class Head {
     stroke(255);
     rectMode(CENTER);
     rect(position.x, position.y, PIXEL_SIZE, PIXEL_SIZE);
-    //position.show();
-    velocity.show();
   }
 }

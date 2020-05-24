@@ -4,12 +4,12 @@ public class Body {
   private color Color;
 
   Body() {
-    this.position = new ArrayList<Vector>();
-    this.setColor(color(random(255), random(255), random(255)));
+    position = new ArrayList<Vector>();
+    Color = color(random(255), random(255), random(255));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setFirstPixelPosition(float x, float y) {
-    this.position.add(new Vector(x, y));
+    position.add(new Vector(x, y));
   }
   public ArrayList<Vector> getPosition() {
     return position;
@@ -42,11 +42,11 @@ public class Body {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {
-    fill(this.Color);
+    fill(Color);
     stroke(255);
-    for (int i = 0; i < this.position.size(); i++) {
+    for (int i = 0; i < position.size(); i++) {
       rectMode(CENTER);
-      rect(this.position.get(i).x, this.position.get(i).y, PIXEL_SIZE, PIXEL_SIZE);
+      rect(position.get(i).x, position.get(i).y, PIXEL_SIZE, PIXEL_SIZE);
     }
   }
 }
