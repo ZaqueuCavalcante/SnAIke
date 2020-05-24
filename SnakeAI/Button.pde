@@ -4,12 +4,12 @@ public class Button {
   private float Width, Height;
   private String text;
 
-  Button(float x_, float y_, float Width_, float Height_, String text_) {
-    x = x_;
-    y = y_;
-    Width = Width_;
-    Height = Height_;
-    text = text_;
+  Button(float x, float y, float Width, float Height, String text) {
+    this.x = x;
+    this.y = y;
+    this.Width = Width;
+    this.Height = Height;
+    this.text = text;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean mouseAbove(float xMouse, float yMouse) {
