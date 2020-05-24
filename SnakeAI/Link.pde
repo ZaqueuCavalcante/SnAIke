@@ -13,7 +13,7 @@ public class Link {
     this.arrivalNeuron = arrivalNeuron;
 
     weight = random(-1000.0, 1000.0);
-    valueCarried = sourceNeuron.outputValue;
+    valueCarried = sourceNeuron.getOutputValue();
 
     Color = color(80);
   }
@@ -21,8 +21,14 @@ public class Link {
   public void setWeight(float weight) {
     this.weight = weight;
   }
+  public float getWeight() {
+    return weight;
+  }
   public void setValueCarried(float valueCarried) {
     this.valueCarried = valueCarried;
+  }
+  public float getValueCarried() {
+    return valueCarried;
   }
   public void setColor(color Color) {
     this.Color = Color;
