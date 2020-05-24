@@ -24,7 +24,7 @@ public class Neuron {
     outputValue = 0.0;
 
     activationPotential = 0.0;
-    activated = false;
+    deactivate();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setPosition(float x, float y) {
@@ -53,9 +53,12 @@ public class Neuron {
   public void setOutputValue(float outputValue) {
     this.outputValue = outputValue;
   }
+  public float getOutputValue() {
+    return outputValue;
+  }
   public void clearValues() {
     inputValues.clear();
-    weight.clear();
+    weights.clear();
     outputValue = 0.0;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
