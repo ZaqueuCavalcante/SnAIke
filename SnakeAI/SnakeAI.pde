@@ -1,4 +1,4 @@
-// Duas ou mais cobras competindo no mesmo ambiente. //<>//
+// Duas ou mais cobras competindo no mesmo ambiente. //<>// //<>//
 // Uma pode matar a outra, se comer seu rabo.
 // Adicionar obstáculos. Pedras. Análogo a classe Food.
 // Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
@@ -12,9 +12,8 @@ Canvas canvas;
 Rink rink;
 
 Population population;
-// population = new Population(POP_SIZE);
-// population.setInitialSnakes(rink);
-// population.setInitialRanking();
+
+Basket basket;
 
 boolean humanPlaying = true;
 
@@ -26,39 +25,37 @@ void setup() {
   rink = new Rink();
   rink.autoSize(canvas);
 
-  for (Snake snake : population.snakes) {
-    rink.addFood(snake, food);
+  population = new Population(POP_SIZE);
+  population.setInitialSnakes(rink);
+  population.setInitialRanking();
+
+  basket = new Basket(POP_SIZE);
+  basket.setInitialFoods();
+
+  for (int i = 0; i < POP_SIZE; i++) {
+    rink.addFood(population.snakes[i], basket.foods[i]);
   }
 }
 
 void draw() {
   canvas.show();
   canvas.showParameters(population);
-
+  
   rink.show();
 
-  for (Snake snake : population.snakes) {
-    //rink.food.show();
+  for (int i = 0; i < POP_SIZE; i++) {
+    Snake currentSnake = population.snakes[i];
+    Food currentFood = basket.foods[i];
 
-    snake.show();
-    int rf = int(random(0, 4));
-    if (rf == 0) {
-      snake.head.moveLeft();
-    } else if (rf == 1) {
-      snake.head.moveRight();
-    }
-    snake.move(rink, food);
+    currentSnake.show();
+    currentSnake.brain.show();
+    rink.addFood(currentSnake, currentFood);
+    currentFood.show();
+    currentSnake.move(rink, currentFood);
   }
 
   if (population.allSnakesIsDead()) {
-    population = new Population(POP_SIZE);
-    population.setInitialSnakes(rink);
-    population.setInitialRanking();
-
-    for (Snake snake : population.snakes) {
-      rink.determineFreePositions(snake);
-      //rink.addFood();
-    }
+    setup();
   }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -86,6 +83,7 @@ void keyPressed() {
       switch(keyCode) {
       case LEFT:
         population.snakes[0].head.moveLeft();
+        population.snakes[0].brain.outputLayer.neurons.get(0).activate();
         break;
       case RIGHT:
         population.snakes[0].head.moveRight();
