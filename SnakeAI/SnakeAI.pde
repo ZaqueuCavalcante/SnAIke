@@ -5,14 +5,12 @@
 // Tentar fugir dela.
 
 final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
-final int POP_SIZE = 1;
+final int POP_SIZE = 10;
 
 Canvas canvas;
-
 Rink rink;
 
 Population population;
-
 Basket basket;
 
 boolean humanPlaying = true;
@@ -26,7 +24,7 @@ void setup() {
   rink.autoSize(canvas);
 
   population = new Population(POP_SIZE);
-  population.setInitialSnakes(rink);
+  population.randomInitialSnakes(rink);
   population.setInitialRanking();
 
   basket = new Basket(POP_SIZE);
@@ -83,7 +81,6 @@ void keyPressed() {
       switch(keyCode) {
       case LEFT:
         population.snakes[0].head.moveLeft();
-        population.snakes[0].brain.outputLayer.neurons.get(0).activate();
         break;
       case RIGHT:
         population.snakes[0].head.moveRight();

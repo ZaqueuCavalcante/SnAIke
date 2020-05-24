@@ -50,6 +50,14 @@ public class Population {
       snakes[i].setBrain();
     }
   }
+  public void randomInitialSnakes(Rink rink) {
+    snakes = new Snake[size];
+    for (int i = 0; i < size; i++) {
+      snakes[i] = new Snake();
+      snakes[i].randomInitialPosition(rink);
+      snakes[i].setBrain();
+    }
+  }
   public void setPositions(Rink rink) {
     for (Snake snake : snakes) {
       snake.setInitialPosition(rink);

@@ -30,7 +30,7 @@ public class Snake {
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
-  public randomInitialPosition(Rink rink) {
+  public void randomInitialPosition(Rink rink) {
     float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
     float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;;
     head.setPosition(x, y);
