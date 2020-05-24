@@ -49,7 +49,7 @@ public class Rink {
   }
   private boolean checksBodyMatch(float x, float y, Body body) {
     for (Vector bodyPosition : body.position) {
-      if ((pixelX == bodyPosition.x) && (pixelY == bodyPosition.y)) {
+      if ((x == bodyPosition.x) && (y == bodyPosition.y)) {
         return true;
       }
     }
@@ -77,7 +77,7 @@ public class Rink {
     print("\n");
   }
   public void addFood(Snake snake, Food food) {
-    boolean foodOutside = (food.getPosition().x == 0.0) && (food.getPosition().y);
+    boolean foodOutside = (food.getPosition().x == 0.0) && (food.getPosition().y == 0.0);
     if (foodOutside) {
       determineFreePositions(snake);
       int index = int(random(freePositions.size()));
