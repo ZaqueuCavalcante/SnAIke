@@ -17,9 +17,9 @@ public class Snake {
     brain = new Brain();
     radar = new Radar();
 
-    setScore(0);
-    setRemainingMoves(100);
-    setFitness(0.0);
+    score = 0;
+    remainingMoves = 100;
+    fitness = 0.0;
 
     live();
   }
@@ -63,7 +63,7 @@ public class Snake {
     increaseRemainingMoves(100);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public boolean bodyCollide() {  // Check if the head collides with self body.
+  public boolean bodyCollide() {
     for (int i = 0; i < body.position.size(); i++) {
       if (head.position.x == body.position.get(i).x && head.position.y == body.position.get(i).y) {
         return true;
@@ -71,13 +71,13 @@ public class Snake {
     }
     return false;
   }
-  public boolean foodCollide(Food food) {  // Checks if the head collides with the food.
+  public boolean foodCollide(Food food) {
     if (head.position.x == food.position.x && head.position.y == food.position.y) {
       return true;
     }
     return false;
   }
-  public boolean wallCollide(Rink rink) {  // Checks if the head collides with the rink's wall.
+  public boolean wallCollide(Rink rink) {
     boolean headInsideRinkWidth = (head.position.x < rink.position.x) || (head.position.x > rink.position.x+rink.Width);
     boolean headInsideRinkHeight = (head.position.y < rink.position.y) || (head.position.y > rink.position.y+rink.Height);
     if (headInsideRinkWidth || headInsideRinkHeight) {
@@ -86,7 +86,7 @@ public class Snake {
     return false;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void move(Rink rink) { 
+  public void move(Rink rink, Food food) { 
     if (wallCollide(rink)) {
       die();
     }
@@ -96,22 +96,18 @@ public class Snake {
     if (remainingMovesFinish()) {
       die();
     }
-    if (foodCollide(rink.food)) {
+    if (foodCollide(food)) {
       eat();
-      rink.determineFreePositions(this);
-      rink.addFood();
+      food.setPosition(0.0, 0.0);
     }
     if (isNotDead()) {
       PVector headPreviousPosition = new PVector(head.position.x, head.position.y);
       head.move();
       body.move(headPreviousPosition);
-      decreaseRemainingMoves();
+      decreaseRemainingMoves(1);
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setScore(int score_) {
-    score = score_;
-  }
   public int getScore() {
     return score;
   }
@@ -119,17 +115,14 @@ public class Snake {
     score += scoreIncrement;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setRemainingMoves(int remainingMoves_) {
-    remainingMoves = remainingMoves_;
-  }
   public int getRemainingMoves() {
     return remainingMoves;
   }
-  public void increaseRemainingMoves(int remainingMovesIncrement) {
-    remainingMoves += remainingMovesIncrement;
+  public void increaseRemainingMoves(int increment) {
+    remainingMoves += increment;
   }
-  public void decreaseRemainingMoves() {
-    remainingMoves --;
+  public void decreaseRemainingMoves(int decrement) {
+    remainingMoves -= decrement;
   }
   public boolean remainingMovesFinish() {
     if (remainingMoves == 0) {
