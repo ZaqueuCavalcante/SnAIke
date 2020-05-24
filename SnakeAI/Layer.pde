@@ -1,25 +1,23 @@
 public class Layer {
 
+  private int neuronsNumber;
   private ArrayList<Neuron> neurons;
 
   private Vector centerPosition;
-  private int neuronsNumber;
   private float verticalDistance;
 
-  Layer() {
+  Layer(int neuronsNumber) {
+    this.neuronsNumber = neuronsNumber;
     neurons = new ArrayList<Neuron>();
     centerPosition = new Vector();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setCenterPosition(float x_, float y_) {
-    centerPosition.x = x_;
-    centerPosition.y = y_;
+  public void setCenterPosition(float x, float y) {
+    centerPosition.x = x;
+    centerPosition.y = y;
   }
-  public void setNeuronsNumber(int neuronsNumber_) {
-    neuronsNumber = neuronsNumber_;
-  }
-  public void setVerticalDistance(float verticalDistance_) {
-    verticalDistance = verticalDistance_;
+  public void setVerticalDistance(float verticalDistance) {
+    this.verticalDistance = verticalDistance;
   }
   public void setNeuronInputName(int neuronIndex, String inputName) {
     neurons.get(neuronIndex).setInputName(inputName);
@@ -54,6 +52,5 @@ public class Layer {
     for (int i = 0; i < neurons.size(); i++) {
       neurons.get(i).show();
     }
-    //centerPosition.show();
   }
 }
