@@ -1,9 +1,10 @@
 public class Brain {
 
-  private Vector firstLayerCenterPosition;
+  private PVector distances;
 
-  private float horizontalDistanceBetweenLayers;
-  private float verticalDistanceBetweenNeurons;
+  private String[] inputNames = {"Bias", "Velocity X", "Velocity Y", "Food X", "Food Y", 
+                                 "Left Wall", "Front Wall", "Right Wall"};
+  private String[] outputNames = {"Left", "Right"};
 
   private Layer inputLayer;
   private Layer hiddenLayer;
@@ -11,45 +12,45 @@ public class Brain {
 
   private ArrayList<Link> links;
 
-  Brain(int inputNeuronsNumber, int hiddenNeuronsNumber, int outputNeuronsNumber) {
-    firstLayerCenterPosition = new Vector();
+  Brain(int hiddenNeuronsNumber) {
+    distances = new PVector();
 
-    inputLayer = new Layer(inputNeuronsNumber);
+    inputLayer = new Layer(inputNames.length);
     hiddenLayer = new Layer(hiddenNeuronsNumber);
-    outputLayer = new Layer(outputNeuronsNumber);
+    outputLayer = new Layer(outputNames.length);
 
     links = new ArrayList<Link>();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setFirstLayerCenterPosition(float x, float y) {
-    firstLayerCenterPosition.x = x;
-    firstLayerCenterPosition.y = y;
+  public void setDistances(float distanceLayers, float distanceNeurons) {
+    distances.x = distanceLayers;
+    distances.y = distanceNeurons;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setHorizontalDistanceBetweenLayers(float horizontalDistance) {
-    horizontalDistanceBetweenLayers = horizontalDistance;
+  private void setLayer(Layer layer, float x, float y) {
+    layer.setCenterPosition(x, y);
+    layer.setVerticalDistance(distances.y);
+    layer.setNeuronsPostions();
   }
-  public void setVerticalDistanceBetweenNeurons(float verticalDistance) {
-    verticalDistanceBetweenNeurons = verticalDistance;
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setInputLayer() {
-    inputLayer.setCenterPosition(firstLayerCenterPosition.x, firstLayerCenterPosition.y);
-    inputLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
-    inputLayer.setNeuronsPostions();
-  }
-  public void setHiddenLayer() {
-    hiddenLayer.setCenterPosition(firstLayerCenterPosition.x + horizontalDistanceBetweenLayers, firstLayerCenterPosition.y);
-    hiddenLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
-    hiddenLayer.setNeuronsPostions();
-  }
-  public void setOutputLayer() {
-    outputLayer.setCenterPosition(firstLayerCenterPosition.x + 2*horizontalDistanceBetweenLayers, firstLayerCenterPosition.y);
-    outputLayer.setVerticalDistance(verticalDistanceBetweenNeurons);
-    outputLayer.setNeuronsPostions();
+  public void setLayersPositions(float firstLayerX, float firstLayerY) {
+    setLayer(inputLayer, firstLayerX, firstLayerY);
+    setLayer(hiddenLayer, firstLayerX + distances.x, firstLayerY);
+    setLayer(outputLayer, firstLayerX + 2*distances.x, firstLayerY);
+    setInputOutputNames();
+    connectLayers(hiddenLayer, outputLayer);
+    connectLayers(inputLayer, hiddenLayer);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void connectLayers(Layer leftLayer, Layer rightLayer) {
+  private void setInputOutputNames() {
+    for (int c = 0; c < inputNames.length; c++) {
+      inputLayer.neurons.get(c).setInputName(inputNames[c]);
+    }
+    for (int c = 0; c < outputNames.length; c++) {
+      outputLayer.neurons.get(c).setOutputName(outputNames[c]);
+    }
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  private void connectLayers(Layer leftLayer, Layer rightLayer) {
     for (int i = 0; i < leftLayer.neuronsNumber; i++) {
       for (int j = 0; j < rightLayer.neuronsNumber; j++) {
         Link link = new Link(leftLayer.neurons.get(i), rightLayer.neurons.get(j));
