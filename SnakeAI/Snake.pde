@@ -14,7 +14,7 @@ public class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    brain = new Brain(7, 10, 2);
+    brain = new Brain(10);
     radar = new Radar();
 
     score = 0;
@@ -37,29 +37,9 @@ public class Snake {
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
   public void setBrain() {
-    brain.setFirstLayerCenterPosition(100, 550);
-    brain.setHorizontalDistanceBetweenLayers(110);
-    brain.setVerticalDistanceBetweenNeurons(70);
-
-    brain.setInputLayer();
-    brain.setHiddenLayer();
-    brain.setOutputLayer();
-
-    brain.inputLayer.setNeuronInputName(0, "Bias");
-    brain.inputLayer.setNeuronInputName(1, "Dx");
-    brain.inputLayer.setNeuronInputName(2, "Dy");
-    brain.inputLayer.setNeuronInputName(3, "Theta");
-    brain.inputLayer.setNeuronInputName(4, "Left Wall");
-    brain.inputLayer.setNeuronInputName(5, "Front Wall");
-    brain.inputLayer.setNeuronInputName(6, "Right Wall");
-
-    brain.outputLayer.setNeuronOutputName(0, "Left");
-    brain.outputLayer.setNeuronOutputName(1, "Right");
-
-    brain.connectLayers(brain.inputLayer, brain.hiddenLayer);
-    brain.connectLayers(brain.hiddenLayer, brain.outputLayer);
+    brain.setDistances(110, 70);
+    brain.setLayersPositions(100, 550);
   }
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void eat() {
     body.addPixel();
@@ -136,8 +116,8 @@ public class Snake {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setFitness(float fitness_) {
-    fitness = fitness_;
+  public void setFitness(float fitness) {
+    this.fitness = fitness;
   }
   public float getFitness() {
     return fitness;
