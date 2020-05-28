@@ -1,19 +1,10 @@
-// Duas ou mais cobras competindo no mesmo ambiente. //<>// //<>//
-// Uma pode matar a outra, se comer seu rabo.
-// Adicionar obstáculos. Pedras. Análogo a classe Food.
-// Depois que a AI estiver treinada, colocar as coordenadas da comida iguais as do mouse;
-// Tentar fugir dela.
-
 final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square that forms the snake, the food and the rink.
 final int POP_SIZE = 10;
 
 Canvas canvas;
 Rink rink;
-
 Population population;
 Basket basket;
-
-boolean humanPlaying = true;
 
 void setup() {
   size(1800, 920);
@@ -76,16 +67,14 @@ void mousePressed() {
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 void keyPressed() {
-  if (humanPlaying) {
-    if (key == CODED) {
-      switch(keyCode) {
-      case LEFT:
-        population.snakes[0].head.moveLeft();
-        break;
-      case RIGHT:
-        population.snakes[0].head.moveRight();
-        break;
-      }
+  if (key == CODED) {
+    switch(keyCode) {
+    case LEFT:
+      population.snakes[0].head.moveLeft();
+      break;
+    case RIGHT:
+      population.snakes[0].head.moveRight();
+      break;
     }
   }
 }
