@@ -43,6 +43,15 @@ public class Rink {
       }
     }
   }
+  public Vector getPosition() {
+    return position;
+  }
+  public float getWidth() {
+    return Width;
+  }
+  public float getHeight() {
+    return Height;
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private boolean checksHeadMatch(float x, float y, Head head) {
     return (x == head.getPosition().x) && (y == head.getPosition().y);
