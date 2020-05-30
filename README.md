@@ -106,12 +106,17 @@ Esta probabilidade é proporcional à posição da cobra no ranking.
 Quanto menor o index, maior a chance de ser escolhido.
 Note que eventualmente mãe e pai podem ser a mesma cobra. Equivaleria a um clone ou elitismo.
     
+#### 2.2.3 - Cruzamento
+
+#### 2.2.4 - Mutação
 
 Como adiantado acima, aqui as cobras se **reproduzirão** e sofrerão eventuais **mutações** para formar uma prole que **herde** as características das mochilas mais aptadas.
 
 <img src='images\snake-MIT-1985.GIF' width='400' height='300' title="snake-MIT-1985"/>
 
-Desta forma, se pretende que as populações apresentem mochilas cada vez melhores ao passar das gerações, convergindo para as melhores soluções ao final.
+#### 2.2.5 - Melhor Cobra
+
+Desta forma, se pretende que as populações apresentem cobras cada vez melhores ao passar das gerações, convergindo para as melhores soluções ao final.
 
 
 
