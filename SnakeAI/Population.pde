@@ -102,14 +102,11 @@ public class Population {
     }
   }
   public int[] selectCouple() {
-    // Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
-    // Esta probabilidade é proporcional à posição da cobra no ranking. 
-    // Quanto menor o index, maior a chance de ser escolhido.
-    // Cobras nazistas do Rick and Morty.
-    // Note que eventualmente mãe e pai podem ser a mesma cobra. Equivaleria a um clone ou elitismo.
     int[] coupleIndexes = new int[2];
-    coupleIndexes[0] = indexesArray[int(random(indexesArray.length))];  // Mother index.
-    coupleIndexes[1] = indexesArray[int(random(indexesArray.length))];  // Father index.
+    int motherIndexInRankingArray = indexesArray[int(random(indexesArray.length))];
+    int fatherIndexInRankingArray = indexesArray[int(random(indexesArray.length))];
+    coupleIndexes[0] = ranking[motherIndexInRankingArray];
+    coupleIndexes[1] = ranking[fatherIndexInRankingArray];
     return coupleIndexes;
   }
 

@@ -2,7 +2,7 @@ final float PIXEL_SIZE = 40.0;  // Length of the side of the elementary square t
 final int POP_SIZE = 10;
 
 Canvas canvas;
-Rink rink;
+Rink rink;        
 Population population;
 Basket basket;
 
