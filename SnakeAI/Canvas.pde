@@ -30,11 +30,11 @@ public class Canvas {
     decreaseMutationRateButton = new Button(250, 170, 20, 20, "-");
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void showDivisoryLine() {
+  private void showDivisoryLine() {
     stroke(255);
     line(xDivisoryLine, 0, xDivisoryLine, height);
   }
-  public void showButtons() {
+  private void showButtons() {
     saveButton.show();
     loadButton.show();
     graphButton.show();
@@ -49,9 +49,13 @@ public class Canvas {
     text("SCORE : " + bestSnake.getScore(), 20, 60);
     text("BEST SCORE : " + population.getBestScore(), 180, 60); 
     text("FITNESS : " + bestSnake.getFitness(), 20, 90);
-    text("GENERATION : " + population.getGeneration(), 20, 120);
+    text("GENERATION : " + population.getGeneration() + " / " + population.getGenerationLimit(), 20, 120);
     text("REMAINING MOVES : " + bestSnake.getRemainingMoves(), 20, 150);
     text("MUTATION RATE : " + population.getMutationRate(), 20, 180);
+  }
+  public void showBestSnakeBrain(Population population) {
+    int bestSnakeIndex = population.ranking[0];
+    population.snakes[bestSnakeIndex].brain.show();
   }
   public void show() {
     background(20);
