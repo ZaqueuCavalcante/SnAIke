@@ -1,7 +1,7 @@
 public class Pixel {
 
     private Vector position;
-    private size;
+    private float size;
     private color Color;
 
     Pixel(float x, float y) {
