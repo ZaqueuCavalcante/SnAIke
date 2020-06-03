@@ -91,6 +91,8 @@ public int[] selectCouple() {
 ```
 Ele, como o próprio nome diz, seleciona duas cobras para formar um casal, retornando um vetor com seus respectivos índices. Essa seleção é ponderada, ou seja, a probabilidade de ser escolhida depende da posição no ranking, como explicado a seguir.
 
+Cobras transam consigo mesmas? Possuem ambos os órgãos?
+
 Os índices de cada cobra do casal vêm do vetor `indexesArray`. Ele possuiria os seguintes valores, para uma população de 5 cobras:
 
 ``` Java
