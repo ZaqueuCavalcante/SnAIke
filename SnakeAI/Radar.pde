@@ -25,19 +25,19 @@ public class Radar {
     boolean snakeVertically = cos(distanceToLeft.getTheta()) == 0;
     boolean snakeHorizontally = sin(distanceToLeft.getTheta()) == 0;
 
-    if () {
+    //if () {
 
-    }
+    //}
 
     boolean widthOut = (distanceToLeft.x < rink.getPosition().x) || (distanceToLeft.x > rink.getPosition().x + rink.getWidth());
     boolean heightOut = (distanceToLeft.y < rink.getPosition().y) || (distanceToLeft.y > rink.getPosition().y + rink.getHeight());
-
+    return 0.0;
 
   }
   public void calculateDistanceToWalls(Head head, Rink rink) {
-    distanceToLeftWall = 0;
-    distanceToFronttWall = 0;
-    distanceToRightWall = 0;
+    //distanceToLeftWall = 0;
+    //distanceToFronttWall = 0;
+    //distanceToRightWall = 0;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {
