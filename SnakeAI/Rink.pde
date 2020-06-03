@@ -10,16 +10,14 @@ public class Rink {
   
   private ArrayList<int[]> freePositions;
 
-  Rink() {
+  Rink(Canvas canvas) {
     position = new Vector();
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void autoSize(Canvas canvas) {
     setPosition(canvas.xDivisoryLine);
     setSideSizes(canvas.xDivisoryLine);
     setDimensions();
     setPixelPositions();
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setPosition(float offsetX) {
     position.x = offsetX + PIXEL_SIZE;
     position.y = PIXEL_SIZE;
@@ -43,6 +41,7 @@ public class Rink {
       }
     }
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public Vector getPosition() {
     return position;
   }
@@ -70,10 +69,8 @@ public class Rink {
       for (int column = 0; column < horizontalPixelNumber; column++) {
         float pixelX = pixelPositions[row][column].x;
         float pixelY = pixelPositions[row][column].y;
-
         boolean headMatch = checksHeadMatch(pixelX, pixelY, snake.head);
         boolean bodyMatch = checksBodyMatch(pixelX, pixelY, snake.body);
-
         if (!headMatch && !bodyMatch) {
           int[] freePositonIndexes = new int[2];
           freePositonIndexes[0] = row;
@@ -82,8 +79,6 @@ public class Rink {
         }
       }
     }
-    print("Free positions = ", freePositions.size());
-    print("\n");
   }
   public void addFood(Snake snake, Food food) {
     boolean foodOutside = (food.getPosition().x == 0.0) && (food.getPosition().y == 0.0);
@@ -96,6 +91,11 @@ public class Rink {
       food.setPosition(pixelPositions[row][column].x, pixelPositions[row][column].y);
     } else {
       food.show();
+    }
+  }
+  public void addInitialFoods(Population population, Basket basket) {
+    for (int i = 0; i < population.size; i++) {
+      this.addFood(population.snakes[i], basket.foods[i]);
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
