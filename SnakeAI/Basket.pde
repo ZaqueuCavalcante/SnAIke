@@ -4,7 +4,8 @@ public class Basket {
   private Food[] foods;
 
 	Basket(int size) {
-			this.size = size;
+		this.size = size;
+		setInitialFoods();
 	}
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	public void setInitialFoods() {
@@ -14,4 +15,3 @@ public class Basket {
 		}
 	}
 }
-
