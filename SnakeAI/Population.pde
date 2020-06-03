@@ -2,13 +2,12 @@ public class Population {
 
   private int size;
   private int generation;
+  private int generationLimit;
   private float mutationRate;
   private int bestScore;
 
   private Snake[] snakes;
   private int[] ranking;
-  private int bestSnakeIndex;
-
   private float[] snakesFitness;
 
   private int[] indexesArray;
@@ -16,7 +15,9 @@ public class Population {
   Population(int size) {
     this.size = size;
     generation = 0;
+    generationLimit = 42;
     mutationRate = 5.0;
+    runSnakesFactory();
     snakesFitness = new float[size];
     makeIndexesArray();
   }
@@ -27,6 +28,15 @@ public class Population {
   public void updateGeneration() {
     generation ++;
   }
+  public void setGenerationLimit(int generationLimit) {
+    this.generationLimit = generationLimit;
+  }
+  public int getGenerationLimit() {
+    return generationLimit;
+  }
+  public boolean aboveGenerationLimit() {
+    return generation > generationLimit;
+  } 
   public float getMutationRate() {
     return mutationRate;
   }
@@ -42,25 +52,20 @@ public class Population {
     return bestScore;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setInitialSnakes(Rink rink) {
+  private void runSnakesFactory() {
     snakes = new Snake[size];
     for (int i = 0; i < size; i++) {
       snakes[i] = new Snake();
-      snakes[i].setInitialPosition(rink);
-      snakes[i].setBrain();
-    }
-  }
-  public void randomInitialSnakes(Rink rink) {
-    snakes = new Snake[size];
-    for (int i = 0; i < size; i++) {
-      snakes[i] = new Snake();
-      snakes[i].randomInitialPosition(rink);
-      snakes[i].setBrain();
     }
   }
   public void setPositions(Rink rink) {
     for (Snake snake : snakes) {
       snake.setInitialPosition(rink);
+    }
+  }
+  private void setBrains() {
+    for (Snake snake : snakes) {
+      snake.setBrain();
     }
   }
   public void setInitialRanking() {
@@ -69,8 +74,18 @@ public class Population {
       ranking[i] = i;
     }
   }
+  public void reliveSnakes() {
+    for (Snake snake : snakes) {
+      snake.live();
+    }
+  }
+  public void resetRemainingMoves() {
+    for (Snake snake : snakes) {
+      snake.setRemainingMoves(1000);
+    }
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void calculateAllSnakesFitness() {
+  private void calculateAllSnakesFitness() {
     for (int i = 0; i < size; i++) {
       snakes[i].calculateFitness();
       snakesFitness[i] = snakes[i].fitness;
@@ -88,7 +103,6 @@ public class Population {
       ranking[i] = j;
       snakesFitness[j] = -1.0;
     }
-    bestSnakeIndex = ranking[0];
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void makeIndexesArray() {
@@ -148,10 +162,10 @@ public class Population {
       mutation(newSnake);
       newSnakes[i] = newSnake;
     }
-    for (int i = 0; i < size; i++) {
-      snakes[i] = newSnakes[i];
-    }
-  }
+    for (int i = 0; i < size; i++) { //<>//
+      snakes[i] = newSnakes[i]; //<>//
+    } //<>//
+  } //<>//
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean allSnakesIsDead() {
     for (int i = 0; i < snakes.length; i++) {
@@ -160,17 +174,5 @@ public class Population {
       }
     }
     return true;
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void show(int snakesAmount) {
-    //snakes[bestSnakeIndex].brain.show();
-    if (snakesAmount > size) {
-      snakesAmount = size;
-    } 
-    for (int i = 0; i < snakesAmount; i++) {
-      if (snakes[i].isNotDead()) {
-        snakes[i].show();
-      }
-    }
   }
 }
