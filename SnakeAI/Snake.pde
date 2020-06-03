@@ -18,27 +18,25 @@ public class Snake {
     radar = new Radar();
 
     score = 0;
-    remainingMoves = 100;
+    remainingMoves = 1000;
     fitness = 0.0;
 
     live();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setInitialPosition(Rink rink) {
+    body = new Body();
     float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
     float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
-    head.setPosition(x, y);
-    body.setFirstPixelPosition(x, y + PIXEL_SIZE);
-  }
-  public void randomInitialPosition(Rink rink) {
-    float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;;
-    float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
   public void setBrain() {
     brain.setDistances(110, 70);
     brain.setLayersPositions(100, 550);
+  }
+  public void setRemainingMoves(int remainingMoves) {
+    this.remainingMoves = remainingMoves;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void eat() {
