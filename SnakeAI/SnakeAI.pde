@@ -1,17 +1,17 @@
-final float PIXEL_SIZE = 20.0;
+final float PIXEL_SIZE = 100.0;
 Canvas canvas;
 Rink rink;        
 Population population;
 Basket basket;
 
 void setup() {
-  size(1800, 920);
-  frameRate(1500);
+  size(1800, 900);
+  frameRate(2000);
   canvas = new Canvas();
   rink = new Rink(canvas);
 
-  population = new Population(5);
-  population.setGenerationLimit(50);
+  population = new Population(420);
+  population.setGenerationLimit(1000000);
   population.setPositions(rink);
   population.setBrains();
   population.setInitialRanking();
@@ -26,16 +26,16 @@ void draw() {
   canvas.showBestSnakeBrain(population);
   rink.show();
 
-
-
-
   for (int i = 0; i < population.size; i++) {
     Snake currentSnake = population.snakes[i];
     Food currentFood = basket.foods[i];
     if (currentSnake.isNotDead()) {
-      currentSnake.show();
+      // currentSnake.show();population.ranking[0]
+      population.snakes[0].show();
       rink.addFood(currentSnake, currentFood);
-      currentFood.show();
+      // currentFood.show();
+      basket.foods[0].show();
+
       currentSnake.move(rink, currentFood);
     }
   }
@@ -48,6 +48,8 @@ void draw() {
     population.resetRemainingMoves();
     population.setPositions(rink);
     population.updateGeneration();
+
+    println("BestSnakeIndex = ", population.ranking[0]);
   }
   if (population.aboveGenerationLimit()) {
     noLoop();
@@ -73,14 +75,14 @@ void mousePressed() {
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 void keyPressed() {
-  Snake playerSnake = population.snakes[0];
+  Snake playerSnake = population.snakes[population.ranking[0]];
   if (key == CODED) {
     switch(keyCode) {
     case LEFT:
-      playerSnake.head.moveLeft();
+      playerSnake.head.turnLeft();
       break;
     case RIGHT:
-      playerSnake.head.moveRight();
+      playerSnake.head.turnRight();
       break;
     }
   }
