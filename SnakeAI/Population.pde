@@ -16,7 +16,7 @@ public class Population {
     this.size = size;
     generation = 0;
     generationLimit = 42;
-    mutationRate = 5.0;
+    mutationRate = 2.0;
     runSnakesFactory();
     snakesFitness = new float[size];
     makeIndexesArray();
@@ -81,7 +81,7 @@ public class Population {
   }
   public void resetRemainingMoves() {
     for (Snake snake : snakes) {
-      snake.setRemainingMoves(1000);
+      snake.setRemainingMoves(20);
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -142,11 +142,13 @@ public class Population {
   public void mutation(Snake snake) {
     float snakeMutationProbability = random(0, 100);
     if (snakeMutationProbability <= mutationRate) {
+      println("XMEN");
       int genomeSize = snake.brain.links.size();
-      int genesNumberThatWillMutate = int(random(1, genomeSize));
+      int genesNumberThatWillMutate = int(random(1, genomeSize/12));
+      // println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));
-        float newWeight = random(-1000.0, 1000.0);
+        float newWeight = random(-1.0, 1.0);
         snake.brain.links.get(geneThatWillMutate).weight = newWeight;
       }
     }
