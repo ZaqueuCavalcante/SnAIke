@@ -45,7 +45,7 @@ public class Canvas {
     fill(150);
     textSize(20);
     textAlign(LEFT);
-    Snake bestSnake = population.snakes[0];
+    Snake bestSnake = population.snakes[population.ranking[0]];
     text("SCORE : " + bestSnake.getScore(), 20, 60);
     text("BEST SCORE : " + population.getBestScore(), 180, 60); 
     text("FITNESS : " + bestSnake.getFitness(), 20, 90);
