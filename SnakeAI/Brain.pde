@@ -10,6 +10,7 @@ public class Brain {
   private Layer hiddenLayer;
   private Layer outputLayer;
 
+  private float bias;
   private ArrayList<Link> links;
 
   Brain(int hiddenNeuronsNumber) {
@@ -20,6 +21,7 @@ public class Brain {
     outputLayer = new Layer(outputNames.length);
 
     links = new ArrayList<Link>();
+    bias = 1.0;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setDistances(float distanceLayers, float distanceNeurons) {
@@ -37,8 +39,8 @@ public class Brain {
     setLayer(hiddenLayer, firstLayerX + distances.x, firstLayerY);
     setLayer(outputLayer, firstLayerX + 2*distances.x, firstLayerY);
     setInputOutputNames();
-    connectLayers(hiddenLayer, outputLayer);
     connectLayers(inputLayer, hiddenLayer);
+    connectLayers(hiddenLayer, outputLayer);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setInputOutputNames() {
@@ -67,4 +69,81 @@ public class Brain {
     hiddenLayer.show();
     outputLayer.show();
   }
+
+  // Só gambiarra daqui pra baixo...
+
+  private void flowInputLayer(Head head, Radar radar, Rink rink) {
+    float perimetroMedio = (rink.Width + rink.Height) / 2;
+    inputLayer.neurons.get(0).setOutputValue(bias);
+    inputLayer.neurons.get(1).setOutputValue(int(cos(head.velocity.getTheta())));
+    inputLayer.neurons.get(2).setOutputValue(int(sin(head.velocity.getTheta())));
+    inputLayer.neurons.get(3).setOutputValue(20 * radar.distanceToFood.x / perimetroMedio);
+    inputLayer.neurons.get(4).setOutputValue(20 * radar.distanceToFood.y / perimetroMedio);
+    inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / perimetroMedio);
+    inputLayer.neurons.get(6).setOutputValue(radar.distanceToRight.size / perimetroMedio);
+    inputLayer.neurons.get(7).setOutputValue(radar.distanceToFront.size / perimetroMedio);
+  }
+
+  private void flowValuesInputToHidden() {
+    int pointer = 0;
+    for (int i = 0; i < inputLayer.neuronsNumber; i++) {
+      float inputValue = inputLayer.neurons.get(i).getOutputValue();
+      for (int j = 0; j < hiddenLayer.neuronsNumber; j++) {
+        hiddenLayer.neurons.get(j).addInputValue(inputValue);
+        float weight = links.get(pointer).getWeight();
+        hiddenLayer.neurons.get(j).addWeight(weight);
+        pointer ++;
+      }
+    }
+  }
+
+  private void flowHiddenLayer() {
+    for (Neuron neuron : hiddenLayer.neurons) {
+      neuron.calculateActivationPotential();
+      float output = neuron.BinaryStepFunction(neuron.activationPotential);
+      neuron.setOutputValue(output);
+    }
+  }
+
+  private void flowValuesHiddenToOutput() {
+    int pointer = inputLayer.neuronsNumber * hiddenLayer.neuronsNumber;
+    for (int i = 0; i < hiddenLayer.neuronsNumber; i++) {
+      float inputValue = hiddenLayer.neurons.get(i).getOutputValue();
+      for (int j = 0; j < outputLayer.neuronsNumber; j++) {
+        outputLayer.neurons.get(j).addInputValue(inputValue);
+        float weight = links.get(pointer).getWeight();
+        outputLayer.neurons.get(j).addWeight(weight);
+        pointer ++;
+      }
+    }
+  }
+
+  private void flowOutputLayer() {
+    for (Neuron neuron : outputLayer.neurons) {
+      neuron.calculateActivationPotential();
+      float output = neuron.BinaryStepFunction(neuron.activationPotential);
+      neuron.setOutputValue(output);
+      // println("Saida final = ", neuron.getOutputValue());
+    }
+    // println("----------------");
+  }
+
+  public void decideTurn(Head head) {
+    if (outputLayer.neurons.get(0).getOutputValue() < 0.0) {
+      head.turnLeft();
+    }
+    if (outputLayer.neurons.get(1).getOutputValue() > 0.0) {
+      head.turnRight();
+    }
+  }
+
+  public void clearValuesHiddenAndOutput() {
+    for (Neuron neuron : hiddenLayer.neurons) {
+      neuron.clearValues();
+    }
+    for (Neuron neuron : outputLayer.neurons) {
+      neuron.clearValues();
+    }
+  }
+
 }
