@@ -59,7 +59,6 @@ public class Neuron {
   public void clearValues() {
     inputValues.clear();
     weights.clear();
-    outputValue = 0.0;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void calculateActivationPotential() {
