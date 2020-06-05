@@ -14,11 +14,11 @@ public class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    brain = new Brain(10);
+    brain = new Brain(11);
     radar = new Radar();
 
-    score = 0;
-    remainingMoves = 1000;
+    score = 1;
+    remainingMoves = 50;
     fitness = 0.0;
 
     live();
@@ -28,6 +28,15 @@ public class Snake {
     body = new Body();
     float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
     float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+    head.setPosition(x, y);
+    if (body.position.size() < 2) {
+      body.setFirstPixelPosition(x, y + PIXEL_SIZE);
+    }
+  }
+  public void setInitialRandomPosition(Rink rink) {
+    body = new Body();
+    float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;
+    float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
@@ -40,9 +49,9 @@ public class Snake {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void eat() {
-    body.addPixel();
+    for (int i = 0; i < 5; i++) {body.addPixel();}
     increaseScore(1);
-    increaseRemainingMoves(100);
+    increaseRemainingMoves(20);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean bodyCollide() {
@@ -83,10 +92,25 @@ public class Snake {
       food.setPosition(0.0, 0.0);
     }
     if (isNotDead()) {
+      radar.calculateDistanceToFood(head, food);
+      radar.calculateDistanceToLeft(this, rink);
+      radar.calculateDistanceToFront(this, rink);
+      radar.calculateDistanceToRight(this, rink);
+
+      brain.flowInputLayer(head, radar, rink);
+      brain.flowValuesInputToHidden();
+      brain.flowHiddenLayer();
+      brain.flowValuesHiddenToOutput();
+      brain.flowOutputLayer();
+      brain.clearValuesHiddenAndOutput();
+
+      brain.decideTurn(head);
+
       PVector headPreviousPosition = new PVector(head.position.x, head.position.y);
       head.move();
       body.move(headPreviousPosition);
       decreaseRemainingMoves(1);
+
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -121,7 +145,7 @@ public class Snake {
     return fitness;
   }
   public void calculateFitness() {
-    float fitnessCalculated  = score*10 + remainingMoves/10;
+    float fitnessCalculated  = score*1000 / (remainingMoves + 1);
     setFitness(fitnessCalculated);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -141,11 +165,13 @@ public class Snake {
   public Snake clone() {
     Snake clonedSnake = new Snake();
     clonedSnake.brain = this.brain;
+    clonedSnake.body.Color = this.body.Color;
     return clonedSnake;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {
     head.show();
     body.show();
+    // radar.show();
   }
 }
