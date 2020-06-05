@@ -20,10 +20,10 @@ public class Head {
   public Vector getPosition() {
     return position;
   }
-  public  void moveLeft() { 
+  public  void turnLeft() { 
     velocity.incrementTheta(-PI/2);
   }
-  public void moveRight() { 
+  public void turnRight() { 
     velocity.incrementTheta(PI/2);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -35,6 +35,7 @@ public class Head {
     position.x += velocity.size*int(cos(velocity.getTheta()));
     position.y += velocity.size*int(sin(velocity.getTheta()));
     velocity.setOrigin(position.x, position.y);
+    velocity.updateTip();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {
@@ -42,5 +43,6 @@ public class Head {
     stroke(255);
     rectMode(CENTER);
     rect(position.x, position.y, PIXEL_SIZE, PIXEL_SIZE);
+    //velocity.show();
   }
 }
