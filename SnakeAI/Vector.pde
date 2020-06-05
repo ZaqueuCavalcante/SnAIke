@@ -17,7 +17,7 @@ class Vector {
   void setOrigin(float x, float y) {
     origin.x = x;
     origin.y = y;
-    updateTip();
+    // updateTip();
   }
   void setSize(float newSize) {
     size = newSize;
