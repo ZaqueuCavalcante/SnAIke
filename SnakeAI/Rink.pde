@@ -90,7 +90,7 @@ public class Rink {
       int column = freePosition[1];
       food.setPosition(pixelPositions[row][column].x, pixelPositions[row][column].y);
     } else {
-      food.show();
+      // food.show();
     }
   }
   public void addInitialFoods(Population population, Basket basket) {
