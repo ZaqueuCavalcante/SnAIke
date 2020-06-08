@@ -1,16 +1,18 @@
-final float PIXEL_SIZE = 100.0;
+final float PIXEL_SIZE = 50.0;
 Canvas canvas;
 Rink rink;        
 Population population;
 Basket basket;
 
+int fr = 500;
+
 void setup() {
   size(1800, 900);
-  frameRate(2000);
+  //frameRate(fr);
   canvas = new Canvas();
   rink = new Rink(canvas);
 
-  population = new Population(420);
+  population = new Population(300);
   population.setGenerationLimit(1000000);
   population.setPositions(rink);
   population.setBrains();
@@ -21,9 +23,10 @@ void setup() {
 }
 
 void draw() {
+  //frameRate(fr);
   canvas.show();
   canvas.showParameters(population);
-  canvas.showBestSnakeBrain(population);
+  //canvas.showBestSnakeBrain(population);
   rink.show();
 
   for (int i = 0; i < population.size; i++) {
@@ -79,10 +82,12 @@ void keyPressed() {
   if (key == CODED) {
     switch(keyCode) {
     case LEFT:
-      playerSnake.head.turnLeft();
+      // playerSnake.head.turnLeft();
+      fr = 10;
       break;
     case RIGHT:
-      playerSnake.head.turnRight();
+      // playerSnake.head.turnRight();
+      fr = 500;
       break;
     }
   }
