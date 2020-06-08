@@ -7,11 +7,13 @@ public class Food {
   private Vector position;
   private int nutritionalValue;
   private color Color;
+  boolean outside;
 
   Food() {
     position = new Vector(0.0, 0.0);
     Color = color(255, 0, 0);
     nutritionalValue = 1;
+    outside = true;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setPosition(float x, float y) {
