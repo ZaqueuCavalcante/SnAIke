@@ -16,7 +16,7 @@ public class Population {
     this.size = size;
     generation = 0;
     generationLimit = 42;
-    mutationRate = 2.0;
+    mutationRate = 5.0;
     runSnakesFactory();
     snakesFitness = new float[size];
     makeIndexesArray();
@@ -81,7 +81,7 @@ public class Population {
   }
   public void resetRemainingMoves() {
     for (Snake snake : snakes) {
-      snake.setRemainingMoves(20);
+      snake.setRemainingMoves(50);
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -102,6 +102,9 @@ public class Population {
       }
       ranking[i] = j;
       snakesFitness[j] = -1.0;
+    }
+    if (snakes[ranking[0]].score > bestScore) {
+      bestScore = snakes[ranking[0]].score;
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -142,7 +145,7 @@ public class Population {
   public void mutation(Snake snake) {
     float snakeMutationProbability = random(0, 100);
     if (snakeMutationProbability <= mutationRate) {
-      println("XMEN");
+      // println("XMEN");
       int genomeSize = snake.brain.links.size();
       int genesNumberThatWillMutate = int(random(1, genomeSize/12));
       // println("Genes Mutados = ", genesNumberThatWillMutate);
@@ -164,10 +167,15 @@ public class Population {
       mutation(newSnake);
       newSnakes[i] = newSnake;
     }
-    for (int i = 0; i < size; i++) { //<>//
-      snakes[i] = newSnakes[i]; //<>//
-    } //<>//
-  } //<>//
+    
+    for (int i = 0; i < size; i++) {
+      if (i < 50) {
+        snakes[i] = snakes[ranking[0]]; // Elitismo.
+      } else {
+        snakes[i] = newSnakes[i];
+      }
+    }
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean allSnakesIsDead() {
     for (int i = 0; i < snakes.length; i++) {
