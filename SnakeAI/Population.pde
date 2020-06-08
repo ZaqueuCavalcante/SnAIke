@@ -170,7 +170,7 @@ public class Population {
     }
     
     for (int i = 0; i < size; i++) {
-      if (i < int(size/5)) {
+      if (i < int(size*0.90)) {
         snakes[i] = snakes[ranking[0]]; // Elitismo.
       } else {
         snakes[i] = newSnakes[i];
