@@ -14,7 +14,7 @@ public class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    brain = new Brain(8);
+    brain = new Brain(5);
     radar = new Radar();
 
     score = 1;
@@ -29,12 +29,14 @@ public class Snake {
     float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
     float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
     head.setPosition(x, y);
+    
     if (body.position.size() < 5) {
       body.setFirstPixelPosition(x, y + PIXEL_SIZE);
       body.addPixel();
       body.addPixel();
       body.addPixel();
     }
+    // println(body.position.size());
   }
   public void setInitialRandomPosition(Rink rink) {
     body = new Body();
@@ -82,10 +84,11 @@ public class Snake {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void move(Rink rink, Food food) { 
     if (wallCollide(rink)) {
+      score = -1;
       die();
     }
     if (bodyCollide()) {
-      score = 0;
+      score = -5;
       die();
     }
     if (remainingMovesFinish()) {
@@ -107,7 +110,7 @@ public class Snake {
       brain.flowValuesHiddenToOutput();
       brain.flowOutputLayer();
       brain.clearValuesHiddenAndOutput();
-      // radar.show();
+      //radar.show();
 
       brain.decideTurn(head);
 
@@ -149,15 +152,12 @@ public class Snake {
     return fitness;
   }
   public void calculateFitness() {
-    float aux = 30 - pow(brain.inputLayer.neurons.get(3).getOutputValue(), 2)
+    float aux = 1 - pow(brain.inputLayer.neurons.get(3).getOutputValue(), 2)
                    - pow(brain.inputLayer.neurons.get(4).getOutputValue(), 2);
     float fitnessCalculated;
-    if (score < 1) {
-      fitnessCalculated = 0;
-    } 
-    else {
-      fitnessCalculated = score*10 + aux;
-    }
+
+    fitnessCalculated = score*10 + aux;
+
     if (fitnessCalculated > 100) {println(fitnessCalculated);}
     setFitness(fitnessCalculated);
   }

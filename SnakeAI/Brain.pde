@@ -3,7 +3,7 @@ public class Brain {
   private PVector distances;
 
   private String[] inputNames = {"Bias", "Velocity X", "Velocity Y", "Food X", "Food Y", 
-                                 "Left Wall", "Front Wall", "Right Wall"};
+    "Left Wall", "Front Wall", "Right Wall"};
   private String[] outputNames = {"Left"};//, "Right"};
 
   private Layer inputLayer;
@@ -73,26 +73,32 @@ public class Brain {
   // Só gambiarra daqui pra baixo...
 
   private void flowInputLayer(Head head, Radar radar, Rink rink) {
-    float perimetroMedio = (rink.Width + rink.Height) / 2;
+    int snakeVx = int(cos(head.velocity.getTheta()));
+    int snakeVy = int(sin(head.velocity.getTheta()));
     inputLayer.neurons.get(0).setOutputValue(bias);
-    inputLayer.neurons.get(1).setOutputValue(int(cos(head.velocity.getTheta())));
-    inputLayer.neurons.get(2).setOutputValue(int(sin(head.velocity.getTheta())));
-    inputLayer.neurons.get(3).setOutputValue(radar.distanceToFood.x / perimetroMedio);
-    inputLayer.neurons.get(4).setOutputValue(radar.distanceToFood.y / perimetroMedio);
-    inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / perimetroMedio);
-    inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / perimetroMedio);
-    inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / perimetroMedio);
+    inputLayer.neurons.get(1).setOutputValue(snakeVx);
+    inputLayer.neurons.get(2).setOutputValue(snakeVy);
+    inputLayer.neurons.get(3).setOutputValue(radar.distanceToFood.x / rink.Width);
+    inputLayer.neurons.get(4).setOutputValue(radar.distanceToFood.y / rink.Height);
+    if (snakeVx == 0) {
+      inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / rink.Width);
+      inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / rink.Height);
+      inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / rink.Width);
+    } else {
+      inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / rink.Height);
+      inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / rink.Width);
+      inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / rink.Height);
+    }
 
-    // println("perimetroMedio = ", perimetroMedio);
     // println("Bias = ", bias);
-    // println("Vx = ", int(cos(head.velocity.getTheta())));
-    // println("Vy = ", int(sin(head.velocity.getTheta())));
-    // println("Foodx = ", radar.distanceToFood.x);// / perimetroMedio);
-    // println("Foody = ", radar.distanceToFood.y);// / perimetroMedio);
-    // println("Left = ", radar.distanceToLeft.size / perimetroMedio);
-    // println("Front = ", radar.distanceToFront.size);// / perimetroMedio);
-    // println("Right = ", radar.distanceToRight.size / perimetroMedio);
-    // println("- - - - - - - - - - - - - - - - - - -");
+     //println("Vx = ", snakeVx);
+     //println("Vy = ", snakeVy);
+    //println("Foodx = ", inputLayer.neurons.get(3).getOutputValue());
+    //println("Foody = ", inputLayer.neurons.get(4).getOutputValue());
+    //println("Left = ", inputLayer.neurons.get(5).getOutputValue());
+    //println("Front = ", inputLayer.neurons.get(6).getOutputValue());
+    //println("Right = ", inputLayer.neurons.get(7).getOutputValue());
+    //println("- - - - - - - - - - - - - - - - - - -");
   }
 
   private void flowValuesInputToHidden() {
@@ -145,9 +151,6 @@ public class Brain {
     } else {
       head.turnRight();
     }
-    // if (outputLayer.neurons.get(1).getOutputValue() > 0.0) {
-    //   head.turnRight();
-    // }
   }
 
   public void clearValuesHiddenAndOutput() {
@@ -159,4 +162,11 @@ public class Brain {
     }
   }
 
+  public void printWeights() {
+    for (int c = 0; c < links.size(); c++) {
+      print("|");
+      print(links.get(c).getWeight());
+    }
+    println(" - - - ");
+  }
 }

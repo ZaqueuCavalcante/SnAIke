@@ -84,6 +84,7 @@ public class Rink {
     if (food.outside) {
       determineFreePositions(snake);
       int index = int(random(freePositions.size()));
+      // int index = 0;
       int[] freePosition = freePositions.get(index);
       int row = freePosition[0];
       int column = freePosition[1];

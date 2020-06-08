@@ -4,15 +4,13 @@ Rink rink;
 Population population;
 Basket basket;
 
-int fr = 500;
-
 void setup() {
   size(1800, 900);
-  //frameRate(fr);
+  //frameRate(10);
   canvas = new Canvas();
   rink = new Rink(canvas);
 
-  population = new Population(300);
+  population = new Population(2500);
   population.setGenerationLimit(1000000);
   population.setPositions(rink);
   population.setBrains();
@@ -34,16 +32,18 @@ void draw() {
     Food currentFood = basket.foods[i];
     if (currentSnake.isNotDead()) {
       // currentSnake.show();population.ranking[0]
-      population.snakes[0].show();
+      population.snakes[population.ranking[0]].show();
       rink.addFood(currentSnake, currentFood);
       // currentFood.show();
-      basket.foods[0].show();
+      basket.foods[population.ranking[0]].show();
+      
 
       currentSnake.move(rink, currentFood);
     }
   }
 
   if (population.allSnakesIsDead()) {
+    //population.snakes[0].brain.printWeights();
     population.updateRanking();
     population.generateNewPopulation();
 
@@ -82,12 +82,10 @@ void keyPressed() {
   if (key == CODED) {
     switch(keyCode) {
     case LEFT:
-      // playerSnake.head.turnLeft();
-      fr = 10;
+      playerSnake.head.turnLeft();
       break;
     case RIGHT:
-      // playerSnake.head.turnRight();
-      fr = 500;
+      playerSnake.head.turnRight();
       break;
     }
   }
