@@ -4,7 +4,7 @@ public class Brain {
 
   private String[] inputNames = {"Bias", "Velocity X", "Velocity Y", "Food X", "Food Y", 
     "Left Wall", "Front Wall", "Right Wall"};
-  private String[] outputNames = {"Left"};//, "Right"};
+  private String[] outputNames = {"Left"};//, "Forward", "Right"};
 
   private Layer inputLayer;
   private Layer hiddenLayer;
@@ -140,7 +140,7 @@ public class Brain {
       neuron.calculateActivationPotential();
       float output = neuron.BinaryStepFunction(neuron.activationPotential);
       neuron.setOutputValue(output);
-      // println("Saida final = ", neuron.getOutputValue());
+      //println("Saida final = ", neuron.getOutputValue());
     }
     // println("----------------");
   }

@@ -120,8 +120,8 @@ public class Population {
   }
   public int[] selectCouple() {
     int[] coupleIndexes = new int[2];
-    int motherIndexInRankingArray = indexesArray[int(random(indexesArray.length))];
-    int fatherIndexInRankingArray = indexesArray[int(random(indexesArray.length))];
+    int motherIndexInRankingArray = indexesArray[int(random(indexesArray.length*0.20))];
+    int fatherIndexInRankingArray = indexesArray[int(random(indexesArray.length*0.20))];
     coupleIndexes[0] = ranking[motherIndexInRankingArray];
     coupleIndexes[1] = ranking[fatherIndexInRankingArray];
     return coupleIndexes;
@@ -169,7 +169,7 @@ public class Population {
     }
     
     for (int i = 0; i < size; i++) {
-      if (i < int(size*0.80)) {
+      if (i < int(size*0.20)) {
         snakes[i] = snakes[ranking[0]]; // Elitismo.
       } else {
         snakes[i] = newSnakes[i];

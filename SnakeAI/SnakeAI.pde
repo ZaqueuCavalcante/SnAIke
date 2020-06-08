@@ -1,4 +1,4 @@
-final float PIXEL_SIZE = 50.0;
+final float PIXEL_SIZE = 25.0;
 Canvas canvas;
 Rink rink;        
 Population population;
@@ -10,7 +10,7 @@ void setup() {
   canvas = new Canvas();
   rink = new Rink(canvas);
 
-  population = new Population(2500);
+  population = new Population(1200);
   population.setGenerationLimit(1000000);
   population.setPositions(rink);
   population.setBrains();

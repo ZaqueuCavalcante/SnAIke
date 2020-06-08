@@ -14,7 +14,7 @@ public class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    brain = new Brain(5);
+    brain = new Brain(9);
     radar = new Radar();
 
     score = 1;
