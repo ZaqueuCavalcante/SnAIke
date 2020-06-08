@@ -81,16 +81,14 @@ public class Rink {
     }
   }
   public void addFood(Snake snake, Food food) {
-    boolean foodOutside = (food.getPosition().x == 0.0) && (food.getPosition().y == 0.0);
-    if (foodOutside) {
+    if (food.outside) {
       determineFreePositions(snake);
       int index = int(random(freePositions.size()));
       int[] freePosition = freePositions.get(index);
       int row = freePosition[0];
       int column = freePosition[1];
       food.setPosition(pixelPositions[row][column].x, pixelPositions[row][column].y);
-    } else {
-      // food.show();
+      food.outside = false;
     }
   }
   public void addInitialFoods(Population population, Basket basket) {
