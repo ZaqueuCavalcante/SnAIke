@@ -37,17 +37,17 @@ public class Radar {
   }
   private void calculateDistanceTo(Vector direction, float thetaUpdate, Snake snake, Rink rink) {    
     direction.setOrigin(snake.head.getPosition().x, snake.head.getPosition().y);
-    float unitLength = snake.head.velocity.getSize();
-    direction.setSize(unitLength);
+    direction.setSize(PIXEL_SIZE);
     float newTheta = snake.head.velocity.getTheta() + thetaUpdate;
     direction.setTheta(newTheta);
     direction.updateTip();
     while (vectorInsideRink(direction, rink) && vectorNotAboveBody(direction, snake.body)) {
-      float newSize = direction.getSize() + unitLength;
+      float newSize = direction.getSize() + PIXEL_SIZE;
       direction.setSize(newSize);
       direction.updateTip();
     }
-    direction.setSize(direction.getSize() - unitLength);
+    direction.setSize(direction.getSize() - PIXEL_SIZE);
+    direction.updateTip();
   }
   public void calculateDistanceToLeft(Snake snake, Rink rink) {
     calculateDistanceTo(distanceToLeft, -PI/2, snake, rink);
