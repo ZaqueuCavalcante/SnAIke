@@ -3,8 +3,7 @@ public class Link {
   private Neuron sourceNeuron;
   private Neuron arrivalNeuron;
 
-  private int weight;
-  private float valueCarried;
+  private float weight;
 
   private color Color;
 
@@ -12,24 +11,16 @@ public class Link {
     this.sourceNeuron = sourceNeuron;
     this.arrivalNeuron = arrivalNeuron;
 
-    weight = int(random(0.0, 2.0));
-    if (weight == 0) {weight = -1;}
-    valueCarried = sourceNeuron.getOutputValue();
+    weight = random(-10.0, 10.0);
 
     Color = color(80);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setWeight(int weight) {
+  public void setWeight(float weight) {
     this.weight = weight;
   }
-  public int getWeight() {
+  public float getWeight() {
     return weight;
-  }
-  public void setValueCarried(float valueCarried) {
-    this.valueCarried = valueCarried;
-  }
-  public float getValueCarried() {
-    return valueCarried;
   }
   public void setColor(color Color) {
     this.Color = Color;

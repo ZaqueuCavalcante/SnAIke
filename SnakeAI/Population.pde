@@ -151,8 +151,7 @@ public class Population {
       //println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));
-        int newWeight = int(random(0.0, 2.0));
-        if (newWeight == 0) {newWeight = -1;}
+        float newWeight = random(-10.0, 10.0);
         snake.brain.links.get(geneThatWillMutate).weight = newWeight;
       }
     }
@@ -170,7 +169,7 @@ public class Population {
     }
     
     for (int i = 0; i < size; i++) {
-      if (i < int(size/5)) {
+      if (i < int(size*0.80)) {
         snakes[i] = snakes[ranking[0]]; // Elitismo.
       } else {
         snakes[i] = newSnakes[i];
