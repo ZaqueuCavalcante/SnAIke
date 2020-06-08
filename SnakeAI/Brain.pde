@@ -4,7 +4,7 @@ public class Brain {
 
   private String[] inputNames = {"Bias", "Velocity X", "Velocity Y", "Food X", "Food Y", 
                                  "Left Wall", "Front Wall", "Right Wall"};
-  private String[] outputNames = {"Left", "Right"};
+  private String[] outputNames = {"Left"};//, "Right"};
 
   private Layer inputLayer;
   private Layer hiddenLayer;
@@ -77,11 +77,22 @@ public class Brain {
     inputLayer.neurons.get(0).setOutputValue(bias);
     inputLayer.neurons.get(1).setOutputValue(int(cos(head.velocity.getTheta())));
     inputLayer.neurons.get(2).setOutputValue(int(sin(head.velocity.getTheta())));
-    inputLayer.neurons.get(3).setOutputValue(20 * radar.distanceToFood.x / perimetroMedio);
-    inputLayer.neurons.get(4).setOutputValue(20 * radar.distanceToFood.y / perimetroMedio);
+    inputLayer.neurons.get(3).setOutputValue(radar.distanceToFood.x / perimetroMedio);
+    inputLayer.neurons.get(4).setOutputValue(radar.distanceToFood.y / perimetroMedio);
     inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / perimetroMedio);
-    inputLayer.neurons.get(6).setOutputValue(radar.distanceToRight.size / perimetroMedio);
-    inputLayer.neurons.get(7).setOutputValue(radar.distanceToFront.size / perimetroMedio);
+    inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / perimetroMedio);
+    inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / perimetroMedio);
+
+    // println("perimetroMedio = ", perimetroMedio);
+    // println("Bias = ", bias);
+    // println("Vx = ", int(cos(head.velocity.getTheta())));
+    // println("Vy = ", int(sin(head.velocity.getTheta())));
+    // println("Foodx = ", radar.distanceToFood.x);// / perimetroMedio);
+    // println("Foody = ", radar.distanceToFood.y);// / perimetroMedio);
+    // println("Left = ", radar.distanceToLeft.size / perimetroMedio);
+    // println("Front = ", radar.distanceToFront.size);// / perimetroMedio);
+    // println("Right = ", radar.distanceToRight.size / perimetroMedio);
+    // println("- - - - - - - - - - - - - - - - - - -");
   }
 
   private void flowValuesInputToHidden() {
@@ -129,12 +140,14 @@ public class Brain {
   }
 
   public void decideTurn(Head head) {
-    if (outputLayer.neurons.get(0).getOutputValue() < 0.0) {
+    if (outputLayer.neurons.get(0).getOutputValue() > 0.0) {
       head.turnLeft();
-    }
-    if (outputLayer.neurons.get(1).getOutputValue() > 0.0) {
+    } else {
       head.turnRight();
     }
+    // if (outputLayer.neurons.get(1).getOutputValue() > 0.0) {
+    //   head.turnRight();
+    // }
   }
 
   public void clearValuesHiddenAndOutput() {
