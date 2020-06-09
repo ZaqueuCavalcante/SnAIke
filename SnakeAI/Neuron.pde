@@ -82,7 +82,7 @@ public class Neuron {
     }
   }
   public float SigmoidFunction(float input) {
-    return 1.0 / (1.0 + exp(-input));
+    return 1.0 / (1.0 + exp(-input)) - 0.5;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void deactivate() {

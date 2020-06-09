@@ -138,17 +138,18 @@ public class Brain {
   private void flowOutputLayer() {
     for (Neuron neuron : outputLayer.neurons) {
       neuron.calculateActivationPotential();
-      float output = neuron.BinaryStepFunction(neuron.activationPotential);
+      float output = neuron.SigmoidFunction(neuron.activationPotential);
       neuron.setOutputValue(output);
-      //println("Saida final = ", neuron.getOutputValue());
+      // if (neuron.getOutputValue() > -0.45 && neuron.getOutputValue() < 0.45) {println("Saida final = ", neuron.getOutputValue());}
     }
     // println("----------------");
   }
 
   public void decideTurn(Head head) {
-    if (outputLayer.neurons.get(0).getOutputValue() > 0.0) {
+    if (outputLayer.neurons.get(0).getOutputValue() < -0.45) {
       head.turnLeft();
-    } else {
+    } 
+    if (outputLayer.neurons.get(0).getOutputValue() > 0.45) {
       head.turnRight();
     }
   }

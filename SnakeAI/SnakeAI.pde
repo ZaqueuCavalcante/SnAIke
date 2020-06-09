@@ -1,4 +1,4 @@
-final float PIXEL_SIZE = 25.0;
+final float PIXEL_SIZE = 50.0;
 Canvas canvas;
 Rink rink;        
 Population population;

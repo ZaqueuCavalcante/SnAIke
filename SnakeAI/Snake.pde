@@ -18,7 +18,7 @@ public class Snake {
     radar = new Radar();
 
     score = 1;
-    remainingMoves = 50;
+    remainingMoves = 100;
     fitness = 0.0;
 
     live();
@@ -56,7 +56,7 @@ public class Snake {
   public void eat() {
     body.addPixel();
     increaseScore(1);
-    increaseRemainingMoves(50);
+    increaseRemainingMoves(100);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean bodyCollide() {

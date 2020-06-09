@@ -81,7 +81,7 @@ public class Population {
   }
   public void resetRemainingMoves() {
     for (Snake snake : snakes) {
-      snake.setRemainingMoves(50);
+      snake.setRemainingMoves(100);
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
