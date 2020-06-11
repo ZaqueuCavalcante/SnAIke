@@ -7,8 +7,10 @@ public class Population {
   private int bestScore;
 
   private Snake[] snakes;
+  private Snake bestSnake;
   private int[] ranking;
   private float[] snakesFitness;
+  private int liveSnakes;
 
   private int[] indexesArray;
 
@@ -22,6 +24,18 @@ public class Population {
     makeIndexesArray();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  public int getSize() {
+    return size;
+  }
+  public int getLiveSnakes() {
+    return liveSnakes;
+  }
+  private void setLiveSnakes() {
+    liveSnakes = 0;
+    for (Snake snake : this.snakes) {
+      if (snake.isNotDead()) liveSnakes ++;
+    }
+  }
   public int getGeneration() {
     return generation;
   }
@@ -57,10 +71,11 @@ public class Population {
     for (int i = 0; i < size; i++) {
       snakes[i] = new Snake();
     }
+    bestSnake = snakes[0];
   }
-  public void setPositions(Rink rink) {
+  public void setPositions(Board board) {
     for (Snake snake : snakes) {
-      snake.setInitialPosition(rink);
+      snake.setInitialPosition(board);
     }
   }
   private void setBrains() {
@@ -106,6 +121,7 @@ public class Population {
     if (snakes[ranking[0]].score > bestScore) {
       bestScore = snakes[ranking[0]].score;
     }
+    bestSnake = snakes[ranking[0]];
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void makeIndexesArray() {
@@ -151,7 +167,7 @@ public class Population {
       //println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));
-        float newWeight = random(-10.0, 10.0);
+        float newWeight = random(-1.0, 1.0);
         snake.brain.links.get(geneThatWillMutate).weight = newWeight;
       }
     }
@@ -167,13 +183,9 @@ public class Population {
       mutation(newSnake);
       newSnakes[i] = newSnake;
     }
-    
+
     for (int i = 0; i < size; i++) {
-      if (i < int(size*0.20)) {
-        snakes[i] = snakes[ranking[0]]; // Elitismo.
-      } else {
         snakes[i] = newSnakes[i];
-      }
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

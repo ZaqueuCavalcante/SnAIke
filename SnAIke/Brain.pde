@@ -3,7 +3,7 @@ public class Brain {
   private PVector distances;
 
   private String[] inputNames = {"Bias", "Velocity X", "Velocity Y", "Food X", "Food Y", 
-    "Left Wall", "Front Wall", "Right Wall"};
+                                 "Left Wall", "Front Wall", "Right Wall"};
   private String[] outputNames = {"Left"};//, "Forward", "Right"};
 
   private Layer inputLayer;
@@ -72,22 +72,22 @@ public class Brain {
 
   // Só gambiarra daqui pra baixo...
 
-  private void flowInputLayer(Head head, Radar radar, Rink rink) {
-    int snakeVx = int(cos(head.velocity.getTheta()));
-    int snakeVy = int(sin(head.velocity.getTheta()));
+  private void flowInputLayer(Head head, Radar radar, Board board) {
+    int snakeVx = int(cos(head.velocity.getAngle()));
+    int snakeVy = int(sin(head.velocity.getAngle()));
     inputLayer.neurons.get(0).setOutputValue(bias);
     inputLayer.neurons.get(1).setOutputValue(snakeVx);
     inputLayer.neurons.get(2).setOutputValue(snakeVy);
-    inputLayer.neurons.get(3).setOutputValue(radar.distanceToFood.x / rink.Width);
-    inputLayer.neurons.get(4).setOutputValue(radar.distanceToFood.y / rink.Height);
+    inputLayer.neurons.get(3).setOutputValue(radar.distanceToFood.x / board.Width);
+    inputLayer.neurons.get(4).setOutputValue(radar.distanceToFood.y / board.Height);
     if (snakeVx == 0) {
-      inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / rink.Width);
-      inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / rink.Height);
-      inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / rink.Width);
+      inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / board.Width);
+      inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / board.Height);
+      inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / board.Width);
     } else {
-      inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / rink.Height);
-      inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / rink.Width);
-      inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / rink.Height);
+      inputLayer.neurons.get(5).setOutputValue(radar.distanceToLeft.size / board.Height);
+      inputLayer.neurons.get(6).setOutputValue(radar.distanceToFront.size / board.Width);
+      inputLayer.neurons.get(7).setOutputValue(radar.distanceToRight.size / board.Height);
     }
 
     // println("Bias = ", bias);

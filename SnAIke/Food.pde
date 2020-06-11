@@ -4,13 +4,13 @@ public class Food {
   // Comidas tóxicas ou venenos -> Ingerir pode reduzir seu tamanho ou matar a cobra.
   // Várias comidas na tela.
 
-  private Vector position;
+  private Vector2D position;
   private int nutritionalValue;
   private color Color;
   boolean outside;
 
   Food() {
-    position = new Vector(0.0, 0.0);
+    position = new Vector2D(0.0, 0.0);
     Color = color(255, 0, 0);
     nutritionalValue = 1;
     outside = true;
@@ -20,7 +20,7 @@ public class Food {
     position.x = x;
     position.y = y;
   }
-  public Vector getPosition() {
+  public Vector2D getPosition() {
     return position;
   }
   public void setNutritionalValue(int nutritionalValue) {

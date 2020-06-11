@@ -3,13 +3,13 @@ public class Layer {
   private int neuronsNumber;
   private ArrayList<Neuron> neurons;
 
-  private Vector centerPosition;
+  private Vector2D centerPosition;
   private float verticalDistance;
 
   Layer(int neuronsNumber) {
     this.neuronsNumber = neuronsNumber;
     neurons = new ArrayList<Neuron>();
-    centerPosition = new Vector();
+    centerPosition = new Vector2D();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setCenterPosition(float x, float y) {

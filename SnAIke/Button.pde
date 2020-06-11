@@ -13,12 +13,10 @@ public class Button {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean mouseAbove(float xMouse, float yMouse) {
-    boolean mouseInsideWidth = x-Width/2 <= xMouse && xMouse <= x+Width/2;
-    boolean mouseInsideHeight = y-Height/2 <= yMouse && yMouse <= y+Height/2;
-    if (mouseInsideWidth  &&  mouseInsideHeight) {
-      return true;
-    }
-    return false;
+    boolean mouseInsideWidth = (x-Width/2 < xMouse) && (xMouse < x+Width/2);
+    boolean mouseInsideHeight = (y-Height/2 < yMouse) && (yMouse < y+Height/2);
+    if (mouseInsideWidth  &&  mouseInsideHeight) return true;
+    else return false;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {

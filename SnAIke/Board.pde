@@ -1,29 +1,29 @@
-public class Rink {
+public class Board {
 
-  private Vector position;
+  private Vector2D position;
   private float Width;
   private float Height;
 
-  private PVector[][] pixelPositions;
+  private PVector[][] pixelPositions;  // Renomear para grid?
   private int horizontalPixelNumber;
   private int verticalPixelNumber;
   
   private ArrayList<int[]> freePositions;
 
-  Rink(Canvas canvas) {
-    position = new Vector();
-    setPosition(canvas.xDivisoryLine);
-    setSideSizes(canvas.xDivisoryLine);
+  Board() {
+    position = new Vector2D();
+    setPosition();
+    setSideSizes();
     setDimensions();
     setPixelPositions();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  private void setPosition(float offsetX) {
-    position.x = offsetX + PIXEL_SIZE;
+  private void setPosition() {
+    position.x = 400 + PIXEL_SIZE;
     position.y = PIXEL_SIZE;
   }
-  private void setSideSizes(float offsetX) {
-    Width = width - offsetX - 2*PIXEL_SIZE;
+  private void setSideSizes() {
+    Width = width - 400 - 2*PIXEL_SIZE;
     Height = height - 2*PIXEL_SIZE;
   }
   private void setDimensions() {
@@ -42,7 +42,7 @@ public class Rink {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public Vector getPosition() {
+  public Vector2D getPosition() {
     return position;
   }
   public float getWidth() {
@@ -56,7 +56,7 @@ public class Rink {
     return (x == head.getPosition().x) && (y == head.getPosition().y);
   }
   private boolean checksBodyMatch(float x, float y, Body body) {
-    for (Vector bodyPosition : body.position) {
+    for (Vector2D bodyPosition : body.position) {
       if ((x == bodyPosition.x) && (y == bodyPosition.y)) {
         return true;
       }

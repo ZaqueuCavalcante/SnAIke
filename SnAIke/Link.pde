@@ -11,7 +11,7 @@ public class Link {
     this.sourceNeuron = sourceNeuron;
     this.arrivalNeuron = arrivalNeuron;
 
-    weight = random(-10.0, 10.0);
+    weight = random(-1.0, 1.0);
 
     Color = color(80);
   }

@@ -6,6 +6,13 @@ Antes de começar, um pouco de nostalgia.
 
 ## Parte 0 - O Projeto
 
+- SnAIke:
+  - Canvas:
+    - Button;
+  - 
+
+
+
 Tentei fazer uma *Rede Neural* simples aprender a jogar o famoso 'Jogo da Cobrinha', através de uma *meta-heurística* conhecida como *Algoritmo Genético*.
 
 Vou dividir a explicação em duas partes: 
@@ -19,8 +26,8 @@ A cada geração, cobras mais adaptadas surgirão (espero eu), até que a cobra 
 Para rodar o jogo, basta clonar o repositório e instalar o [Processing](https://processing.org/) na sua máquina de computar. Usei a versão baseada em Java, mas existe suporte para Python e JavaScript também.
 
 #### Planos futuros
-- Adicionar obstáculos, pedras ao game. A cobra agora teria que aprender a desviar das paredes, do seu próprio corpo e delas;
-- Fazer uma versão onde a comida se move também, como se fosse uma presa que a cobra está caçando, um ratinho. Ele poderia ser controlado tanto pelo teclado (player humano) ou ter sua própria Rede Neural;
+- Adicionar obstáculos (pedras) ao game. A cobra agora teria que aprender a desviar das paredes, do seu próprio corpo e delas;
+- Fazer uma versão onde a comida se move também, como se fosse uma presa que a cobra está caçando. Ele poderia ser controlado tanto pelo teclado (player humano) ou ter sua própria Rede Neural;
 - Utilizar outros algoritmos de solução. Comparar suas performaces;
 - Fazer uma versão web utilizando o P5.JS e o TensorFlow.JS; 
 
@@ -40,7 +47,7 @@ Todos os objetos mostrados em tela possuem um **vetor posição**, como mostrado
 
 ### GIF da tela aqui
 
-### 1.1 - Rink
+### 1.1 - Board
 
 É o local onde as cobras poderão se locomover. 
 

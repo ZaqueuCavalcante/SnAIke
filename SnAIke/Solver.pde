@@ -1,4 +1,4 @@
-public interface SolutionMethod {
+public interface Solver {
 
   // Interface para padronizar a iteração entre os métodos de solução 
   // e o controle da cobra.

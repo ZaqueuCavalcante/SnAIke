@@ -1,8 +1,6 @@
 public class Canvas {
 
   private PFont font;
-  private float xDivisoryLine;
-
   private Button saveButton;
   private Button loadButton;
   private Button graphButton;
@@ -12,15 +10,11 @@ public class Canvas {
   Canvas() { 
     setFont();
     setButtons();
-    setDivisoryLine(400);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setFont() {
     font = createFont("agencyfb-bold.ttf", 32);
     textFont(font);
-  }
-  private void setDivisoryLine(float xDivisoryLine) {
-    this.xDivisoryLine = xDivisoryLine;
   }
   private void setButtons() {
     saveButton = new Button(50, 15, 100, 30, "Save");
@@ -29,12 +23,16 @@ public class Canvas {
     increaseMutationRateButton = new Button(225, 170, 20, 20, "+");
     decreaseMutationRateButton = new Button(250, 170, 20, 20, "-");
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  private void showDivisoryLine() {
-    stroke(255);
-    line(xDivisoryLine, 0, xDivisoryLine, height);
+  public void setBackground(int bgColor) {
+    background(bgColor);
   }
-  private void showButtons() {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  public void showDividingLines() {
+    stroke(255);
+    line(400, 0, 400, height);
+    line(0, 200, 400, 200);
+  }
+  public void showButtons() {
     saveButton.show();
     loadButton.show();
     graphButton.show();
@@ -45,23 +43,14 @@ public class Canvas {
     fill(150);
     textSize(20);
     textAlign(LEFT);
-    Snake bestSnake = population.snakes[population.ranking[0]];
-    text("SCORE : " + bestSnake.getScore(), 20, 60);
+    text("SCORE : " + population.bestSnake.getScore(), 20, 60);
     text("BEST SCORE : " + population.getBestScore(), 180, 60); 
-    text("FITNESS : " + bestSnake.getFitness(), 20, 90);
-    text("GENERATION : " + population.getGeneration() + " / " + population.getGenerationLimit(), 20, 120);
-    text("REMAINING MOVES : " + bestSnake.getRemainingMoves(), 20, 150);
+    text("LIVE SNAKES : " + population.getLiveSnakes() + "  /  " + population.getSize(), 20, 90);
+    text("GENERATION : " + population.getGeneration() + "  /  " + population.getGenerationLimit(), 20, 120);
+    text("REMAINING MOVES : " + population.bestSnake.getRemainingMoves(), 20, 150);
     text("MUTATION RATE : " + population.getMutationRate(), 20, 180);
   }
-  public void showBestSnakeBrain(Population population) {
-    int bestSnakeIndex = population.ranking[0];
-    population.snakes[bestSnakeIndex].brain.show();
-  }
-  public void show() {
-    background(20);
-    stroke(255);
-    noFill();
-    showDivisoryLine();
-    showButtons();
+  public void showController(Snake snake) {
+    snake.getController().show();
   }
 }

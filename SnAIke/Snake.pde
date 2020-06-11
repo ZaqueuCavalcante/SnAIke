@@ -14,7 +14,7 @@ public class Snake {
   Snake() {
     head = new Head();
     body = new Body();
-    brain = new Brain(9);
+    brain = new Brain(7);
     radar = new Radar();
 
     score = 1;
@@ -24,10 +24,10 @@ public class Snake {
     live();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setInitialPosition(Rink rink) {
+  public void setInitialPosition(Board board) {
     body = new Body();
-    float x = rink.position.x + PIXEL_SIZE/2 + int(rink.horizontalPixelNumber/2)*PIXEL_SIZE;
-    float y = rink.position.y + PIXEL_SIZE/2 + int(rink.verticalPixelNumber/2)*PIXEL_SIZE;
+    float x = board.position.x + PIXEL_SIZE/2 + int(board.horizontalPixelNumber/2)*PIXEL_SIZE;
+    float y = board.position.y + PIXEL_SIZE/2 + int(board.verticalPixelNumber/2)*PIXEL_SIZE;
     head.setPosition(x, y);
     
     if (body.position.size() < 5) {
@@ -38,10 +38,10 @@ public class Snake {
     }
     // println(body.position.size());
   }
-  public void setInitialRandomPosition(Rink rink) {
+  public void setInitialRandomPosition(Board board) {
     body = new Body();
-    float x = rink.position.x + PIXEL_SIZE/2 + int(random(rink.horizontalPixelNumber))*PIXEL_SIZE;
-    float y = rink.position.y + PIXEL_SIZE/2 + int(random(rink.verticalPixelNumber))*PIXEL_SIZE;
+    float x = board.position.x + PIXEL_SIZE/2 + int(random(board.horizontalPixelNumber))*PIXEL_SIZE;
+    float y = board.position.y + PIXEL_SIZE/2 + int(random(board.verticalPixelNumber))*PIXEL_SIZE;
     head.setPosition(x, y);
     body.setFirstPixelPosition(x, y + PIXEL_SIZE);
   }
@@ -73,17 +73,17 @@ public class Snake {
     }
     return false;
   }
-  public boolean wallCollide(Rink rink) {
-    boolean headInsideRinkWidth = (head.position.x < rink.position.x) || (head.position.x > rink.position.x+rink.Width);
-    boolean headInsideRinkHeight = (head.position.y < rink.position.y) || (head.position.y > rink.position.y+rink.Height);
-    if (headInsideRinkWidth || headInsideRinkHeight) {
+  public boolean wallCollide(Board board) {
+    boolean headInsideBoardWidth = (head.position.x < board.position.x) || (head.position.x > board.position.x+board.Width);
+    boolean headInsideBoardHeight = (head.position.y < board.position.y) || (head.position.y > board.position.y+board.Height);
+    if (headInsideBoardWidth || headInsideBoardHeight) {
       return true;
     }
     return false;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void move(Rink rink, Food food) { 
-    if (wallCollide(rink)) {
+  public void move(Board board, Food food) { 
+    if (wallCollide(board)) {
       score = -1;
       die();
     }
@@ -100,11 +100,11 @@ public class Snake {
     }
     if (isNotDead()) {
       radar.calculateDistanceToFood(head, food);
-      radar.calculateDistanceToLeft(this, rink);
-      radar.calculateDistanceToFront(this, rink);
-      radar.calculateDistanceToRight(this, rink);
+      radar.calculateDistanceToLeft(this, board);
+      radar.calculateDistanceToFront(this, board);
+      radar.calculateDistanceToRight(this, board);
 
-      brain.flowInputLayer(head, radar, rink);
+      brain.flowInputLayer(head, radar, board);
       brain.flowValuesInputToHidden();
       brain.flowHiddenLayer();
       brain.flowValuesHiddenToOutput();

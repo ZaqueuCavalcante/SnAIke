@@ -1,14 +1,14 @@
 public class Head {
 
-  private Vector position;
-  private Vector velocity;
+  private Vector2D position;
+  private Vector2D velocity;
   private color Color;
 
   Head() {
-    position = new Vector();
-    velocity = new Vector();
+    position = new Vector2D();
+    velocity = new Vector2D();
     velocity.setSize(PIXEL_SIZE);
-    velocity.setTheta(3*PI/2);
+    velocity.setAngle(3*PI/2);
     Color = color(100);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -17,14 +17,14 @@ public class Head {
     position.y = y;
     velocity.setOrigin(x, y);
   }
-  public Vector getPosition() {
+  public Vector2D getPosition() {
     return position;
   }
   public  void turnLeft() { 
-    velocity.incrementTheta(-PI/2);
+    velocity.incrementAngle(-PI/2);
   }
   public void turnRight() { 
-    velocity.incrementTheta(PI/2);
+    velocity.incrementAngle(PI/2);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setColor(color Color) {
@@ -32,8 +32,8 @@ public class Head {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void move() {
-    position.x += velocity.size*int(cos(velocity.getTheta()));
-    position.y += velocity.size*int(sin(velocity.getTheta()));
+    position.x += velocity.size*int(cos(velocity.getAngle()));
+    position.y += velocity.size*int(sin(velocity.getAngle()));
     velocity.setOrigin(position.x, position.y);
     velocity.updateTip();
   }
@@ -43,6 +43,7 @@ public class Head {
     stroke(255);
     rectMode(CENTER);
     rect(position.x, position.y, PIXEL_SIZE, PIXEL_SIZE);
-    //velocity.show();
+    position.show();
+    velocity.show();
   }
 }

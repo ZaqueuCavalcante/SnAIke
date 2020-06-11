@@ -1,17 +1,17 @@
 public class Body {
 
-  private ArrayList<Vector> position;
+  private ArrayList<Vector2D> position;
   private color Color;
 
   Body() {
-    position = new ArrayList<Vector>();
+    position = new ArrayList<Vector2D>();
     Color = color(random(255), random(255), random(255));
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void setFirstPixelPosition(float x, float y) {
-    position.add(new Vector(x, y));
+    position.add(new Vector2D(x, y));
   }
-  public ArrayList<Vector> getPosition() {
+  public ArrayList<Vector2D> getPosition() {
     return position;
   }
   public void setColor(color Color) {
@@ -19,11 +19,11 @@ public class Body {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void addPixel() {
-      Vector newPixelPosition = new Vector();
-      int lastIndex = position.size()-1;
-      newPixelPosition.x = position.get(lastIndex).x;
-      newPixelPosition.y = position.get(lastIndex).y;
-      position.add(newPixelPosition);
+    Vector2D newPixelPosition = new Vector2D();
+    int lastIndex = position.size()-1;
+    newPixelPosition.x = position.get(lastIndex).x;
+    newPixelPosition.y = position.get(lastIndex).y;
+    position.add(newPixelPosition);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void move(PVector headPosition) {

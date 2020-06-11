@@ -1,14 +1,14 @@
-class Vector {
+class Vector2D {
 
   PVector origin;
   float size;
-  float theta;  // Angle made with the x axis, measured clockwise.
-  float x, y, z;
-
-  Vector() {
+  float angle;  // Angle made with the x axis, measured clockwise.
+  float x, y;  // Coordinates of Vector2D tip.
+  
+  Vector2D() {
     origin = new PVector();
   }
-  Vector(float x, float y) {
+  Vector2D(float x, float y) {
     origin = new PVector();
     this.x = x;
     this.y = y;
@@ -17,7 +17,6 @@ class Vector {
   void setOrigin(float x, float y) {
     origin.x = x;
     origin.y = y;
-    // updateTip();
   }
   void setSize(float newSize) {
     size = newSize;
@@ -25,29 +24,30 @@ class Vector {
   float getSize() {
     return size;
   }
-  void setTheta(float newTheta) {
-    theta = newTheta;
+  void setAngle(float newAngle) {
+    angle = newAngle;
   }
-  void incrementTheta(float angularIncrement) {
-    theta += angularIncrement;
+  void incrementAngle(float angularIncrement) {
+    angle += angularIncrement;
   }
-  float getTheta() {
-    return theta;
+  float getAngle() {
+    return angle;
   }
   void updateTip() {
-    x = origin.x + size*cos(theta);
-    y = origin.y + size*sin(theta);
+    x = origin.x + size*cos(angle);
+    y = origin.y + size*sin(angle);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   void show() {
-    fill(255);
+    push();
     stroke(255);
+    fill(255);
     line(origin.x, origin.y, x, y);
-    pushMatrix();
+    PVector direction = new PVector(x - origin.x, y - origin.y);
+    float tipSize = 8;
     translate(x, y);
-    float angle = atan2(origin.x - x, y - origin.y);
-    rotate(angle);
-    triangle(0, 0, -5, -12, 5, -12);
-    popMatrix();
+    rotate(direction.heading());
+    triangle(-tipSize, tipSize/2, -tipSize, -tipSize/2, 0, 0);
+    pop();
   }
 }

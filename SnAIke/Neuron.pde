@@ -1,6 +1,6 @@
 public class Neuron {
 
-  private Vector position;
+  private Vector2D position;
   private float radius;
   private color Color;
 
@@ -14,7 +14,7 @@ public class Neuron {
   private boolean activated;
 
   Neuron() {
-    position = new Vector();
+    position = new Vector2D();
     radius = 25.0;
 
     inputName = "";
