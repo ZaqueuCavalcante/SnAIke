@@ -1,5 +1,4 @@
 import grafica.*;
-Graph g;
 
 final float PIXEL_SIZE = 100.0;
 Canvas canvas;
