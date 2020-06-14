@@ -1,57 +1,5 @@
 public class Board {
 
-  private Vector2D position;
-  private float Width;
-  private float Height;
-
-  private PVector[][] pixelPositions;  // Renomear para grid?
-  private int horizontalPixelNumber;
-  private int verticalPixelNumber;
-  
-  private ArrayList<int[]> freePositions;
-
-  Board() {
-    position = new Vector2D();
-    setPosition();
-    setSideSizes();
-    setDimensions();
-    setPixelPositions();
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  private void setPosition() {
-    position.x = 400 + PIXEL_SIZE;
-    position.y = PIXEL_SIZE;
-  }
-  private void setSideSizes() {
-    Width = width - 400 - 2*PIXEL_SIZE;
-    Height = height - 2*PIXEL_SIZE;
-  }
-  private void setDimensions() {
-    horizontalPixelNumber = int(Width/PIXEL_SIZE);
-    verticalPixelNumber = int(Height/PIXEL_SIZE);
-    pixelPositions = new PVector[verticalPixelNumber][horizontalPixelNumber];
-  }
-  private void setPixelPositions() {
-    for (int row = 0; row < verticalPixelNumber; row++) {
-      for (int column = 0; column < horizontalPixelNumber; column++) {
-        PVector currentPixelPosition = new PVector();
-        currentPixelPosition.x = position.x + PIXEL_SIZE/2 + column*PIXEL_SIZE;
-        currentPixelPosition.y = position.y + PIXEL_SIZE/2 + row*PIXEL_SIZE;
-        pixelPositions[row][column] = currentPixelPosition;
-      }
-    }
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public Vector2D getPosition() {
-    return position;
-  }
-  public float getWidth() {
-    return Width;
-  }
-  public float getHeight() {
-    return Height;
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private boolean checksHeadMatch(float x, float y, Head head) {
     return (x == head.getPosition().x) && (y == head.getPosition().y);
   }
@@ -96,24 +44,5 @@ public class Board {
     for (int i = 0; i < population.size; i++) {
       this.addFood(population.snakes[i], basket.foods[i]);
     }
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void showPixelStrokes() {
-    noFill();
-    stroke(50);
-    rectMode(CENTER);
-    for (int row = 0; row < verticalPixelNumber; row++) {
-      for (int column = 0; column < horizontalPixelNumber; column++) {
-        rect(pixelPositions[row][column].x, pixelPositions[row][column].y, PIXEL_SIZE, PIXEL_SIZE);
-      }
-    }
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void show() {
-    noFill();
-    stroke(255);
-    rectMode(CORNER);
-    rect(position.x, position.y, Width, Height);
-    showPixelStrokes();
   }
 }

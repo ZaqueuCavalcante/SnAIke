@@ -11,72 +11,64 @@ Antes de começar, um pouco de nostalgia.
 		- Button;
 		- Dashboard;
 			- Plot;
-- Game:
-	- Actor:
-		- Snake:
-			- Head:
-				- Pixel;
-			- Body:
-				- Pixels; 
-		- Food:
+
+- Actor:
+	- Snake:
+		- Head:
 			- Pixel;
-		- Obstacle / Rock:
-			- Pixel;
-		- Board:
-			- Matriz de Pixels;
-	- Radar:  // Interface entre o Actor e o Controller;
-		- Existe apenas UM de cada tipo;
-		- Radar usado por cobras;
-			- É compartilhado por todas as cobras, uma usa de cada vez;
-			- Não armazena informação, apenas as recebe, processa e as retorna;
-			- Pega as seguintes informações:
-				- Snake, food, board;
-				- Deixar estendível para pegar obstáculos também; 
-			- Retorna para o Controller as seguintes informações:
-				- Distâncias da Snake até a Food (com sinal + -, variando de -1.0 a 1.0):
-					- Delta x;
-					- Delta y;
-				- Velocidade da Snake (com sinal + -, cada componente pode assumir -1, 0 ou 1):
-					- Velocity x;
-					- Velocity y;
-				- Distâncias da Snake até o obstáculo mais próximo, à Left, Front e Right (sem sinal, variando de 0.0 a 1.0):
-					- O obstáculo pode ser:
-						- Parede do Board;
-						- O próprio Body da Snake;
-						- Um obstáculo, Rock;
-		- Radar usado por Foods / presas;
-		- Radar usado por obstáculos / Rock;
-	- Controller:
-		- Maestro / GameGod / Universe / Cosmos / --Nature--:
-			- Controla as REGRAS DO GAME;
-			- Dita as Leis e as faz cumprir;
-			- Pode controlar os seguintes Actors:
-				- Snake;
-				- Food;
-				- Obstacle;
-				- Board;
-		- Human Player;
-			- Pode controlar os seguintes Actors:
-				- Snake;
-				- Food;
-				- Obstacle;
-		- Neural Network + Genetic Algorithm:
-			- Pode controlar os seguintes Actors:
-				- Snake;
-				- Food;
-				- Obstacle;
-		- Other thing:
-			- Outro algoritmo capaz de decidir o que o Actor deve fazer;
-			
-- SnAIke:
-    - Controller:
-      - Neural Network;
-      - Human Player;
-      - Other thing;
-  - Core:
-    - Pixel;
-    - Vector2D;
-    - 
+		- Body:
+			- Pixels; 
+	- Food:
+		- Pixel;
+	- Obstacle / Rock:
+		- Pixel;
+	- Board:
+		- Matriz de Pixels;
+
+- Radar:  // Interface entre o Actor e o Controller;
+	- Existe apenas UM de cada tipo;
+	- Radar usado por cobras;
+		- É compartilhado por todas as cobras, uma usa de cada vez;
+		- Não armazena informação, apenas as recebe, processa e as retorna;
+		- Pega as seguintes informações:
+			- Snake, food, board;
+			- Deixar estendível para pegar obstáculos também; 
+		- Retorna para o Controller as seguintes informações:
+			- Distâncias da Snake até a Food (com sinal + -, variando de -1.0 a 1.0):
+				- Delta x;
+				- Delta y;
+			- Velocidade da Snake (com sinal + -, cada componente pode assumir -1, 0 ou 1):
+				- Velocity x;
+				- Velocity y;
+			- Distâncias da Snake até o obstáculo mais próximo, à Left, Front e Right (sem sinal, variando de 0.0 a 1.0):
+				- O obstáculo pode ser:
+					- Parede do Board;
+					- O próprio Body da Snake;
+					- Um obstáculo, Rock;
+	- Radar usado por Foods / presas;
+	- Radar usado por obstáculos / Rock;
+
+- Controller:
+	- Maestro / GameGod / Universe / Cosmos / --Nature--:
+		- Controla as REGRAS DO GAME;
+		- Dita as Leis e as faz cumprir;
+		- Pode controlar os seguintes Actors:
+			- Snake;
+			- Food;
+			- Obstacle;
+			- Board;
+	- Human Player;
+		- Pode controlar os seguintes Actors:
+			- Snake;
+			- Food;
+			- Obstacle;
+	- Neural Network + Genetic Algorithm:
+		- Pode controlar os seguintes Actors:
+			- Snake;
+			- Food;
+			- Obstacle;
+	- Other thing:
+		- Outro algoritmo capaz de decidir o que o Actor deve fazer;
 
 
 
@@ -97,6 +89,9 @@ Para rodar o jogo, basta clonar o repositório e instalar o [Processing](https:/
 - Fazer uma versão onde a comida se move também, como se fosse uma presa que a cobra está caçando. Ela poderia ser controlado tanto pelo teclado (player humano) ou ter sua própria Rede Neural;
 - Utilizar outros algoritmos de solução. Comparar suas performaces;
 - Fazer uma versão web utilizando o P5.JS e o TensorFlow.JS; 
+  // Comidas com cores diferentes -> Pontuações diferentes.
+  // Comidas tóxicas ou venenos -> Ingerir pode reduzir seu tamanho ou matar a cobra.
+  // Várias comidas na tela.
 
 ## Parte 1 - O Jogo
 
