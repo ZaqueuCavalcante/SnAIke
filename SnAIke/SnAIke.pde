@@ -53,6 +53,7 @@ void draw() {
 
     population.reliveSnakes();
     population.resetRemainingMoves();
+    
     population.setPositions(board);
     population.updateGeneration();
 
