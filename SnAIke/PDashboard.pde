@@ -34,6 +34,6 @@ class PDashboard {
     weightPlot.setLabels();
     weightPlot.setGrid();
     weightPlot.setAxisInterval(10, 2);
-    weightPlot.setAxisLimits(0, 101, -10.1, 10.1);
+    weightPlot.setAxisLimits(0, 121, -10.1, 10.1);
   }
 }

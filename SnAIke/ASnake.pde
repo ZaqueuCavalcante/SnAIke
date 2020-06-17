@@ -9,7 +9,7 @@ public class ASnake {
   private boolean dead;
 
   private FloatList genes;
-  
+
   int apagar = 50;
 
   ASnake(float x, float y) {
@@ -23,19 +23,41 @@ public class ASnake {
     this.remainingMoves = apagar;
     this.dead = false;
 
-    //this.head.getVelocity().setColor(color(255, 255, 0));
-    //this.head.getVelocity().setStrokeWeight(5);
-    //this.head.getVelocity().makeObservable();
+    this.head.getVelocity().setColor(color(255, 255, 0));
+    this.head.getVelocity().setStrokeWeight(5);
+    this.head.getVelocity().makeObservable();
 
     this.genes = new FloatList();
-    this.randomGenes();
+    //this.randomGenes();
+    this.correctGenes();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void randomGenes() {
-    int neuralNetworkLinksNumber = 10 * 10;  // 10 * número de camadas ocultas.
+    int neuralNetworkLinksNumber = 12 * 10;  // 12 * número de camadas ocultas.
     for (int c = 0; c < neuralNetworkLinksNumber; c++) {
       this.genes.append(random(-10.0, 10.0));
     }
+  }
+  private void correctGenes() {
+    float[] bias = {0.5, -1, 10, 6.1, 3, 1, 4, 1.9, -6.1, 1.8};
+    float[] foodX = {-1.9, -2, -4, 8, -7, 3.5, 9.5, -9, -8.1, -5.9};
+    float[] foodY = {7, -5.5, 5, 5, 5, 5, -9.5, -2, -2, 9.5};
+    float[] hidden = {-5, -4, 10, -6.5, 
+                      -7, -7.5, -9, -4, 
+                      -3, -4, 2.7, -4, 
+                      -6, -4, -7.7, 1, 
+                      4, 2, 2, 3, 
+                      3.5, 3, -10, -6, 
+                      6.5, 1, 3, -0.5, 
+                      4, 5.5, 10, 7, 
+                      2, 0.7, -1, -6.5, 
+                      -3, 3, -8, -7};
+    for (int c = 0; c < 10; c++) { this.genes.append(bias[c]); }
+    for (int c = 10; c < 30; c++ ) { this.genes.append(0); }
+    for (int c = 0; c < 10; c++ ) { this.genes.append(foodX[c]); }
+    for (int c = 0; c < 10; c++ ) { this.genes.append(foodY[c]); }
+    for (int c = 50; c < 80; c++ ) { this.genes.append(0); }
+    for (int c = 0; c < 40; c++ ) { this.genes.append(hidden[c]); }
   }
   public FloatList getGenes() {
     return this.genes;

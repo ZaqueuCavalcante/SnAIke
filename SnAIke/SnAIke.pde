@@ -13,6 +13,8 @@ ArrayList<AFood> foodBasket;
 RSnakeRadar radar;
 CNeuralNetwork nn;
 
+boolean showAllPop = false;
+
 void setup() {
   size(1900, 1050);
   canvas = new PCanvas();
@@ -49,22 +51,30 @@ void draw() {
   canvas.showDividingLines();
   canvas.showParameters(pop);
   //canvas.showController(population.getBestSnake());  // Mostra uma Rede Neural ou 3 Setas (<^>).
-  dashboard.getWeightPlot().setPoints(pop.getSnakes().get( pop.getBestSnakeIndex() ).getGenes()); // 
-  dashboard.getScorePlot().addPoint(pop.getGeneration(), pop.getBestScore());
+  dashboard.getWeightPlot().setPoints(pop.getSnakes().get( 0 ).getGenes()); // 
+  //dashboard.getScorePlot().addPoint(pop.getGeneration(), pop.snakes.get(pop.ranking[0]).getScore());//pop.getBestScore());
   canvas.show(dashboard);
   canvas.show(board);
 
+  if (pop.getLiveSnakesNumber() < 100) {
+    showAllPop = true;
+  }
+
 
   // Mostra os atores (Melhor cobra da população e maçã associada)
-  //canvas.show(foodBasket.get( pop.getBestSnakeIndex() ));
-  //canvas.show(pop.getSnakes().get( pop.getBestSnakeIndex() ));
+  if (!showAllPop) {
+    canvas.show(foodBasket.get( 0 ));
+    canvas.show(pop.getSnakes().get( 0 ));
+  }
 
   for (int c = 0; c < popSize; c++) {
     ASnake currentSnake = pop.getSnakes().get(c);
     AFood currentFood = foodBasket.get(c);
     if (currentSnake.isNotDead()) {
-      canvas.show(currentFood);
-      canvas.show(currentSnake);
+      if (showAllPop) {
+        canvas.show(currentFood);
+        canvas.show(currentSnake);
+      }
 
       // Radar é usado e mostrado (para cada cobra da população)
       radar.calculateDistanceToLeft(currentSnake, board);
@@ -87,31 +97,22 @@ void draw() {
       god.checksSnakeBoardCollide(currentSnake, board);
       god.checksSnakeFoodCollide(currentSnake, currentFood, board);
       god.checksSnakeRemainingMoves(currentSnake);
-      //god.checksSnakeIsDead(currentSnake, board);
     }
   }
 
-  //for (int c = 0; c < 10; c++) {
-  //  int index = pop.ranking[c];
-  //  ASnake currentSnake = pop.getSnakes().get(index);
-  //  AFood currentFood = foodBasket.get(index);
-  //  canvas.show(currentFood);
-  //  canvas.show(currentSnake);
-  //}
-
   if (pop.allSnakesIsDead()) {
     pop.updateRanking();
+    dashboard.getScorePlot().addPoint(pop.getGeneration(), pop.getBestScore());
     pop.generateNewPopulation();
 
     for (int c = 0; c < popSize; c++) {
-      //AFood food = foodBasket.get(c);
       ASnake snake = pop.getSnakes().get(c);
       god.setSnakePosition(snake, board);
-      //god.setFoodPosition(food, board, snake);
       god.resetSnake(snake);
     }
 
     pop.updateGeneration();
+    showAllPop = false;
   }
 
   // Quando o loop chega aqui, todas as cobras VIVAS da população terão andado UM pixel.
@@ -119,20 +120,46 @@ void draw() {
 
 // Os métodos abaixo servem para monitorar os inputs do usuário (Mouse e Teclado).
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+void mousePressed() {
+  if (canvas.saveButton.mouseAbove(mouseX, mouseY)) {
+    //selectOutput("Save Snake Model", "fileSelectedOut");
+  }
+  if (canvas.loadButton.mouseAbove(mouseX, mouseY)) {
+    //selectInput("Load Snake Model", "fileSelectedIn");
+  }
+  if (canvas.graphButton.mouseAbove(mouseX, mouseY)) {
+    //graph = new EvolutionGraph();
+  }
+  if (canvas.increaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
+    pop.updateMutationRate(+5.0);
+  }
+  if (canvas.decreaseMutationRateButton.mouseAbove(mouseX, mouseY)) {
+    pop.updateMutationRate(-5.0);
+  }
+}
 void keyPressed() {
   if (key == CODED) {
     switch(keyCode) {
     case LEFT:
+      for (int c = 50; c < popSize; c++) {
+        pop.getSnakes().get(c).die();
+      }
       //snake.getHead().turnLeft();
       break;
     case RIGHT:
+      for (int c = 500; c < popSize; c++) {
+        pop.getSnakes().get(c).die();
+      }
       //snake.getHead().turnRight();
       break;
     case UP:
       //snake.move();
+      for (int c = 0; c < popSize; c++) {
+        pop.getSnakes().get(c).die();
+      }
       break;
     case DOWN:
-      //snake.eat();
+      showAllPop = !showAllPop;
       break;
     }
   }

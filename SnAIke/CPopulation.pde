@@ -137,7 +137,7 @@ public class CPopulation {
     if (snakeMutationProbability <= this.mutationRate) {
       //println("XMEN");
       int genomeSize = snake.getGenes().size();
-      int genesNumberThatWillMutate = int(random(1, genomeSize*0.10));
+      int genesNumberThatWillMutate = int(random(1, genomeSize*0.20));
       //println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));

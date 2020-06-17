@@ -53,7 +53,7 @@ public class PCanvas {
     text("LIVE SNAKES : " + population.getLiveSnakesNumber() + "  /  " + population.getSize(), 20, 90);
     text("GENERATION : " + population.getGeneration() + "  /  " + population.getGenerationLimit(), 20, 120);
     text("REMAINING MOVES : " + bestSnake.getRemainingMoves(), 20, 150);
-    text("MUTATION RATE : " + population.getMutationRate(), 20, 180);
+    text("MUTATION RATE : " + population.getMutationRate() + " % ", 20, 180);
   }
   //public void showController(Snake snake) {
   //  snake.getController().show();
@@ -120,10 +120,10 @@ public class PCanvas {
     rect(board.getPosition().getX(), board.getPosition().getY(), board.getWidth()-1, board.getHeight());
   }
   public void show(ASnake snake) {
-    this.show(snake.getHead());
     for (ZPixel pixel : snake.getBody()) {
       this.show(pixel);
     }
+    this.show(snake.getHead());
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   // R Objects show().

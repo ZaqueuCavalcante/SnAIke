@@ -3,7 +3,7 @@ public class CNeuralNetwork {
   private PVector distances;
 
   private String[] inputNames = {"Bias", "VelX", "VelY", "FoodX", "FoodY", "Left", "Front", "Right"};
-  private String[] outputNames = {"Left", "Right"};
+  private String[] outputNames = {"Right", "Down", "Left", "Up"};
 
   private CLayer inputLayer;
   private CLayer hiddenLayer;
@@ -113,7 +113,7 @@ public class CNeuralNetwork {
     float output;
     for (CNeuron neuron : this.hiddenLayer.neurons) {
       neuron.calculateActivationPotential();
-      output = neuron.ReLUFunction(neuron.activationPotential);
+      output = neuron.SigmoidFunction(neuron.activationPotential);
       neuron.setOutputValue(output);
     }
   }
@@ -139,21 +139,46 @@ public class CNeuralNetwork {
       neuron.calculateActivationPotential();
       output = neuron.ReLUFunction(neuron.activationPotential);
       neuron.setOutputValue(output);
-      //println("Saida = ", neuron.getOutputValue());}
+      //println("Saida = ", neuron.getOutputValue());
     }
-    // println("----------------");
+    //println("- - - -");
   }
 
   public void decideTurn(ZPixel head) {
-    this.outputLayer.neurons.get(0).deactivate();
-    this.outputLayer.neurons.get(1).deactivate();
-    if (this.outputLayer.neurons.get(0).getOutputValue() > 0) {
-      head.turnLeft();
+    for (CNeuron neuron : this.outputLayer.neurons) {
+      neuron.deactivate();
+    }
+    float[] decision = new float[this.outputLayer.neuronsNumber];  // 0 -> right, 1 - > down, 2 -> left, 3 -> up
+    for (int c = 0; c < decision.length; c++) {
+      decision[c] = this.outputLayer.neurons.get(c).getOutputValue();
+      //println(decision[c]);
+    }
+    //println(" - - - ");
+
+    float maiorValor = Integer.MIN_VALUE;
+    int indiceMaior = 0;
+    for (int c = 0; c < decision.length; c++) {
+      if (decision[c] > maiorValor) {
+        maiorValor = decision[c];
+        indiceMaior = c;
+      }
+    }
+  //println(indiceMaior);
+    if (indiceMaior == 0) {// && head.getVelocity().getAngle() != PI) {//
+      head.pointToRight();
       this.outputLayer.neurons.get(0).activate();
-    } 
-    if (this.outputLayer.neurons.get(1).getOutputValue() > 0) {
-      head.turnRight();
+    }
+    if (indiceMaior == 1) {// && head.getVelocity().getAngle() != 3*PI/2) {
+      head.pointToDown();
       this.outputLayer.neurons.get(1).activate();
+    }
+    if (indiceMaior == 2) {// && head.getVelocity().getAngle() != 0) {
+      head.pointToLeft();
+      this.outputLayer.neurons.get(2).activate();
+    }
+    if (indiceMaior == 3) {// && head.getVelocity().getAngle() != PI/2) {
+      head.pointToUp();
+      this.outputLayer.neurons.get(3).activate();
     }
   }
 

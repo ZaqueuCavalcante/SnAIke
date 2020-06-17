@@ -60,7 +60,14 @@ public class CGod {
   public void setFoodPosition(AFood food, ABoard board, ASnake snake) {
     ArrayList<Integer> freePixelsIndexes = determineFreePixelsIndexes(board, snake);
     //println(freePixelsIndexes.size());
-    int pixelIndex = freePixelsIndexes.get( int(random(freePixelsIndexes.size())) );
+    int pixelIndex;
+    if (freePixelsIndexes.size() > 0) {
+      pixelIndex = freePixelsIndexes.get( int(random(freePixelsIndexes.size())) );
+    } else {
+      pixelIndex = 0;
+      snake.die();
+      println("ZEROU!!!!");
+    }
     ZPixel chosenPixel = board.getGrid().get(pixelIndex);
     float x = chosenPixel.getPosition().getX();
     float y = chosenPixel.getPosition().getY();

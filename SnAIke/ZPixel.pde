@@ -49,11 +49,11 @@ public class ZPixel implements IDynamic {
     this.velocity.updateTip();
   }
   public void pointToLeft() {
-    this.velocity.setAngle(-PI);
+    this.velocity.setAngle(PI);
     this.velocity.updateTip();
   }
   public void pointToUp() {
-    this.velocity.setAngle(-3*PI/2);
+    this.velocity.setAngle(3*PI/2);
     this.velocity.updateTip();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
