@@ -129,8 +129,9 @@ public class PCanvas {
   // R Objects show().
   public void show(RSnakeRadar radar) {
     this.show(radar.distanceToLeft);
-    this.show(radar.distanceToFront);
+    this.show(radar.distanceToUp);
     this.show(radar.distanceToRight);
+    this.show(radar.distanceToDown);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   // Z Objects show().

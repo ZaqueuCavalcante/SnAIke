@@ -1,27 +1,21 @@
 public class RSnakeRadar {
 
-  private int snakeVx;
-  private int snakeVy;
   private float distanceToFoodX;
   private float distanceToFoodY;
   private ZVector2D distanceToLeft;
-  private ZVector2D distanceToFront;
+  private ZVector2D distanceToUp;
   private ZVector2D distanceToRight;
+  private ZVector2D distanceToDown;
 
   RSnakeRadar() {
     this.distanceToLeft = new ZVector2D();
-    this.distanceToFront = new ZVector2D();
+    this.distanceToUp = new ZVector2D();
     this.distanceToRight = new ZVector2D();
+    this.distanceToDown = new ZVector2D();
     this.distanceToLeft.makeObservable();
-    this.distanceToFront.makeObservable();
+    this.distanceToUp.makeObservable();
     this.distanceToRight.makeObservable();
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public int getSnakeVx() {
-    return this.snakeVx;
-  }
-  public int getSnakeVy() {
-    return this.snakeVy;
+    this.distanceToDown.makeObservable();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public float getDistanceToFoodX() {
@@ -33,11 +27,14 @@ public class RSnakeRadar {
   public float getDistanceToLeft() {
     return this.distanceToLeft.getSize();
   }
-  public float getDistanceToFront() {
-    return this.distanceToFront.getSize();
+  public float getDistanceToUp() {
+    return this.distanceToUp.getSize();
   }
   public float getDistanceToRight() {
     return this.distanceToRight.getSize();
+  }
+  public float getDistanceToDown() {
+    return this.distanceToDown.getSize();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void calculateDistanceToFood(ASnake snake, AFood food) {
@@ -67,11 +64,10 @@ public class RSnakeRadar {
     }
     return true;
   }
-  private void calculateDistanceTo(ZVector2D direction, float angleUpdate, ASnake snake, ABoard board) {    
+  private void calculateDistanceTo(ZVector2D direction, float directionAngle, ASnake snake, ABoard board) {    
     direction.setOrigin(snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY());
     float pixelSize = snake.getHead().getSize();
     direction.setSize(pixelSize);
-    float directionAngle = snake.getHead().getVelocity().getAngle() + angleUpdate;
     direction.setAngle(directionAngle);
     direction.updateTip();
     float newSize;
@@ -84,41 +80,54 @@ public class RSnakeRadar {
     direction.updateTip();
   }
   public void calculateDistanceToLeft(ASnake snake, ABoard board) {
-    calculateDistanceTo(distanceToLeft, -PI/2, snake, board);
+    calculateDistanceTo(distanceToLeft, PI, snake, board);
   }
-  public void calculateDistanceToFront(ASnake snake, ABoard board) {
-    calculateDistanceTo(distanceToFront, 0, snake, board);
+  public void calculateDistanceToUp(ASnake snake, ABoard board) {
+    calculateDistanceTo(distanceToUp, 3*PI/2, snake, board);
   }
   public void calculateDistanceToRight(ASnake snake, ABoard board) {
-    calculateDistanceTo(distanceToRight, +PI/2, snake, board);
+    calculateDistanceTo(distanceToRight, 0, snake, board);
+  }
+  public void calculateDistanceToDown(ASnake snake, ABoard board) {
+    calculateDistanceTo(distanceToDown, PI/2, snake, board);
   }
 
   public void normalizeDistances(ASnake snake, ABoard board) {
-    this.snakeVx = int(cos(snake.getHead().getVelocity().getAngle()));
-    this.snakeVy = int(sin(snake.getHead().getVelocity().getAngle()));
     float pixelSize = snake.getHead().getSize();
     float bWidth = board.getWidth() - pixelSize;
     float bHeight = board.getHeight() - pixelSize;
 
+    //this.distanceToFoodX = distanceToFoodX / bWidth;
+    //this.distanceToFoodY = distanceToFoodY / bHeight;
+    //this.distanceToLeft.setSize(distanceToLeft.getSize() / bWidth);
+    //this.distanceToUp.setSize(distanceToUp.getSize() / bHeight);
+    //this.distanceToRight.setSize(distanceToRight.getSize() / bWidth);
+    //this.distanceToDown.setSize(distanceToDown.getSize() / bHeight);
+    float fx, fy, exp = 0.25;
+    //if (distanceToFoodX < 0) {
+    //  fx = -pow(-distanceToFoodX / bWidth, exp*10); // Colorar exp maior, dando mais imprtancia.
+    //} else {
+    //  fx = pow(distanceToFoodX / bWidth, exp*10);
+    //}
+    //if (distanceToFoodY < 0) {
+    //  fy = -pow(-distanceToFoodY / bHeight, exp*10);
+    //} else {
+    //  fy = pow(distanceToFoodY / bHeight, exp*10);
+    //}
+
     this.distanceToFoodX = distanceToFoodX / bWidth;
     this.distanceToFoodY = distanceToFoodY / bHeight;
+    this.distanceToLeft.setSize(pow(distanceToLeft.getSize() / bWidth, exp));
+    this.distanceToUp.setSize(pow(distanceToUp.getSize() / bHeight, exp));
+    this.distanceToRight.setSize(pow(distanceToRight.getSize() / bWidth, exp));
+    this.distanceToDown.setSize(pow(distanceToDown.getSize() / bHeight, exp));
 
-    if (snakeVx == 0) {
-      this.distanceToLeft.setSize(distanceToLeft.getSize() / bWidth);
-      this.distanceToFront.setSize(distanceToFront.getSize() / bHeight);
-      this.distanceToRight.setSize(distanceToRight.getSize() / bWidth);
-    } else {
-      this.distanceToLeft.setSize(distanceToLeft.getSize() / bHeight);
-      this.distanceToFront.setSize(distanceToFront.getSize() / bWidth);
-      this.distanceToRight.setSize(distanceToRight.getSize() / bHeight);
-    }
-
-    //println("Vx = ", snakeVx);
-    //println("Vy = ", snakeVy);
     //println("FoodX = ", distanceToFoodX);
     //println("FoodY = ", distanceToFoodY);
-    //println("Left = ", distanceToLeft.getSize());
-    //println("Front = ", distanceToFront.getSize());
     //println("Right = ", distanceToRight.getSize());
+    //println("Down = ", distanceToDown.getSize());
+    //println("Left = ", distanceToLeft.getSize());
+    //println("Up = ", distanceToUp.getSize());
+    //println(" - - - - ");
   }
 }

@@ -2,7 +2,7 @@ public class CNeuralNetwork {
 
   private PVector distances;
 
-  private String[] inputNames = {"Bias", "VelX", "VelY", "FoodX", "FoodY", "Left", "Front", "Right"};
+  private String[] inputNames = {"Bias", "FoodX", "FoodY", "Right", "Down", "Left", "Up"};
   private String[] outputNames = {"Right", "Down", "Left", "Up"};
 
   private CLayer inputLayer;
@@ -85,13 +85,12 @@ public class CNeuralNetwork {
 
   private void flowInputLayer(RSnakeRadar radar) {
     this.inputLayer.neurons.get(0).setOutputValue(this.bias);
-    this.inputLayer.neurons.get(1).setOutputValue(0);//radar.getSnakeVx());
-    this.inputLayer.neurons.get(2).setOutputValue(0);//radar.getSnakeVy());
-    this.inputLayer.neurons.get(3).setOutputValue(radar.getDistanceToFoodX());
-    this.inputLayer.neurons.get(4).setOutputValue(radar.getDistanceToFoodY());
+    this.inputLayer.neurons.get(1).setOutputValue(radar.getDistanceToFoodX());
+    this.inputLayer.neurons.get(2).setOutputValue(radar.getDistanceToFoodY());
+    this.inputLayer.neurons.get(3).setOutputValue(radar.getDistanceToRight());
+    this.inputLayer.neurons.get(4).setOutputValue(radar.getDistanceToDown());
     this.inputLayer.neurons.get(5).setOutputValue(radar.getDistanceToLeft());
-    this.inputLayer.neurons.get(6).setOutputValue(radar.getDistanceToFront());
-    this.inputLayer.neurons.get(7).setOutputValue(radar.getDistanceToRight());
+    this.inputLayer.neurons.get(6).setOutputValue(radar.getDistanceToUp());
   }
 
   private void flowValuesAndWeightsInputToHidden() {
@@ -139,7 +138,10 @@ public class CNeuralNetwork {
       neuron.calculateActivationPotential();
       output = neuron.ReLUFunction(neuron.activationPotential);
       neuron.setOutputValue(output);
-      //println("Saida = ", neuron.getOutputValue());
+      //if (neuron.getOutputValue() > 0.99) {
+      //  println("Saida = ", neuron.getOutputValue());
+      //}
+      
     }
     //println("- - - -");
   }
@@ -190,12 +192,4 @@ public class CNeuralNetwork {
       neuron.clearValues();
     }
   }
-
-  //public void printWeights() {
-  //  for (int c = 0; c < links.size(); c++) {
-  //    print("|");
-  //    print(links.get(c).getWeight());
-  //  }
-  //  println(" - - - ");
-  //}
 }

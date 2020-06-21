@@ -158,7 +158,7 @@ public class CNeuron {
     }
   }
   public float SigmoidFunction(float input) {
-    return (1.0 / (1.0 + exp(-input)) - 0.5) * 2;  // Return between -1.0 to +1.0
+    return (1.0 / (1.0 + exp(-input * 0.10)) - 0.5) * 2;  // Return between -1.0 to +1.0
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void deactivate() {

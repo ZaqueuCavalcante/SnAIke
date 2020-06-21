@@ -78,8 +78,9 @@ void draw() {
 
       // Radar é usado e mostrado (para cada cobra da população)
       radar.calculateDistanceToLeft(currentSnake, board);
-      radar.calculateDistanceToFront(currentSnake, board);
+      radar.calculateDistanceToUp(currentSnake, board);
       radar.calculateDistanceToRight(currentSnake, board);
+      radar.calculateDistanceToDown(currentSnake, board);
       radar.calculateDistanceToFood(currentSnake, currentFood);
       //canvas.show(radar);
       radar.normalizeDistances(currentSnake, board);
@@ -140,20 +141,36 @@ void mousePressed() {
 void keyPressed() {
   if (key == CODED) {
     switch(keyCode) {
+      //case RIGHT:
+      //  pop.getSnakes().get(0).head.pointToRight();
+      //  break;
+      //case DOWN:
+      //  pop.getSnakes().get(0).head.pointToDown();
+      //  break;
+      //case LEFT:
+      //  pop.getSnakes().get(0).head.pointToLeft();
+      //  break;
+      //case UP:
+      //  pop.getSnakes().get(0).head.pointToUp();
+      //  break;
+      //case CONTROL:
+      //  pop.getSnakes().get(0).move();
+      //  break;
+
+
+
+
     case LEFT:
       for (int c = 50; c < popSize; c++) {
         pop.getSnakes().get(c).die();
       }
-      //snake.getHead().turnLeft();
       break;
     case RIGHT:
       for (int c = 500; c < popSize; c++) {
         pop.getSnakes().get(c).die();
       }
-      //snake.getHead().turnRight();
       break;
     case UP:
-      //snake.move();
       for (int c = 0; c < popSize; c++) {
         pop.getSnakes().get(c).die();
       }

@@ -3,7 +3,8 @@ class ZVector2D {
   private PVector origin;
   private float size;
   private float angle;  // Angle made with the x axis, measured clockwise.
-  private float x, y;  // Coordinates of Vector2D tip.
+  private float x, y;  // Coordinates of vector tip.
+
   private boolean observable;
   private color colorr;
   private float strokeWeight;
@@ -59,6 +60,7 @@ class ZVector2D {
     this.x = this.origin.x + this.size*cos(this.angle);
     this.y = this.origin.y + this.size*sin(this.angle);
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void makeObservable() {
     this.observable = true;
   }
@@ -67,11 +69,6 @@ class ZVector2D {
   }
   public boolean isObservable() {
     return this.observable;
-  }
-  public boolean tipIsInsideOf(float leftLimit, float rightLimit, float upLimit, float downLimit) {
-    boolean insideWidth = (this.x > leftLimit) && (this.x < rightLimit);
-    boolean insideHeight = (this.y > upLimit) && (this.y < downLimit);
-    return (insideWidth && insideHeight);
   }
   public void setColor(color colorr) {
     this.colorr = colorr;
@@ -84,5 +81,11 @@ class ZVector2D {
   }
   public float getStrokeWeight() {
     return this.strokeWeight;
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  public boolean tipIsInsideOf(float leftLimit, float rightLimit, float upLimit, float downLimit) {
+    boolean insideWidth = (this.x > leftLimit) && (this.x < rightLimit);
+    boolean insideHeight = (this.y > upLimit) && (this.y < downLimit);
+    return (insideWidth && insideHeight);
   }
 }

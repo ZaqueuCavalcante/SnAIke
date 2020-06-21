@@ -141,7 +141,11 @@ public class CPopulation {
       //println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));
-        float newWeight = random(-10.0, 10.0);
+        //float newWeight = random(-10.0, 10.0);
+        float weight = snake.getGenes().get(geneThatWillMutate);
+        float newWeight = random(weight-1.0, weight+1.0);
+        if (newWeight > 10.0) {newWeight = 10.0;}
+        if (newWeight < -10.0) {newWeight = -10.0;}
         snake.getGenes().set(geneThatWillMutate, newWeight);
       }
     }
@@ -164,6 +168,7 @@ public class CPopulation {
       }
       snakes.set(i, newSnakes.get(i));
     }
+    this.bestScore = 0;
   }
   //// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean allSnakesIsDead() {

@@ -49,7 +49,7 @@ Antes de começar, um pouco de nostalgia.
 	- Radar usado por obstáculos / Rock;
 
 - Controller:
-	- Maestro / GameGod / Universe / Cosmos / --Nature--:
+	- Master:
 		- Controla as REGRAS DO GAME;
 		- Dita as Leis e as faz cumprir;
 		- Pode controlar os seguintes Actors:
