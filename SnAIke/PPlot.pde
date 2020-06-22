@@ -54,7 +54,7 @@ class PPlot {
     self.setXLim(xInfLimit, xSupLimit);
     self.setYLim(yInfLimit, ySupLimit);
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void show() {
     self.beginDraw();
     self.setBgColor(20);

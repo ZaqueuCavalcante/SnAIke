@@ -1,6 +1,6 @@
-public class CGod {
+public class CMaster {
 
-  CGod() {
+  CMaster() {
   }
   public void checksSnakeSelfCollide(ASnake snake) {
     if (snake.isNotDead() && snake.selfCollide()) {
@@ -28,13 +28,6 @@ public class CGod {
       this.setFoodPosition(food, board, snake);
     }
   }
-  public void checksSnakeIsDead(ASnake snake, ABoard board) {
-    if (snake.isDead()) {
-      this.setSnakePosition(snake, board);
-      this.resetSnake(snake);
-    }
-  }
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void resetSnake(ASnake snake) {
     snake.body.clear();
@@ -47,15 +40,7 @@ public class CGod {
     snake.live();
   }
   public void setSnakePosition(ASnake snake, ABoard board) {
-    int h = board.getHorizontalPixelNumber();
-    int v = board.getVerticalPixelNumber();
-    int aux = 0;
-    if (v % 2 == 0) aux = 1;
-    int centerPixelIndex = int(h * v/2 + aux*h/2);
-    ZPixel centerPixel = board.getGrid().get(centerPixelIndex);
-    float x = centerPixel.getPosition().getX();
-    float y = centerPixel.getPosition().getY();
-    snake.getHead().setPosition(x, y);
+    snake.getHead().setPosition(board.centerPixel);
   }
   public void setFoodPosition(AFood food, ABoard board, ASnake snake) {
     ArrayList<Integer> freePixelsIndexes = determineFreePixelsIndexes(board, snake);

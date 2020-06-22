@@ -16,7 +16,7 @@ class PDashboard {
   public PPlot getWeightPlot() {
     return this.weightPlot;
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setScorePlot() {
     scorePlot.setPosition(0, height-349);
     scorePlot.setDimensions(width/2.7, 280);
@@ -25,7 +25,6 @@ class PDashboard {
     scorePlot.setLabels();
     scorePlot.setGrid();
   }
-
   private void setWeightPlot() {
     weightPlot.setPosition(width/2.45, height-349);
     weightPlot.setDimensions(width/1.8, 280);

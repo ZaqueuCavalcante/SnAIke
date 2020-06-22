@@ -11,7 +11,6 @@ public class PCanvas {
     setFont();
     setButtons();
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setFont() {
     font = createFont("agencyfb-bold.ttf", 32);
     textFont(font);
@@ -26,7 +25,6 @@ public class PCanvas {
   public void setBackground() {
     background(20);
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void showDividingLines() {
     stroke(255);
     line(400, 0, 400, height-350);
@@ -41,39 +39,43 @@ public class PCanvas {
     increaseMutationRateButton.show();
     decreaseMutationRateButton.show();
   }
-  // Todos os métodos daqui pra baixo serão do tipo "public void show(Objeto objeto) {}".
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void showParameters(CPopulation population) {
-    fill(150);
-    textSize(20);
-    textAlign(LEFT);
-    ASnake bestSnake = population.getSnakes().get( population.getBestSnakeIndex() );
-    text("SCORE : " + bestSnake.getScore(), 20, 60);
-    text("BEST SCORE : " + population.getBestScore(), 180, 60); 
-    text("LIVE SNAKES : " + population.getLiveSnakesNumber() + "  /  " + population.getSize(), 20, 90);
-    text("GENERATION : " + population.getGeneration() + "  /  " + population.getGenerationLimit(), 20, 120);
-    text("REMAINING MOVES : " + bestSnake.getRemainingMoves(), 20, 150);
-    text("MUTATION RATE : " + population.getMutationRate() + " % ", 20, 180);
-  }
-  //public void showController(Snake snake) {
-  //  snake.getController().show();
-  //}
-  public void show(PDashboard db) {//, Population pop) {
-    //db.getScorePlot().setAxisLimits(0, pop.getGeneration()+1, 0, pop.getBestScore()+1);
-    //db.getScorePlot().setAxisLimits(0, x, 0, x);
-    //db.getScorePlot().setAxisInterval(x/500, x/500);
-    //db.getScorePlot().addPoint(x, x);
+  public void show(PDashboard db) {
     db.scorePlot.show();
     db.weightPlot.show();
   }
-
-  public void show() {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // A Objects show()
+  public void show(ABoard board) {
+    for (ZPixel pixel : board.getGrid()) {
+      this.show(pixel);
+    }
+    noFill();
+    stroke(255);
+    rectMode(CORNER);
+    rect(board.getPosition().getX(), board.getPosition().getY(), board.getWidth()-1, board.getHeight());
   }
-  
-  
-  
-  
-
+  public void show(ASnake snake) {
+    for (ZPixel pixel : snake.getBody()) {
+      this.show(pixel);
+    }
+    this.show(snake.getHead());
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // C Objects show()
+  public void show(CPopulation pop) {
+    fill(150);
+    textSize(20);
+    textAlign(LEFT);
+    ASnake bestSnake = pop.getSnakes().get( pop.getBestSnakeIndex() );
+    text("SCORE : " + bestSnake.getScore(), 20, 60);
+    text("BEST SCORE : " + pop.getBestScore(), 180, 60); 
+    text("LIVE SNAKES : " + pop.getLiveSnakesNumber() + "  /  " + pop.getSize(), 20, 90);
+    text("GENERATION : " + pop.getGeneration() + "  /  " + pop.getGenerationLimit(), 20, 120);
+    text("REMAINING MOVES : " + bestSnake.getRemainingMoves(), 20, 150);
+    text("MUTATION RATE : " + pop.getMutationRate() + " % ", 20, 180);
+  }
   public void show(CNeuralNetwork nn) {
     for (CLink link : nn.links) {
       this.show(link);
@@ -109,24 +111,8 @@ public class PCanvas {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  // Actors Objects show().
-  public void show(ABoard board) {
-    for (ZPixel pixel : board.getGrid()) {
-      this.show(pixel);
-    }
-    noFill();
-    stroke(255);
-    rectMode(CORNER);
-    rect(board.getPosition().getX(), board.getPosition().getY(), board.getWidth()-1, board.getHeight());
-  }
-  public void show(ASnake snake) {
-    for (ZPixel pixel : snake.getBody()) {
-      this.show(pixel);
-    }
-    this.show(snake.getHead());
-  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  // R Objects show().
+  // R Objects show()
   public void show(RSnakeRadar radar) {
     this.show(radar.distanceToLeft);
     this.show(radar.distanceToUp);
@@ -134,7 +120,8 @@ public class PCanvas {
     this.show(radar.distanceToDown);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  // Z Objects show().
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // Z Objects show()
   public void show(ZVector2D vector) {
     if (vector.isObservable()) {
       push();

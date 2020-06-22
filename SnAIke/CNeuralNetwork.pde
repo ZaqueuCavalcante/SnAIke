@@ -2,8 +2,8 @@ public class CNeuralNetwork {
 
   private PVector distances;
 
-  private String[] inputNames = {"Bias", "FoodX", "FoodY", "Right", "Down", "Left", "Up"};
-  private String[] outputNames = {"Right", "Down", "Left", "Up"};
+  private String[] inputNames = {"Bias", "FoodX", "FoodY", "RightD", "DownD", "LeftD", "UpD"};
+  private String[] outputNames = {"R", "D", "L", "U"};
 
   private CLayer inputLayer;
   private CLayer hiddenLayer;
@@ -30,7 +30,6 @@ public class CNeuralNetwork {
     this.distances.x = distanceLayers;
     this.distances.y = distanceNeurons;
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setLayer(CLayer layer, float x, float y) {
     layer.setCenterPosition(x, y);
     layer.setVerticalDistance(distances.y);
@@ -44,7 +43,6 @@ public class CNeuralNetwork {
     connectLayers(inputLayer, hiddenLayer);
     connectLayers(hiddenLayer, outputLayer);
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setInputOutputNames() {
     for (int c = 0; c < inputNames.length; c++) {
       inputLayer.neurons.get(c).setInputName(inputNames[c]);
@@ -53,7 +51,6 @@ public class CNeuralNetwork {
       outputLayer.neurons.get(c).setOutputName(outputNames[c]);
     }
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void connectLayers(CLayer leftLayer, CLayer rightLayer) {
     for (int i = 0; i < leftLayer.neuronsNumber; i++) {
       for (int j = 0; j < rightLayer.neuronsNumber; j++) {
@@ -61,10 +58,16 @@ public class CNeuralNetwork {
         links.add(link);
       }
     }
+    println("Quantidade de links = ", link.size());
   }
-
-  public void processAndMakeDecision(RSnakeRadar radar, ASnake snake) {
-    this.clearValuesHiddenAndOutput();
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // Os neurônios de entrada devem tratar os inputs antes de passar pra frente;
+  // Cada tipo de informação recebe um tratamento diferente;
+  // Encontrar um meio termo;
+  // Usar duas funções lineares?
+  // 
+  public void processDataAndMakeDecision(RSnakeRadar radar, ASnake snake) {
+    this.clearLayers();
     FloatList genes = snake.getGenes();
     this.setWeights(genes);
     this.flowInputLayer(radar);
@@ -74,7 +77,11 @@ public class CNeuralNetwork {
     this.flowOutputLayer();
     this.decideTurn(snake.getHead());
   }
-
+  public void clearLayers() {
+    this.inputLayer.clear();
+    this.hiddenLayer.clear();
+    this.outputLayer.clear();
+  }
   private void setWeights(FloatList genes) {
     for (int c = 0; c < this.links.size(); c++) {
       this.links.get(c).setWeight( genes.get(c) );
@@ -141,10 +148,11 @@ public class CNeuralNetwork {
       //if (neuron.getOutputValue() > 0.99) {
       //  println("Saida = ", neuron.getOutputValue());
       //}
-      
     }
     //println("- - - -");
   }
+
+
 
   public void decideTurn(ZPixel head) {
     for (CNeuron neuron : this.outputLayer.neurons) {
@@ -181,15 +189,6 @@ public class CNeuralNetwork {
     if (indiceMaior == 3) {// && head.getVelocity().getAngle() != PI/2) {
       head.pointToUp();
       this.outputLayer.neurons.get(3).activate();
-    }
-  }
-
-  public void clearValuesHiddenAndOutput() {
-    for (CNeuron neuron : this.hiddenLayer.neurons) {
-      neuron.clearValues();
-    }
-    for (CNeuron neuron : this.outputLayer.neurons) {
-      neuron.clearValues();
     }
   }
 }

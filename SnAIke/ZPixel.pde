@@ -26,6 +26,11 @@ public class ZPixel {
     this.velocity.setOrigin(x, y);
     this.velocity.updateTip();
   }
+  public void setPosition(ZPixel otherPixel) {
+    float x = otherPixel.getPosition().getX();
+    float y = otherPixel.getPosition().getY();
+    this.setPosition(x, y);
+  }
   public ZVector2D getPosition() {
     return this.position;
   }

@@ -156,10 +156,6 @@ void keyPressed() {
       //case CONTROL:
       //  pop.getSnakes().get(0).move();
       //  break;
-
-
-
-
     case LEFT:
       for (int c = 50; c < popSize; c++) {
         pop.getSnakes().get(c).die();

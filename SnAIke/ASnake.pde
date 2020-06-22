@@ -4,65 +4,36 @@ public class ASnake {
   private ArrayList<ZPixel> body;
   private color colorr;
 
-  private int score; 
+  private int score;
+  private int defaultMoves;	
   private int remainingMoves;    
   private boolean dead;
 
   private FloatList genes;
 
-  int apagar = 100;
-
   ASnake(float x, float y) {
     this.head = new ZPixel(x, y);
+    this.displayHeadVelocityVector();
     this.body = new ArrayList<ZPixel>();
     this.body.add(new ZPixel(x, y));
-    this.colorr = color(random(255), random(255), random(255));
     this.body.get(0).setColor(this.colorr);
+    this.colorr = color(random(255), random(255), random(255));
 
     this.score = 0;
-    this.remainingMoves = apagar;
+    this.defaultMoves = 50;
+    this.remainingMoves = this.defaultMoves;
     this.dead = false;
 
-    this.head.getVelocity().setColor(color(255, 255, 0));
-    this.head.getVelocity().setStrokeWeight(5);
-    this.head.getVelocity().makeObservable();
-
     this.genes = new FloatList();
-    this.randomGenes();
-    //this.correctGenes();
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  private void randomGenes() {
-    int neuralNetworkLinksNumber = 11 * 10;  // 11 * número de camadas ocultas.
-    for (int c = 0; c < neuralNetworkLinksNumber; c++) {
-      this.genes.append(random(-10.0, 10.0));
-    }
-  }
-  private void correctGenes() {
-    float[] bias = {0.5, -1, 10, 6.1, 3, 1, 4, 1.9, -6.1, 1.8};
-    float[] foodX = {-1.9, -2, -4, 8, -7, 3.5, 9.5, -9, -8.1, -5.9};
-    float[] foodY = {7, -5.5, 5, 5, 5, 5, -9.5, -2, -2, 9.5};
-
-    float weightRange = 10.0;
-    for (int c = 0; c < 10; c++) { 
-      this.genes.append(bias[c]);
-    }
-    for (int c = 0; c < 10; c++ ) { 
-      this.genes.append(foodX[c]);
-    }
-    for (int c = 0; c < 10; c++ ) { 
-      this.genes.append(foodY[c]);
-    }
-    for (int c = 0; c < 80; c++ ) { 
-      this.genes.append(random(-weightRange, weightRange));
-    }
-  }
-  public FloatList getGenes() {
-    return this.genes;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public ZPixel getHead() {
     return this.head;
+  }
+  private void displayHeadVelocityVector() {
+    this.head.getVelocity().setColor(color(255, 255, 0));
+    this.head.getVelocity().setStrokeWeight(5);
+    this.head.getVelocity().makeObservable();
   }
   public ArrayList<ZPixel> getBody() {
     return this.body;
@@ -72,13 +43,6 @@ public class ASnake {
     float y = this.body.get(0).getPosition().getY();
     this.body.add(new ZPixel(x, y));
     this.body.get(body.size()-1).setColor(this.colorr);
-  }
-  public void eat() {
-    for (int c = 0; c < 11; c++) {
-      this.bodyAddPixel();
-      this.increaseScore(+1);
-    }
-    this.incrementRemainingMoves(+apagar);
   }
   public color getColor() {
     return this.colorr;
@@ -97,7 +61,7 @@ public class ASnake {
       frontPixelX = backPixelX;
       frontPixelY = backPixelY;
     }
-    this.incrementRemainingMoves(-1);
+    this.decrementRemainingMoves();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void resetScore() {
@@ -106,18 +70,21 @@ public class ASnake {
   public int getScore() {
     return this.score;
   }
-  public void increaseScore(int scoreIncrement) {
-    this.score += scoreIncrement;
+  private void increaseScore() {
+    this.score ++;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void resetRemainingMoves() {
-    this.remainingMoves = apagar;
+    this.remainingMoves = this.defaultMoves;
   }
   public int getRemainingMoves() {
     return this.remainingMoves;
   }
-  public void incrementRemainingMoves(int increment) {
-    this.remainingMoves += increment;
+  private void incrementRemainingMoves() {
+    this.remainingMoves += this.defaultMoves;
+  }
+  private void decrementRemainingMoves() {
+    this.remainingMoves --;
   }
   public boolean remainingMovesIsEnded() {
     return (this.remainingMoves <= 0);
@@ -160,13 +127,62 @@ public class ASnake {
   public boolean collide(AFood food) {
     return (this.head.isAboveOf(food));
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  public void eat(AFood food) {
+    for (int c = 0; c < food.getNutritionalValue(); c++) {
+      this.bodyAddPixel();
+      this.increaseScore();
+    }
+    this.incrementRemainingMoves();
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  public void randomGenes(int neuralNetworkLinksNumber) {
+    for (int c = 0; c < neuralNetworkLinksNumber; c++) {
+      this.genes.append(random(-10.0, 10.0));
+    }
+  }
+  public FloatList getGenes() {
+    return this.genes;
+  }
   public ASnake clone() {
-    ASnake clonedSnake = new ASnake(-500, -500);
+    ASnake clonedSnake = new ASnake(-420, -420);
     for (int c = 0; c < this.genes.size(); c++) {
       clonedSnake.getGenes().set(c, this.genes.get(c));
     }
     clonedSnake.colorr = this.colorr;
     return clonedSnake;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  private void correctGenes() {
+    float[] bias = {0.5, -1, 10, 6.1, 3, 1, 4, 1.9, -6.1, 1.8};
+    float[] foodX = {-1.9, -2, -4, 8, -7, 3.5, 9.5, -9, -8.1, -5.9};
+    float[] foodY = {7, -5.5, 5, 5, 5, 5, -9.5, -2, -2, 9.5};
+
+    float weightRange = 10.0;
+    for (int c = 0; c < 10; c++) { 
+      this.genes.append(bias[c]);
+    }
+    for (int c = 0; c < 10; c++ ) { 
+      this.genes.append(foodX[c]);
+    }
+    for (int c = 0; c < 10; c++ ) { 
+      this.genes.append(foodY[c]);
+    }
+    for (int c = 0; c < 80; c++ ) { 
+      this.genes.append(random(-weightRange, weightRange));
+    }
   }
 }

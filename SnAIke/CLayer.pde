@@ -40,7 +40,13 @@ public class CLayer {
       this.neurons.add(newNeuron);
     }
   }
+  public void clear() {
+    for (CNeuron neuron : this.neurons) {
+      neuron.clearValues();
+    }
+  }
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 public class CLink {
 
@@ -52,7 +58,7 @@ public class CLink {
   CLink(CNeuron sourceNeuron, CNeuron arrivalNeuron) {
     this.sourceNeuron = sourceNeuron;
     this.arrivalNeuron = arrivalNeuron;
-    this.weight = random(-1.0, 1.0);
+    this.weight = random(-10.0, 10.0);
     this.colorr = color(80);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -69,6 +75,7 @@ public class CLink {
     return this.colorr;
   }
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 public class CNeuron {
 
@@ -141,7 +148,6 @@ public class CNeuron {
     for (int i = 0; i < this.weights.size(); i++) {
       this.activationPotential += this.weights.get(i) * this.inputValues.get(i);
     }
-    // Mudar a cor dependendo da saída?
   }
   public float ReLUFunction(float input) {
     if (input < 0.0) {
@@ -158,7 +164,7 @@ public class CNeuron {
     }
   }
   public float SigmoidFunction(float input) {
-    return (1.0 / (1.0 + exp(-input * 0.10)) - 0.5) * 2;  // Return between -1.0 to +1.0
+    return (1.0 / (1.0 + exp(-input * 0.10)) - 0.5) * 2;  // Return between -1.0 and +1.0
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void deactivate() {

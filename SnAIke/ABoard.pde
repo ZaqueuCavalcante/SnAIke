@@ -5,6 +5,7 @@ public class ABoard {
   private float heightt;
 
   private ArrayList<ZPixel> grid;
+  private ZPixel centerPixel;
 
   private int horizontalPixelNumber;
   private int verticalPixelNumber;
@@ -20,7 +21,6 @@ public class ABoard {
     this.setPixelPositions();
     this.setPixelColors();
   }
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setDimensions() {
     ZPixel pixel = new ZPixel(42, 42);
@@ -32,12 +32,21 @@ public class ABoard {
     float x, y;
     for (int row = 0; row < this.verticalPixelNumber; row++) {
       for (int column = 0; column < this.horizontalPixelNumber; column++) {
-        x = this.position.x + pixel.getSize()/2 + column*pixel.getSize();
-        y = this.position.y + pixel.getSize()/2 + row*pixel.getSize();
+        x = this.position.getX() + pixel.getSize()/2 + column*pixel.getSize();
+        y = this.position.getY() + pixel.getSize()/2 + row*pixel.getSize();
         ZPixel newPixel = new ZPixel(x, y);
         this.grid.add(newPixel);
       }
     }
+    this.setCenterPixel();
+  }
+  private setCenterPixel() {
+    int h = this.horizontalPixelNumber();
+    int v = this.verticalPixelNumber();
+    int aux = 0;
+    if (v % 2 == 0) aux = 1;
+    int centerPixelIndex = int(h * v/2 + aux*h/2);
+    this.centerPixel = this.grid.get(centerPixelIndex);
   }
   private void setPixelColors() {
     for (ZPixel pixel : this.grid) {
@@ -47,7 +56,7 @@ public class ABoard {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public ZVector2D getPosition() {
-    return position;
+    return this.position;
   }
   public float getWidth() {
     return this.widthh;
