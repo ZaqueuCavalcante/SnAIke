@@ -40,9 +40,9 @@ public class ABoard {
     }
     this.setCenterPixel();
   }
-  private setCenterPixel() {
-    int h = this.horizontalPixelNumber();
-    int v = this.verticalPixelNumber();
+  private void setCenterPixel() {
+    int h = this.horizontalPixelNumber;
+    int v = this.verticalPixelNumber;
     int aux = 0;
     if (v % 2 == 0) aux = 1;
     int centerPixelIndex = int(h * v/2 + aux*h/2);

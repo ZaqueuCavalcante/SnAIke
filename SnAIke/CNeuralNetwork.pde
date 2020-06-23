@@ -24,6 +24,9 @@ public class CNeuralNetwork {
 
     this.setDistances(110, 50);
     this.setLayersPositions(100, 450);
+    this.connectLayers(inputLayer, hiddenLayer);
+    this.connectLayers(hiddenLayer, outputLayer);
+    println(links.size());
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void setDistances(float distanceLayers, float distanceNeurons) {
@@ -40,8 +43,6 @@ public class CNeuralNetwork {
     setLayer(hiddenLayer, firstLayerX + distances.x, firstLayerY);
     setLayer(outputLayer, firstLayerX + 2*distances.x, firstLayerY);
     setInputOutputNames();
-    connectLayers(inputLayer, hiddenLayer);
-    connectLayers(hiddenLayer, outputLayer);
   }
   private void setInputOutputNames() {
     for (int c = 0; c < inputNames.length; c++) {
@@ -58,7 +59,6 @@ public class CNeuralNetwork {
         links.add(link);
       }
     }
-    println("Quantidade de links = ", link.size());
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   // Os neurônios de entrada devem tratar os inputs antes de passar pra frente;
@@ -68,14 +68,14 @@ public class CNeuralNetwork {
   // 
   public void processDataAndMakeDecision(RSnakeRadar radar, ASnake snake) {
     this.clearLayers();
-    FloatList genes = snake.getGenes();
-    this.setWeights(genes);
+    this.setWeights(snake.getGenes());
     this.flowInputLayer(radar);
     this.flowValuesAndWeightsInputToHidden();
     this.flowHiddenLayer();
     this.flowValuesAndWeightsHiddenToOutput();
     this.flowOutputLayer();
     this.decideTurn(snake.getHead());
+    snake.move();
   }
   public void clearLayers() {
     this.inputLayer.clear();
@@ -173,7 +173,7 @@ public class CNeuralNetwork {
         indiceMaior = c;
       }
     }
-  //println(indiceMaior);
+    //println(indiceMaior);
     if (indiceMaior == 0) {// && head.getVelocity().getAngle() != PI) {//
       head.pointToRight();
       this.outputLayer.neurons.get(0).activate();

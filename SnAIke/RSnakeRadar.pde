@@ -2,20 +2,20 @@ public class RSnakeRadar {
 
   private float distanceToFoodX;
   private float distanceToFoodY;
-  private ZVector2D distanceToLeft;
-  private ZVector2D distanceToUp;
   private ZVector2D distanceToRight;
   private ZVector2D distanceToDown;
+  private ZVector2D distanceToLeft;
+  private ZVector2D distanceToUp;
 
   RSnakeRadar() {
-    this.distanceToLeft = new ZVector2D();
-    this.distanceToUp = new ZVector2D();
     this.distanceToRight = new ZVector2D();
     this.distanceToDown = new ZVector2D();
-    this.distanceToLeft.makeObservable();
-    this.distanceToUp.makeObservable();
+    this.distanceToLeft = new ZVector2D();
+    this.distanceToUp = new ZVector2D();
     this.distanceToRight.makeObservable();
     this.distanceToDown.makeObservable();
+    this.distanceToLeft.makeObservable();
+    this.distanceToUp.makeObservable();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public float getDistanceToFoodX() {
@@ -24,17 +24,17 @@ public class RSnakeRadar {
   public float getDistanceToFoodY() {
     return this.distanceToFoodY;
   }
-  public float getDistanceToLeft() {
-    return this.distanceToLeft.getSize();
-  }
-  public float getDistanceToUp() {
-    return this.distanceToUp.getSize();
-  }
   public float getDistanceToRight() {
     return this.distanceToRight.getSize();
   }
   public float getDistanceToDown() {
     return this.distanceToDown.getSize();
+  }
+  public float getDistanceToLeft() {
+    return this.distanceToLeft.getSize();
+  }
+  public float getDistanceToUp() {
+    return this.distanceToUp.getSize();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void calculateDistanceToFood(ASnake snake, AFood food) {
@@ -79,17 +79,17 @@ public class RSnakeRadar {
     direction.setSize(direction.getSize() - pixelSize);
     direction.updateTip();
   }
-  public void calculateDistanceToLeft(ASnake snake, ABoard board) {
-    calculateDistanceTo(distanceToLeft, PI, snake, board);
-  }
-  public void calculateDistanceToUp(ASnake snake, ABoard board) {
-    calculateDistanceTo(distanceToUp, 3*PI/2, snake, board);
-  }
   public void calculateDistanceToRight(ASnake snake, ABoard board) {
     calculateDistanceTo(distanceToRight, 0, snake, board);
   }
   public void calculateDistanceToDown(ASnake snake, ABoard board) {
     calculateDistanceTo(distanceToDown, PI/2, snake, board);
+  }
+  public void calculateDistanceToLeft(ASnake snake, ABoard board) {
+    calculateDistanceTo(distanceToLeft, PI, snake, board);
+  }
+  public void calculateDistanceToUp(ASnake snake, ABoard board) {
+    calculateDistanceTo(distanceToUp, 3*PI/2, snake, board);
   }
 
   public void normalizeDistances(ASnake snake, ABoard board) {
@@ -97,30 +97,12 @@ public class RSnakeRadar {
     float bWidth = board.getWidth() - pixelSize;
     float bHeight = board.getHeight() - pixelSize;
 
-    //this.distanceToFoodX = distanceToFoodX / bWidth;
-    //this.distanceToFoodY = distanceToFoodY / bHeight;
-    //this.distanceToLeft.setSize(distanceToLeft.getSize() / bWidth);
-    //this.distanceToUp.setSize(distanceToUp.getSize() / bHeight);
-    //this.distanceToRight.setSize(distanceToRight.getSize() / bWidth);
-    //this.distanceToDown.setSize(distanceToDown.getSize() / bHeight);
-    float fx, fy, exp = 0.25;
-    //if (distanceToFoodX < 0) {
-    //  fx = -pow(-distanceToFoodX / bWidth, exp*10); // Colorar exp maior, dando mais imprtancia.
-    //} else {
-    //  fx = pow(distanceToFoodX / bWidth, exp*10);
-    //}
-    //if (distanceToFoodY < 0) {
-    //  fy = -pow(-distanceToFoodY / bHeight, exp*10);
-    //} else {
-    //  fy = pow(distanceToFoodY / bHeight, exp*10);
-    //}
-
     this.distanceToFoodX = distanceToFoodX / bWidth;
     this.distanceToFoodY = distanceToFoodY / bHeight;
-    this.distanceToLeft.setSize(pow(distanceToLeft.getSize() / bWidth, exp));
-    this.distanceToUp.setSize(pow(distanceToUp.getSize() / bHeight, exp));
-    this.distanceToRight.setSize(pow(distanceToRight.getSize() / bWidth, exp));
-    this.distanceToDown.setSize(pow(distanceToDown.getSize() / bHeight, exp));
+    this.distanceToLeft.setSize(distanceToLeft.getSize() / bWidth);
+    this.distanceToUp.setSize(distanceToUp.getSize() / bHeight);
+    this.distanceToRight.setSize(distanceToRight.getSize() / bWidth);
+    this.distanceToDown.setSize(distanceToDown.getSize() / bHeight);
 
     //println("FoodX = ", distanceToFoodX);
     //println("FoodY = ", distanceToFoodY);
@@ -129,5 +111,15 @@ public class RSnakeRadar {
     //println("Left = ", distanceToLeft.getSize());
     //println("Up = ", distanceToUp.getSize());
     //println(" - - - - ");
+  }
+
+  public void calculateAndNormalizeDistances(ABoard board, ASnake snake, AFood food) {
+    this.calculateDistanceToFood(snake, food);
+    this.calculateDistanceToRight(snake, board);
+    this.calculateDistanceToDown(snake, board);
+    this.calculateDistanceToLeft(snake, board);
+    this.calculateDistanceToUp(snake, board);
+    //canvas.show(this);
+    this.normalizeDistances(snake, board);
   }
 }

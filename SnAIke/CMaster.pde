@@ -2,6 +2,7 @@ public class CMaster {
 
   CMaster() {
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void checksSnakeSelfCollide(ASnake snake) {
     if (snake.isNotDead() && snake.selfCollide()) {
       snake.die();
@@ -24,7 +25,7 @@ public class CMaster {
   }
   public void checksSnakeFoodCollide(ASnake snake, AFood food, ABoard board) {
     if (snake.isNotDead() && snake.collide(food)) {
-      snake.eat();
+      snake.eat(food);
       this.setFoodPosition(food, board, snake);
     }
   }
@@ -44,7 +45,6 @@ public class CMaster {
   }
   public void setFoodPosition(AFood food, ABoard board, ASnake snake) {
     ArrayList<Integer> freePixelsIndexes = determineFreePixelsIndexes(board, snake);
-    //println(freePixelsIndexes.size());
     int pixelIndex;
     if (freePixelsIndexes.size() > 0) {
       pixelIndex = freePixelsIndexes.get( int(random(freePixelsIndexes.size())) );
@@ -58,7 +58,7 @@ public class CMaster {
     float y = chosenPixel.getPosition().getY();
     food.setPosition(x, y);
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private ArrayList<Integer> determineFreePixelsIndexes(ABoard board, ASnake snake) {
     ArrayList<Integer> freePixelsIndexes = new ArrayList<Integer>();
     int index = 0;
@@ -79,11 +79,31 @@ public class CMaster {
     return freePixelsIndexes;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void populate(CPopulation pop, ABoard board) {
+  public void setInitialSnakesAndFoods(ABoard board, CPopulation pop, ArrayList<AFood> foodBasket, CNeuralNetwork nn) {
     for (int c = 0; c < pop.getSize(); c++) {
-      ASnake snake = new ASnake(-500, -500);
+      AFood food = new AFood(-420, -420);
+      ASnake snake = new ASnake(-420, -420);
+      snake.randomGenes(nn.links.size());
       this.setSnakePosition(snake, board);
+      this.setFoodPosition(food, board, snake);
+      foodBasket.add(food);
       pop.getSnakes().add(snake);
     }
+    pop.updateRanking();
   }
+  public void checkSnakeStatus(ABoard board, ASnake snake, AFood food) {
+    //this.checksSnakeSelfCollide(snake);
+    this.checksSnakeBoardCollide(snake, board);
+    this.checksSnakeFoodCollide(snake, food, board);
+    this.checksSnakeRemainingMoves(snake);
+  }
+
+  public void resetPopulation(ABoard board, CPopulation pop) {
+    for (int c = 0; c < pop.getSize(); c++) {
+      ASnake snake = pop.getSnakes().get(c);
+      this.setSnakePosition(snake, board);
+      this.resetSnake(snake);
+    }
+  }
+
 }

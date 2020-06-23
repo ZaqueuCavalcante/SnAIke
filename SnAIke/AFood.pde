@@ -5,7 +5,7 @@ class AFood extends ZPixel {
   AFood(float x, float y) {
     super(x, y);
     this.setColor(color(255, 0, 0));
-    this.nutritionalValue = 10;
+    this.nutritionalValue = 2;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public int getNutritionalValue() {

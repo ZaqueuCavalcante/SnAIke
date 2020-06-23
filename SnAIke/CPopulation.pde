@@ -7,7 +7,7 @@ public class CPopulation {
   private int bestScore;
 
   private ArrayList<ASnake> snakes;
-  private int bestSnakeIndex;
+  private ASnake bestSnake;
   private int[] ranking;
   private float[] snakesFitness;
   private int liveSnakesNumber;
@@ -20,7 +20,7 @@ public class CPopulation {
     this.generationLimit = 42;
     this.mutationRate = 10.0;
     this.snakes = new ArrayList<ASnake>();
-    this.ranking = new int[size];
+    this.setInitialRanking();
     this.snakesFitness = new float[size];
     this.makeIndexesArray();
   }
@@ -67,16 +67,20 @@ public class CPopulation {
   public ArrayList<ASnake> getSnakes() {
     return this.snakes;
   }
-  public int getBestSnakeIndex() {
-    return this.bestSnakeIndex;
+  public ASnake getBestSnake() {
+    return this.bestSnake;
+  }
+  public int[] getRanking() {
+    return this.ranking;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-  public void setInitialRanking() {
+  private void setInitialRanking() {
+    this.ranking = new int[this.size];
     for (int i = 0; i < this.size; i++) {
       this.ranking[i] = i;
     }
   }
-  //// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   private void calculateAllSnakesFitness() {
     for (int i = 0; i < this.size; i++) {
       snakesFitness[i] = this.snakes.get(i).getScore();
@@ -94,12 +98,21 @@ public class CPopulation {
       ranking[i] = j;
       snakesFitness[j] = -1.0;
     }
-    if (this.snakes.get(ranking[0]).getScore() > this.bestScore) {
+    if (this.snakes.get(this.ranking[0]).getScore() > this.bestScore) {
       this.bestScore = this.snakes.get(ranking[0]).getScore();
     }
-    this.bestSnakeIndex = this.ranking[0];
+    this.bestSnake = this.snakes.get( this.ranking[0] );
   }
-  //// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  //private void makeIndexesArray() {
+  //  this.indexesArray = new ArrayList<Integer>();
+  //  for (int i = 0; i < this.size; i++) {
+  //    this.indexesArray.add(i);
+  //  }
+  //  for (int i = 1; i < int(this.size/2); i++) {
+  //    this.indexesArray.add(i);
+  //  }
+  //}
   private void makeIndexesArray() {
     this.indexesArray = new ArrayList<Integer>();
     int aux = this.size;
@@ -107,7 +120,7 @@ public class CPopulation {
       for (int j = 0; j < aux; j++) {
         this.indexesArray.add(i);
       }
-      aux = int(aux * 0.995);
+      aux = int(aux * 0.950);
     }
   }
   public int[] selectCouple() {
@@ -141,16 +154,12 @@ public class CPopulation {
       //println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));
-        //float newWeight = random(-10.0, 10.0);
-        float weight = snake.getGenes().get(geneThatWillMutate);
-        float newWeight = random(weight-1.0, weight+1.0);
-        if (newWeight > 10.0) {newWeight = 10.0;}
-        if (newWeight < -10.0) {newWeight = -10.0;}
+        float newWeight = random(-10.0, 10.0);
         snake.getGenes().set(geneThatWillMutate, newWeight);
       }
     }
   }
-  //// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public void generateNewPopulation() {
     ArrayList<ASnake> newSnakes = new ArrayList<ASnake>();
     for (int i = 0; i < this.size; i++) {
@@ -161,16 +170,13 @@ public class CPopulation {
       this.mutation(newSnake);
       newSnakes.add(newSnake);
     }
-    
+
     for (int i = 0; i < this.size; i++) {
-      if (i < int(this.size*0.20)) {
-        snakes.set(i, snakes.get(ranking[0]));
-      }
       snakes.set(i, newSnakes.get(i));
     }
     this.bestScore = 0;
   }
-  //// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   public boolean allSnakesIsDead() {
     for (int i = 0; i < this.snakes.size(); i++) {
       if (snakes.get(i).isNotDead()) {
