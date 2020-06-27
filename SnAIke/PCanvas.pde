@@ -77,10 +77,7 @@ public class PCanvas {
     text("MUTATION RATE : " + pop.getMutationRate() + " % ", 20, 180);
   }
   public void show(CPopulation pop, ArrayList<AFood> foodBasket) {
-    int quantityToBeShown = int(0.01 * pop.getSize());
-    //int currentBestSnakeIndex;
-    for (int c = 0; c < quantityToBeShown; c++) {
-      //currentBestSnakeIndex = pop.getRanking()[c];
+    for (int c = 0; c < pop.getSize(); c++) {
       if (pop.getSnakes().get( c ).isNotDead()) {
         this.show(foodBasket.get( c ));
         this.show(pop.getSnakes().get( c ));
@@ -129,6 +126,11 @@ public class PCanvas {
     this.show(radar.distanceToUp);
     this.show(radar.distanceToRight);
     this.show(radar.distanceToDown);
+    
+    this.show(radar.D0);
+    this.show(radar.D1);
+    this.show(radar.D2);
+    this.show(radar.D3);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

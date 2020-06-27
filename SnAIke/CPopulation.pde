@@ -154,7 +154,7 @@ public class CPopulation {
       //println("Genes Mutados = ", genesNumberThatWillMutate);
       for (int i = 0; i < genesNumberThatWillMutate; i++) {
         int geneThatWillMutate = int(random(0, genomeSize));
-        float newWeight = random(-10.0, 10.0);
+        float newWeight = random(-1.0, 1.0);
         snake.getGenes().set(geneThatWillMutate, newWeight);
       }
     }

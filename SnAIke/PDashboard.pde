@@ -32,7 +32,7 @@ class PDashboard {
     weightPlot.setTitle("Weight vs Gene");
     weightPlot.setLabels();
     weightPlot.setGrid();
-    weightPlot.setAxisInterval(10, 2);
-    weightPlot.setAxisLimits(0, 111, -10.1, 10.1);
+    weightPlot.setAxisInterval(5, 0.5);
+    weightPlot.setAxisLimits(0, 119, -1.1, 1.1);
   }
 }

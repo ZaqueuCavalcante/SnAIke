@@ -2,7 +2,7 @@ public class CNeuralNetwork {
 
   private PVector distances;
 
-  private String[] inputNames = {"Bias", "FoodX", "FoodY", "RightD", "DownD", "LeftD", "UpD"};
+  private String[] inputNames = {"Bias", "FoodX", "FoodY", "RightD", "DownD", "LeftD", "UpD", "D0", "D1", "D2", "D3"};
   private String[] outputNames = {"R", "D", "L", "U"};
 
   private CLayer inputLayer;
@@ -98,6 +98,11 @@ public class CNeuralNetwork {
     this.inputLayer.neurons.get(4).setOutputValue(radar.getDistanceToDown());
     this.inputLayer.neurons.get(5).setOutputValue(radar.getDistanceToLeft());
     this.inputLayer.neurons.get(6).setOutputValue(radar.getDistanceToUp());
+    
+    this.inputLayer.neurons.get(7).setOutputValue(radar.getD0());
+    this.inputLayer.neurons.get(8).setOutputValue(radar.getD1());
+    this.inputLayer.neurons.get(9).setOutputValue(radar.getD2());
+    this.inputLayer.neurons.get(10).setOutputValue(radar.getD3());
   }
 
   private void flowValuesAndWeightsInputToHidden() {
@@ -119,7 +124,7 @@ public class CNeuralNetwork {
     float output;
     for (CNeuron neuron : this.hiddenLayer.neurons) {
       neuron.calculateActivationPotential();
-      output = neuron.SigmoidFunction(neuron.activationPotential);
+      output = neuron.ReLUFunction(neuron.activationPotential);
       neuron.setOutputValue(output);
     }
   }

@@ -19,12 +19,12 @@ void setup() {
   master = new CMaster();
   board = new ABoard();
 
-  pop = new CPopulation(8001);
+  pop = new CPopulation(1);
   pop.setGenerationLimit(1000);
   foodBasket = new ArrayList<AFood>();
 
   radar = new RSnakeRadar();
-  nn = new CNeuralNetwork(10);
+  nn = new CNeuralNetwork(8);
 
   master.setInitialSnakesAndFoods(board, pop, foodBasket, nn);
 }
@@ -47,7 +47,7 @@ void draw() {
     AFood currentFood = foodBasket.get(c);
     if (currentSnake.isNotDead()) {
       radar.calculateAndNormalizeDistances(board, currentSnake, currentFood);
-      nn.processDataAndMakeDecision(radar, currentSnake);
+      //nn.processDataAndMakeDecision(radar, currentSnake);
       master.checkSnakeStatus(board, currentSnake, currentFood);
     }
   }
@@ -83,21 +83,21 @@ void mousePressed() {
 void keyPressed() {
   if (key == CODED) {
     switch(keyCode) {
-      //case RIGHT:
-      //  pop.getSnakes().get(0).head.pointToRight();
-      //  break;
-      //case DOWN:
-      //  pop.getSnakes().get(0).head.pointToDown();
-      //  break;
-      //case LEFT:
-      //  pop.getSnakes().get(0).head.pointToLeft();
-      //  break;
-      //case UP:
-      //  pop.getSnakes().get(0).head.pointToUp();
-      //  break;
-      //case CONTROL:
-      //  pop.getSnakes().get(0).move();
-      //  break;
+      case RIGHT:
+        pop.getSnakes().get(0).head.pointToRight();
+        break;
+      case DOWN:
+        pop.getSnakes().get(0).head.pointToDown();
+        break;
+      case LEFT:
+        pop.getSnakes().get(0).head.pointToLeft();
+        break;
+      case UP:
+        pop.getSnakes().get(0).head.pointToUp();
+        break;
+      case CONTROL:
+        pop.getSnakes().get(0).move();
+        break;
     }
   }
 }
