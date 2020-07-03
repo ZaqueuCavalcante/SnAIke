@@ -4,118 +4,55 @@ Antes de começar, um pouco de nostalgia.
 
 <img src='images\snake-nokia.GIF' width='400' height='300' title="snake-nokia"/>
 
-## Parte 0 - O Projeto
+## 0 - Por quê?
 
-- Presentation:
-	- Canvas;
-		- Button;
-		- Dashboard;
-			- Plot;
+Minha principal inspiração para este projeto foi [este vídeo do Code Bullet](https://youtu.be/tjQIO1rqTBE). Nele, o objetivo é construir um algoritmo que zere o *Snake Game*, de modo que a cobra percorra a menor distância possível durante o jogo.
 
-- Actor:
-	- Snake:
-		- Head:
-			- Pixel;
-		- Body:
-			- Pixels; 
-	- Food:
-		- Pixel;
-	- Obstacle / Rock:
-		- Pixel;
-	- Board:
-		- Matriz de Pixels;
+A princípio, não parece um *big deal*. Se fizer-mos a cobra se mover por um caminho que passe por todos os pontos do *grid* e não se auto-intercepte, eventualmente ganharemos o jogo.
 
-- Radar:  // Interface entre o Actor e o Controller;
-	- Existe apenas UM de cada tipo;
-	- Radar usado por cobras;
-		- É compartilhado por todas as cobras, uma usa de cada vez;
-		- Não armazena informação, apenas as recebe, processa e as retorna;
-		- Pega as seguintes informações:
-			- Snake, food, board;
-			- Deixar estendível para pegar obstáculos também; 
-		- Retorna para o Controller as seguintes informações:
-			- Distâncias da Snake até a Food (com sinal + -, variando de -1.0 a 1.0):
-				- Delta x;
-				- Delta y;
-			- Velocidade da Snake (com sinal + -, cada componente pode assumir -1, 0 ou 1):
-				- Velocity x;
-				- Velocity y;
-			- Distâncias da Snake até o obstáculo mais próximo, à Left, Front e Right (sem sinal, variando de 0.0 a 1.0):
-				- O obstáculo pode ser:
-					- Parede do Board;
-					- O próprio Body da Snake;
-					- Um obstáculo, Rock;
-	- Radar usado por Foods / presas;
-	- Radar usado por obstáculos / Rock;
+Descendo "um pouco" o nível de abastração, o [John Tapsell](https://johnflux.com/2015/05/02/nokia-6110/) implementou esta solução (Pertubated Hamiltonian Cycle) direto no [Nokia 6110](https://youtu.be/d3ggLzatg9Y).
 
-- Controller:
-	- Master:
-		- Controla as REGRAS DO GAME;
-		- Dita as Leis e as faz cumprir;
-		- Pode controlar os seguintes Actors:
-			- Snake;
-			- Food;
-			- Obstacle;
-			- Board;
-	- Human Player;
-		- Pode controlar os seguintes Actors:
-			- Snake;
-			- Food;
-			- Obstacle;
-	- Neural Network + Genetic Algorithm:
-		- Pode controlar os seguintes Actors:
-			- Snake;
-			- Food;
-			- Obstacle;
-	- Other thing:
-		- Outro algoritmo capaz de decidir o que o Actor deve fazer;
+No entanto, essa abordagem é extremamente ineficiente e inviável para ambiente maiores, pois a cobra precisa percorrer todo o *grid* a cada maçã comida (no pior dos casos).
+
+Assim, meu objetivo aqui é tentar zerar o jogo da maneira mais eficiente possível. Além disso, este projeto serviu de base para o estudo de diversos outros assuntos, como **Redes Neurais**, **Algoritmos de Busca de Caminhos** e **Ciclos Halmiltonianos**.
 
 
+## 1 - O Jogo (The Hamiltonicity Of Arbitrary Bipartite Rectangular Grid Graphs)
 
-Tentei fazer uma *Rede Neural* simples aprender a jogar o famoso 'Jogo da Cobrinha', através de uma *meta-heurística* conhecida como *Algoritmo Genético*.
+O jogo foi feito em *JavaScript*, utilizando a biblioteca [p5.js](https://p5js.org/) na parte gráfica.
 
-Vou dividir a explicação em duas partes: 
-- Parte 1 - Implementação completa do jogo;
-- Parte 2 - Explicação sobre o funcionamento da Rede Neural e do Algoritmo Genético utilizado.
+Ele está dividido nos módulos a seguir:
+- **Actors**
+	- Elementos que compõe a estrutura do jogo, como a cobra e a maçã.
+- **Controllers**
+	- Master, que controla as regras do jogo. Por exemplo, ele decide o que ocorre quando a cobra colide com uma maça, com as paredes ou com sigo mesma. 
+	- Player, que controla apenas a cobra. Pode ser um humano, uma Rede Neural, um algoritmo ou qualquer outro agente capaz de receber informações do jogo (como posição da cobra, da maçã e das paredes...), processá-las e decidir pra que direção a cobra deve ir a cada movimento.
+- **Radars**
+	- Classes que servem como interfaces entre objetos dos módulos Actors e Controllers.
+	- Por exemplo, se uma Rede Neural (Controller) quiser saber a distância entre a cabeça da cobra e a maçã, basta utilizar um método da classe SnakeRadar. 
+- **Utils**
+	- Abriga classes úteis para o desenvolvimento do jogo. Por exemplo, a classe ZPixel modela um pixel, utilizado nas classes Snake, Food e Board.
+- **View**
+	- Possui apenas uma classe, que é exclusivamente responsável por exibir tudo que é visto na tela.
 
-Em resumo, vamos gerar várias cobras, isto é, uma *população* delas. Todas terão livre arbítrio para fazer o que quiserem entre as quatro paredes, mas somente as mais *adaptadas* terão mais chance de se *alimentar*, se *reproduzir* e de passar seus *genes* para as próximas *gerações*. 
-
-A cada geração, cobras mais adaptadas surgirão (espero eu), até que a cobra perfeita nascerá para zerar o jogo, perfomando com a menor quantidade possível de movimentos entre uma maçã e outra.
-
-Para rodar o jogo, basta clonar o repositório e instalar o [Processing](https://processing.org/) na sua máquina de computar. Usei a versão baseada em Java, mas existe suporte para Python e JavaScript também.
 
 #### Planos futuros
-- Adicionar obstáculos (pedras) ao game. A cobra agora teria que aprender a desviar das paredes, do seu próprio corpo e delas;
-- Fazer uma versão onde a comida se move também, como se fosse uma presa que a cobra está caçando. Ela poderia ser controlado tanto pelo teclado (player humano) ou ter sua própria Rede Neural;
+- Adicionar obstáculos (pedras) ao game.
+- Fazer uma versão onde a comida se move também, como se fosse uma presa que a cobra está caçando. Ela poderia ser controlada tanto pelo teclado (player humano) ou ter sua própria Rede Neural;
 - Utilizar outros algoritmos de solução. Comparar suas performaces;
 - Fazer uma versão web utilizando o P5.JS e o TensorFlow.JS; 
   // Comidas com cores diferentes -> Pontuações diferentes.
   // Comidas tóxicas ou venenos -> Ingerir pode reduzir seu tamanho ou matar a cobra.
   // Várias comidas na tela.
 
-## Parte 1 - O Jogo
 
-### 1.0 - Canvas
+## 2 - Rede Neural + Algoritmo Genético
 
-Será nossa *tela de pintura*, onde tudo vai acontecer. Nele, teremos:
-- botões, para interagir com o programa em execução;
-- parâmetros, sobre a população de cobras;
-- o habitat das cobras (cercado que limita seus movimentos);
-- as cobras;
-- as maçãs (e os possíveis obstáculos);
-- o cérebro (Rede Neural) da melhor cobra da geração;
+Aqui, tentei fazer uma *Rede Neural* simples aprender a jogar, através de uma *meta-heurística* conhecida como *Algoritmo Genético*.
 
-Todos os objetos mostrados em tela possuem um **vetor posição**, como mostrado a seguir:
+Em resumo, vamos gerar várias cobras, isto é, uma *população* delas. Todas terão livre arbítrio para fazer o que quiserem entre as quatro paredes, mas somente as mais *adaptadas* terão mais chance de se *alimentar*, se *reproduzir* e de passar seus *genes* para as próximas *gerações*. 
 
-### GIF da tela aqui
-
-### 1.1 - Board
-
-É o local onde as cobras poderão se locomover. 
-
-É possível controlar a suas dimensões através da variável global PIXEL_SIZE.
-
-## Parte 2 - Rede Neural + Algoritmo Genético
+A cada geração, cobras mais adaptadas surgirão (espero eu), até que a cobra perfeita nascerá para zerar o jogo, perfomando com a menor quantidade possível de movimentos entre uma maçã e outra.
 
 ### 2.0 - Representação de cada indivíduo/cobra
 
@@ -162,18 +99,6 @@ public int[] selectCouple() {
 ```
 Ele, como o próprio nome diz, seleciona duas cobras para formar um casal, retornando um vetor com seus respectivos índices. Essa seleção é ponderada, ou seja, a probabilidade de ser escolhida depende da posição no ranking, como explicado a seguir.
 
-Existem mesmo cobras hermafroditas?
-
-Os índices de cada cobra do casal vêm do vetor `indexesArray`. Ele possuiria os seguintes valores, para uma população de 5 cobras:
-
-``` Java
-indexesArray = [0, 0, 0, 0, 0,
-                1, 1, 1, 1,
-                2, 2, 2,
-                3, 3,
-                4];
-```
-
 Cada cobra do ranking terá uma probabilidade de ser escolhida para ser mãe ou pai.
 Esta probabilidade é proporcional à posição da cobra no ranking. 
 Quanto menor o index, maior a chance de ser escolhido.
@@ -190,6 +115,7 @@ Como adiantado acima, aqui as cobras se **reproduzirão** e sofrerão eventuais 
 #### 2.2.5 - Melhor Cobra
 
 Ao final de cada geração, se pretende que surjam cobras cada vez melhores, convergindo uma solução ótima (ou perto disso) ao final do ciclo evolutivo.
+
 
 
 > Computadores fazem arte, artistas fazem dinheiro...

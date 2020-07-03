@@ -4,20 +4,23 @@ function setup() {
 	board = new Board();
 
 	snake = new Snake();
-	food = new Food();
+	food = (new Food()).self;  // Problema em extender a classe ZPixel.
 
 	master = new Master();
 	master.setSnakePosition(snake, board);
-	master.setFoodPosition(food.self, board, snake);
+	master.setFoodPosition(food, board, snake);
 }
 
 function draw() {
+	frameRate(10);
 	background(50);
 	view.showBoard(board);
 	view.showSnake(snake);
-	view.showZPixel(food.self);
+	view.showZPixel(food);
 
-	master.checkSnakeStatus(board, snake, food.self);
+	snake.move()
+
+	master.checkSnakeStatus(board, snake, food);
 	if (snake.isDead()) {
 		master.setSnakePosition(snake, board);
 		master.resetSnake(snake);

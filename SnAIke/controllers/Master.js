@@ -43,10 +43,10 @@ class Master {
   }
   setFoodPosition(food, board, snake) {
     let freePixelsIndexes = this.determineFreePixelsIndexes(board, snake);
+    let range = int(freePixelsIndexes.length);
     let pixelIndex;
-    if (freePixelsIndexes.length > 0) {
-      let index = int(random(freePixelsIndexes.lenght));
-      console.log(freePixelsIndexes.lenght);
+    if (range > 0) {
+      let index = int(random(range));
       pixelIndex = freePixelsIndexes[index];
     } else {
       pixelIndex = 0;
@@ -54,7 +54,6 @@ class Master {
       console.log("END GAME!");
     }
     let chosenPixel = board.grid[pixelIndex];
-    // console.log(pixelIndex);
     food.translateTo(chosenPixel);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -78,29 +77,9 @@ class Master {
     return freePixelsIndexes;
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-//   public void setInitialSnakesAndFoods(ABoard board, CPopulation pop, ArrayList<AFood> foodBasket, CNeuralNetwork nn) {
-//   for (int c = 0; c < pop.getSize(); c++) {
-//     AFood food = new AFood(-420, -420);
-//     ASnake snake = new ASnake(-420, -420);
-//     snake.randomGenes(nn.links.size());
-//     this.setSnakePosition(snake, board);
-//     this.setFoodPosition(food, board, snake);
-//     foodBasket.add(food);
-//     pop.getSnakes().add(snake);
-//   }
-//   pop.updateRanking();
-// }
   checkSnakeStatus(board, snake, food) {
   this.checksSnakeSelfCollide(snake);
   this.checksSnakeBoardCollide(snake, board);
   this.checksSnakeFoodCollide(snake, food, board);
-  //this.checksSnakeRemainingMoves(snake);
-}
-
-  // resetPopulation(board, pop) {
-  // for (int c = 0; c < pop.getSize(); c++) {
-  //   ASnake snake = pop.getSnakes().get(c);
-  //   this.setSnakePosition(snake, board);
-  //   this.resetSnake(snake);
-  // }
+  }
 }
