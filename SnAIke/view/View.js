@@ -6,8 +6,8 @@ class View {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
   // Actors objects show()
   showBoard(board) {
-    for (let pixel of board.grid) {
-      this.showZPixel(pixel);
+    for (let tile of board.grid) {
+      this.showTile(tile);
     }
     noFill();
     stroke(255);
@@ -45,5 +45,22 @@ class View {
     rect(pixel.position.x, pixel.position.y, pixel.size, pixel.size);
     this.showZVector2D(pixel.position);
     this.showZVector2D(pixel.velocity);
+  }
+  showTile(tile) {
+    this.showZPixel(tile);
+    fill(255);
+    strokeWeight(1.5);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    let offset = tile.size/3.8;
+    // text(tile.F, tile.position.x - offset, tile.position.y - offset);
+    // textSize(15);
+    // text(tile.G, tile.position.x - offset, tile.position.y + offset);
+    // text(tile.H, tile.position.x + offset, tile.position.y + offset);
+
+    text(tile.index, tile.position.x - offset, tile.position.y - offset);
+    textSize(15);
+    text(tile.row, tile.position.x - offset, tile.position.y + offset);
+    text(tile.column, tile.position.x + offset, tile.position.y + offset);
   }
 }

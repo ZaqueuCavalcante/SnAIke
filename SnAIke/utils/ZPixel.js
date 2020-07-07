@@ -57,4 +57,9 @@ class ZPixel {
 		let insideHeight = (y > upLimit) && (y < downLimit);
 		return (insideWidth && insideHeight);
 	}
+	manhattanDistance(pixel) {
+		let xDistance = abs(this.position.x - pixel.position.x);
+		let yDistance = abs(this.position.y - pixel.position.y);
+		return (xDistance + yDistance) / this.size;
+	}
 }
