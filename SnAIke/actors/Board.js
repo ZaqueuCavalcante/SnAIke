@@ -14,33 +14,31 @@ class Board {
 		this.setDimensions();
 		this.makeAndPositionPixels();
 		this.setCenterPixel();
-		this.setPixelColors();
+		this.setPixelsColor();
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	setDimensions() {
-		let pixel = new ZPixel();
-		this.horizontalPixelNumber = int(this.width / pixel.size);
-		this.verticalPixelNumber = int(this.height / pixel.size);
+		let pixelSize = (new ZPixel()).size;
+		this.horizontalPixelNumber = int(this.width / pixelSize);
+		this.verticalPixelNumber = int(this.height / pixelSize);
 	}
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	makeAndPositionPixels() {
-		let pixel = new ZPixel();
+		let pixelSize = (new ZPixel()).size;
 		let x, y;
-		let count = 0;
 		for (let row = 0; row < this.verticalPixelNumber; row++) {
 			for (let column = 0; column < this.horizontalPixelNumber; column++) {
-				x = this.position.x + pixel.size / 2 + column * pixel.size;
-				y = this.position.y + pixel.size / 2 + row * pixel.size;
-				let newTile = (new Tile(x, y)).self;
-
-				newTile.index = count;
-				newTile.row = row;
-				newTile.column = column;
-				count ++;
-
-				this.grid.push(newTile);
+				x = this.position.x + pixelSize / 2 + column * pixelSize;
+				y = this.position.y + pixelSize / 2 + row * pixelSize;
+				let newPixel = new ZPixel(x, y);
+				this.grid.push(newPixel);
 			}
 		}
 	}
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	setCenterPixel() {
 		let h = this.horizontalPixelNumber;
 		let v = this.verticalPixelNumber;
@@ -49,7 +47,9 @@ class Board {
 		let centerPixelIndex = int(h * v / 2 + aux * h / 2);
 		this.centerPixel = this.grid[centerPixelIndex];
 	}
-	setPixelColors() {
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	setPixelsColor() {
 		for (let pixel of this.grid) {
 			pixel.color = color(50);
 			pixel.stroke = color(100);

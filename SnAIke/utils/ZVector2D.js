@@ -10,7 +10,8 @@ class ZVector2D {
 		this.color = color(255);
 		this.strokeWeight = 1;
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	setOrigin(x, y) {
 		this.origin.set(x, y);
 	}
@@ -22,7 +23,8 @@ class ZVector2D {
 		this.x = this.origin.x + this.size * cos(this.angle);
 		this.y = this.origin.y + this.size * sin(this.angle);
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	makeVisible() {
 		this.visible = true;
 	}
@@ -32,7 +34,8 @@ class ZVector2D {
 	isVisible() {
 		return this.visible;
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	tipIsInsideOf(leftLimit, rightLimit, upLimit, downLimit) {
 		let insideWidth = (this.x > leftLimit) && (this.x < rightLimit);
 		let insideHeight = (this.y > upLimit) && (this.y < downLimit);

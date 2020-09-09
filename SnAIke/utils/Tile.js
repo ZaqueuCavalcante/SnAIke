@@ -3,6 +3,8 @@ class Tile {
 		this.self = new ZPixel(x, y);
     this.self.color = color(255, 0, 0);  // Verde claro = lista aberta e Azul claro = lista fechada;
 
+    this.self.free = true;
+
     this.self.index = 0;
     this.self.row = 0;
     this.self.column = 0;

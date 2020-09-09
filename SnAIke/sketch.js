@@ -9,9 +9,6 @@ function setup() {
 	master = new Master();
 	master.setSnakePosition(snake, board);
 	master.setFoodPosition(food, board, snake);
-
-	aStar = new AStar();
-	aStar.setNeighbors(board.grid[0], board);
 }
 
 function draw() {
@@ -44,8 +41,8 @@ function keyPressed() {
 		case UP_ARROW:
 			snake.head.pointToUp();
 			break;
-		case CONTROL:
-			snake.move();
-			break;
+		// case CONTROL:
+		// 	snake.move();
+		// 	break;
 	}
 }

@@ -14,18 +14,22 @@ class Snake {
 		this.remainingMoves = this.defaultMoves;
 		this.dead = false;
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	setHeadVelocity() {
 		this.head.velocity.color = color(255, 255, 0);
 		this.head.velocity.strokeWeight = 5;
 		this.head.velocity.makeVisible();
 	}
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	bodyAddPixel() {
 		let newPixel = new ZPixel(this.body[0].position.x, this.body[0].position.y);
 		newPixel.color = this.color;
 		this.body.push(newPixel);
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	move() {
 		let frontPixelX = this.head.position.x;
 		let frontPixelY = this.head.position.y;
@@ -41,40 +45,33 @@ class Snake {
 		}
 		this.decrementRemainingMoves();
 	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-	resetScore() {
-		this.score = 0;
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	eat(food) {
+		for (let c = 0; c < food.nutritionalValue; c++) {
+			this.bodyAddPixel();
+			this.increaseScore();
+		}
+		this.incrementRemainingMoves();
 	}
-	increaseScore() {
-		this.score++;
-	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-	resetRemainingMoves() {
-		this.remainingMoves = this.defaultMoves;
-	}
-	incrementRemainingMoves() {
-		this.remainingMoves += this.defaultMoves;
-	}
-	decrementRemainingMoves() {
-		this.remainingMoves--;
-	}
-	remainingMovesIsEnded() {
-		return (this.remainingMoves <= 0);
-	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-	live() {
-		this.dead = false;
-	}
-	die() {
-		this.dead = true;
-	}
-	isDead() {
-		return this.dead;
-	}
-	isNotDead() {
-		return !this.dead;
-	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	resetScore() { this.score = 0; }
+	increaseScore() { this.score ++; }
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	resetRemainingMoves() {	this.remainingMoves = this.defaultMoves; }
+	incrementRemainingMoves() {	this.remainingMoves += this.defaultMoves; }
+	decrementRemainingMoves() {	this.remainingMoves --;	}
+	remainingMovesIsEnded() { return (this.remainingMoves <= 0); }
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	live() { this.dead = false;	}
+	die() {	this.dead = true; }
+	isDead() { return this.dead; }
+	isNotDead() { return !this.dead; }
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	selfCollide() {
 		for (let pixel of this.body) {
 			if (this.head.isAboveOf(pixel)) {
@@ -83,6 +80,7 @@ class Snake {
 		}
 		return false;
 	}
+
 	boardCollide(board) {
 		let leftLimit = board.position.x;
 		let rightLimit = board.position.x + board.width;
@@ -93,18 +91,8 @@ class Snake {
 		}
 		return true;
 	}
-	rockCollide(rock) {
-		return (this.head.isAboveOf(rock));
-	}
-	foodCollide(food) {
-		return (this.head.isAboveOf(food));
-	}
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-	eat(food) {
-		for (let c = 0; c < food.nutritionalValue; c++) {
-			this.bodyAddPixel();
-			this.increaseScore();
-		}
-		this.incrementRemainingMoves();
-	}
+
+	rockCollide(rock) {	return (this.head.isAboveOf(rock));	}
+
+	foodCollide(food) {	return (this.head.isAboveOf(food)); }
 }
