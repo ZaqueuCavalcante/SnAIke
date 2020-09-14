@@ -1,7 +1,7 @@
 class ZPixel {
 	constructor(x = 0, y = 0) {
 		this.position = new ZVector2D(x, y);
-		this.size = 50;
+		this.size = 25;
 		this.velocity = new ZVector2D();
 		this.velocity.setOrigin(x, y);
 		this.velocity.size = this.size;

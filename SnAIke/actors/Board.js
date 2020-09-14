@@ -2,8 +2,8 @@ class Board {
 	constructor() {
 		this.size = (new ZPixel()).size;
 		this.position = new ZVector2D(this.size, this.size);
-		this.width = width - this.size * 2;
-		this.height = height - this.size * 2;
+		this.width = 750;
+		this.height = 600;
 
 		this.grid = [];
 		this.centerPixel;

@@ -13,6 +13,8 @@ class Snake {
 		this.defaultMoves = 50;
 		this.remainingMoves = this.defaultMoves;
 		this.dead = false;
+
+		this.genes = new GenesList();
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -95,4 +97,10 @@ class Snake {
 	rockCollide(rock) {	return (this.head.isAboveOf(rock));	}
 
 	foodCollide(food) {	return (this.head.isAboveOf(food)); }
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	clone() {
+		let clonedSnake = new Snake();
+		return Object.assign(clonedSnake, this);
+	}
 }

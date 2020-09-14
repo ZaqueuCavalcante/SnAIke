@@ -21,6 +21,54 @@ class View {
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	// Controllers objects show()
+	showNeuralNetwork(nn) {
+		for (let link of nn.links) {
+		  this.showLink(link);
+		}
+		this.showLayer(nn.inputLayer);
+		this.showLayer(nn.hiddenLayer);
+		this.showLayer(nn.outputLayer);
+	  }
+
+	  showLayer(layer) {
+		for (let neuron of layer.neurons) {
+		  this.showNeuron(neuron);
+		}
+	  }
+
+	  showLink(link) {
+		stroke(link.getColor());
+		line(link.sourceNeuron.position.x, link.sourceNeuron.position.y, link.arrivalNeuron.position.x, link.arrivalNeuron.position.y);
+	  }
+
+	  showNeuron(neuron) {
+		let x = neuron.position.x;
+		let y = neuron.position.y;
+		let r = neuron.radius;
+		fill(neuron.getColor());
+		stroke(255);
+		ellipseMode(CENTER);
+		ellipse(x, y, r, r);
+		if (neuron.inputName != "" || neuron.outputName != "") {
+		  fill(255);
+		  textSize(15);
+		  textAlign(RIGHT);
+		  text(neuron.inputName, x - r, y + 0.30*r);
+		  textAlign(LEFT);
+		  text(neuron.outputName, x + r, y + 0.30*r);
+		}
+	  }
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	// Radars objects show()
+	showSnakeRadar(radar) {
+		this.showZVector2D(radar.distanceToLeft);
+		this.showZVector2D(radar.distanceToFront);
+		this.showZVector2D(radar.distanceToRight);
+	}
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	// Utils objects show()
 	showZVector2D(vector) {
 		if (vector.isVisible()) {

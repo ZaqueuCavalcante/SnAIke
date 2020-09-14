@@ -9,16 +9,25 @@ function setup() {
 	master = new Master();
 	master.setSnakePosition(snake, board);
 	master.setFoodPosition(food, board, snake);
+
+	nn = new NeuralNetwork(8);
+	radar = new SnakeRadar();
 }
 
 function draw() {
-	frameRate(10);
+	frameRate(15);
 	background(50);
 	view.showBoard(board);
+
+	radar.calculateAndNormalizeDistances(board, snake, food);
+	view.showSnakeRadar(radar);
+
 	view.showSnake(snake);
 	view.showZPixel(food);
 
-	snake.move()
+	view.showNeuralNetwork(nn);
+
+	// snake.move();
 
 	master.checkSnakeStatus(board, snake, food);
 	if (snake.isDead()) {
@@ -41,8 +50,8 @@ function keyPressed() {
 		case UP_ARROW:
 			snake.head.pointToUp();
 			break;
-		// case CONTROL:
-		// 	snake.move();
-		// 	break;
+		case CONTROL:
+			snake.move();
+			break;
 	}
 }
