@@ -21,7 +21,7 @@ class Snake {
 	setHeadVelocity() {
 		this.head.velocity.color = color(255, 255, 0);
 		this.head.velocity.strokeWeight = 5;
-		this.head.velocity.makeVisible();
+		// this.head.velocity.makeVisible();
 	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

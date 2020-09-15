@@ -3,15 +3,16 @@ function setup() {
 	view = new View();
 	board = new Board();
 
-	snake = new Snake();
-	food = (new Food()).self;  // Problema em extender a classe ZPixel.
+	population = new Population(500);
+	population.generationLimit = 100;
+	foods = [];
 
 	master = new Master();
-	master.setSnakePosition(snake, board);
-	master.setFoodPosition(food, board, snake);
 
 	nn = new NeuralNetwork(8);
 	radar = new SnakeRadar();
+
+	master.setInitialSnakesAndFoods(board, population, foods);
 }
 
 function draw() {
@@ -19,39 +20,45 @@ function draw() {
 	background(50);
 	view.showBoard(board);
 
-	radar.calculateAndNormalizeDistances(board, snake, food);
-	view.showSnakeRadar(radar);
-
-	view.showSnake(snake);
-	view.showZPixel(food);
+	view.showStatus(population);
+	view.showPopulation(population, foods);
 
 	view.showNeuralNetwork(nn);
 
-	snake.move();
-
-	master.checkSnakeStatus(board, snake, food);
-	if (snake.isDead()) {
-		master.setSnakePosition(snake, board);
-		master.resetSnake(snake);
+	for (let c = 0; c < population.size; c++) {
+		let currentSnake = population.snakes[c];
+		let currentFood = foods[c];
+		if (currentSnake.isNotDead()) {
+		  radar.calculateAndNormalizeDistances(board, currentSnake, currentFood);
+		  nn.processDataAndMakeDecision(radar, currentSnake);
+		  master.checkSnakeStatus(board, currentSnake, currentFood);
+		}
 	}
+
+	if (population.allSnakesIsDead()) {
+		population.updateRanking();
+		population.generateNewPopulation();
+		master.resetPopulation(board, population);
+		population.updateGeneration();
+	  }
 }
 
-function keyPressed() {
-	switch (keyCode) {
-		case RIGHT_ARROW:
-			snake.head.pointToRight();
-			break;
-		case DOWN_ARROW:
-			snake.head.pointToDown();
-			break;
-		case LEFT_ARROW:
-			snake.head.pointToLeft();
-			break;
-		case UP_ARROW:
-			snake.head.pointToUp();
-			break;
-		// case CONTROL:
-		// 	snake.move();
-		// 	break;
-	}
-}
+// function keyPressed() {
+// 	switch (keyCode) {
+// 		case RIGHT_ARROW:
+// 			snake.head.pointToRight();
+// 			break;
+// 		case DOWN_ARROW:
+// 			snake.head.pointToDown();
+// 			break;
+// 		case LEFT_ARROW:
+// 			snake.head.pointToLeft();
+// 			break;
+// 		case UP_ARROW:
+// 			snake.head.pointToUp();
+// 			break;
+// 		// case CONTROL:
+// 		// 	snake.move();
+// 		// 	break;
+// 	}
+// }

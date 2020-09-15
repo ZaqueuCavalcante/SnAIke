@@ -83,5 +83,26 @@ class Master {
 		this.checksSnakeSelfCollide(snake);
 		this.checksSnakeBoardCollide(snake, board);
 		this.checksSnakeFoodCollide(snake, food, board);
+		this.checksSnakeRemainingMoves(snake);
 	}
+
+	setInitialSnakesAndFoods(board, pop, foods) {
+		for (let c = 0; c < pop.size; c++) {
+		  let food = (new Food(-420, -420)).self;
+		  let snake = new Snake(-420, -420);
+		  this.setSnakePosition(snake, board);
+		  this.setFoodPosition(food, board, snake);
+		  foods.push(food);
+		  pop.snakes.push(snake);
+		}
+		pop.updateRanking();
+	  }
+	
+	resetPopulation(board, pop) {
+		for (let c = 0; c < pop.size; c++) {
+		  let snake = pop.snakes[c];
+		  this.setSnakePosition(snake, board);
+		  this.resetSnake(snake);
+		}
+	  }
 }

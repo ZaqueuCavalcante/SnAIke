@@ -98,3 +98,4 @@ class SnakeRadar {
       this.normalizeDistances(snake, board);
     }
   }
+  

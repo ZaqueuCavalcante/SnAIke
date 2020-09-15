@@ -48,7 +48,7 @@ class Neuron {
 		this.outputValue = outputValue;
 	}
 	getOutputValue() {
-		return outputValue;
+		return this.outputValue;
 	}
 	clearAllValues() {
 		this.inputValues = [];
@@ -58,22 +58,22 @@ class Neuron {
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	calculateActivationPotential() {
 		this.activationPotential = 0.0;
-		for (let c = 0; c < this.weights.size(); c++) {
-		this.activationPotential += this.weights.get(c) * this.inputValues.get(c);
+		for (let c = 0; c < this.weights.length; c++) {
+			this.activationPotential += this.weights[c] * this.inputValues[c];
 		}
 	}
 	ReLUFunction(input) {
 		if (input < 0.0) {
-		return 0.0;
+			return 0.0;
 		} else {
-		return input;
+			return input;
 		}
 	}
 	BinaryStepFunction(input) {
 		if (input < 0.0) {
-		return -1.0;
+			return -1.0;
 		} else {
-		return 1.0;
+			return 1.0;
 		}
 	}
 	SigmoidFunction(input) {
@@ -86,10 +86,10 @@ class Neuron {
 		this.color = color(100);
 	}
 	activate() {
-		activated = true;
+		this.activated = true;
 		this.color = color(0, 255, 0);
 	}
 	isActivated() {
-		return activated;
+		return this.activated;
 	}
 }

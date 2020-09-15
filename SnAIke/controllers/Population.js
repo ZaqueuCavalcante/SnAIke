@@ -1,5 +1,5 @@
 class Population {
-    constructor(size) {
+    constructor(size=1) {
       this.size = size;
       this.generation = 0;
       this.generationLimit = 42;
@@ -12,14 +12,10 @@ class Population {
       this.setInitialRanking();
       this.snakesFitness = [];
       this.liveSnakesNumber = 0;
-      this.indexesArray = [];
       this.makeIndexesArray();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    getSize() {
-      return this.size;
-    }
     getLiveSnakesNumber() {
       this.liveSnakesNumber = 0;
       for (let snake of this.snakes) {
@@ -29,26 +25,17 @@ class Population {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    getGeneration() {
-      return this.generation;
-    }
     updateGeneration() {
       this.generation ++;
     }
     setGenerationLimit(limit) {
       this.generationLimit = limit;
     }
-    getGenerationLimit() {
-      return this.generationLimit;
-    }
     aboveGenerationLimit() {
       return this.generation > this.generationLimit;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    getMutationRate() {
-      return this.mutationRate;
-    }
     updateMutationRate(inOrDecrement) {
       this.mutationRate += inOrDecrement;
       if (this.mutationRate < 0.0) {
@@ -59,18 +46,6 @@ class Population {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    getBestScore() {
-      return this.bestScore;
-    }
-    getSnakes() {
-      return this.snakes;
-    }
-    getBestSnake() {
-      return this.bestSnake;
-    }
-    getRanking() {
-      return this.ranking;
-    }
     setInitialRanking() {
       for (let c = 0; c < this.size; c++) {
         this.ranking[c] = c;
@@ -80,7 +55,7 @@ class Population {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     calculateAllSnakesFitness() {
       for (let c = 0; c < this.size; c++) {
-        snakesFitness[c] = this.snakes[c].getScore();
+        this.snakesFitness[c] = this.snakes[c].score;
       }
     }
     updateRanking() {
@@ -92,13 +67,13 @@ class Population {
         while (this.snakesFitness[j] != maxFitness) {
           j ++;
         }
-        ranking[i] = j;
-        snakesFitness[j] = -1.0;
+        this.ranking[i] = j;
+        this.snakesFitness[j] = -1.0;
       }
-      if (this.snakes[this.ranking[0]].getScore() > this.bestScore) {
-        this.bestScore = this.snakes[ranking[0]].getScore();
+      if (this.snakes[ this.ranking[0] ].score > this.bestScore) {
+        this.bestScore = this.snakes[ this.ranking[0] ].score;
       }
-      this.bestSnake = this.snakes[this.ranking[0]];
+      this.bestSnake = this.snakes[ this.ranking[0] ];
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -115,16 +90,16 @@ class Population {
 
     selectCouple() {
       let coupleIndexes = [];
-      let motherIndexInRankingArray = this.indexesArray[ int(random(indexesArray.size())) ];
-      let fatherIndexInRankingArray = this.indexesArray[ int(random(indexesArray.size())) ];
-      coupleIndexes[0] = ranking[motherIndexInRankingArray];
-      coupleIndexes[1] = ranking[fatherIndexInRankingArray];
+      let motherIndexInRankingArray = this.indexesArray[ int(random(this.indexesArray.length)) ];
+      let fatherIndexInRankingArray = this.indexesArray[ int(random(this.indexesArray.length)) ];
+      coupleIndexes[0] = this.ranking[motherIndexInRankingArray];
+      coupleIndexes[1] = this.ranking[fatherIndexInRankingArray];
       return coupleIndexes;
     }
   
     crossover(motherIndex, fatherIndex) {
-      let mother = snakes[motherIndex].clone();
-      let father = snakes[fatherIndex].clone();
+      let mother = this.snakes[motherIndex].clone();
+      let father = this.snakes[fatherIndex].clone();
   
       let genomeSize = mother.genes.size();
       let cutLocation = int(random(1, genomeSize));
@@ -144,7 +119,7 @@ class Population {
         for (let c = 0; c < genesNumberThatWillMutate; c++) {
           let geneThatWillMutate = int(random(0, genomeSize));
           let newWeight = random(-linkWeightRange, linkWeightRange);
-          snake.genes.splice(geneThatWillMutate, 1, newWeight);
+          snake.genes.getAll().splice(geneThatWillMutate, 1, newWeight);
         }
       }
     }
@@ -158,7 +133,7 @@ class Population {
         let fatherIndex = coupleIndexes[1];
         let newSnake = this.crossover(motherIndex, fatherIndex);
         this.mutation(newSnake);
-        newSnakes.add(newSnake);
+        newSnakes.push(newSnake);
       }
       for (let c = 0; c < this.size; c++) {
         this.snakes.splice(c, 1, newSnakes[c]);
@@ -168,8 +143,8 @@ class Population {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     allSnakesIsDead() {
-      for (let c = 0; c < this.snakes.size(); c++) {
-        if (snakes[c].isNotDead()) {
+      for (let c = 0; c < this.snakes.length; c++) {
+        if (this.snakes[c].isNotDead()) {
           return false;
         }
       }

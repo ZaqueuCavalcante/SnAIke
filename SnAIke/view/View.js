@@ -1,6 +1,5 @@
 class View {
-	constructor() {
-	}
+	constructor() { }
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	// Actors objects show()
@@ -24,25 +23,27 @@ class View {
 	// Controllers objects show()
 	showNeuralNetwork(nn) {
 		for (let link of nn.links) {
-		  this.showLink(link);
+			this.showLink(link);
 		}
 		this.showLayer(nn.inputLayer);
 		this.showLayer(nn.hiddenLayer);
 		this.showLayer(nn.outputLayer);
-	  }
+	}
 
-	  showLayer(layer) {
+	showLayer(layer) {
 		for (let neuron of layer.neurons) {
-		  this.showNeuron(neuron);
+			this.showNeuron(neuron);
 		}
-	  }
+	}
 
-	  showLink(link) {
+	showLink(link) {
 		stroke(link.getColor());
-		line(link.sourceNeuron.position.x, link.sourceNeuron.position.y, link.arrivalNeuron.position.x, link.arrivalNeuron.position.y);
-	  }
+		let source = link.sourceNeuron.position;
+		let arrival = link.arrivalNeuron.position;
+		line(source.x, source.y, arrival.x, arrival.y);
+	}
 
-	  showNeuron(neuron) {
+	showNeuron(neuron) {
 		let x = neuron.position.x;
 		let y = neuron.position.y;
 		let r = neuron.radius;
@@ -51,12 +52,35 @@ class View {
 		ellipseMode(CENTER);
 		ellipse(x, y, r, r);
 		if (neuron.inputName != "" || neuron.outputName != "") {
-		  fill(255);
-		  textSize(15);
-		  textAlign(RIGHT);
-		  text(neuron.inputName, x - r, y + 0.30*r);
-		  textAlign(LEFT);
-		  text(neuron.outputName, x + r, y + 0.30*r);
+			fill(255);
+			textSize(15);
+			textAlign(RIGHT);
+			text(neuron.inputName, x - r, y + 0.3 * r);
+			textAlign(LEFT);
+			text(neuron.outputName, x + r, y + 0.3 * r);
+		}
+	}
+
+	showStatus(pop) {
+		fill(255);
+		textSize(15);
+		textAlign(LEFT);
+		let bestSnake = pop.bestSnake;
+		let dx = 820;
+		text("SCORE : " + bestSnake.score, 20+dx, 60);
+		text("BEST SCORE : " + pop.bestScore, 180+dx, 60); 
+		text("LIVE SNAKES : " + pop.getLiveSnakesNumber() + "  /  " + pop.size, 20+dx, 90);
+		text("GENERATION : " + pop.generation + "  /  " + pop.generationLimit, 20+dx, 120);
+		text("REMAINING MOVES : " + bestSnake.remainingMoves, 20+dx, 150);
+		text("MUTATION RATE : " + pop.mutationRate + " % ", 20+dx, 180);
+	  }
+	  
+	  showPopulation(pop, foods) {
+		for (let c = 0; c < pop.size; c++) {
+		  if (pop.snakes[c].isNotDead()) {
+			this.showZPixel(foods[c]);
+			this.showSnake(pop.snakes[c]);
+		  }
 		}
 	  }
 
@@ -77,7 +101,9 @@ class View {
 			fill(vector.color);
 			strokeWeight(vector.strokeWeight);
 			line(vector.origin.x, vector.origin.y, vector.x, vector.y);
-			let direction = new createVector(vector.x - vector.origin.x, vector.y - vector.origin.y);
+			let deltaX = vector.x - vector.origin.x;
+			let deltaY = vector.y - vector.origin.y;
+			let direction = new createVector(deltaX, deltaY);
 			let tipSize = 8;
 			translate(vector.x, vector.y);
 			rotate(direction.heading());
@@ -91,18 +117,18 @@ class View {
 		stroke(pixel.stroke);
 		strokeWeight(1.5);
 		rectMode(CENTER);
-		rect(pixel.position.x, pixel.position.y, pixel.size, pixel.size, pixel.size*0.15);
+		rect(pixel.position.x, pixel.position.y, pixel.size, pixel.size, pixel.size * 0.15);
 		this.showZVector2D(pixel.position);
 		this.showZVector2D(pixel.velocity);
 	}
-  
+
 	showTile(tile) {
 		this.showZPixel(tile);
 		fill(255);
 		strokeWeight(1.5);
 		textSize(20);
 		textAlign(CENTER, CENTER);
-		let offset = tile.size/3.8;
+		let offset = tile.size / 3.8;
 		text(tile.F, tile.position.x - offset, tile.position.y - offset);
 		textSize(15);
 		text(tile.G, tile.position.x - offset, tile.position.y + offset);

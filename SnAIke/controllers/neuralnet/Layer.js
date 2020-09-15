@@ -37,6 +37,12 @@ class Layer {
       }
     }
 
+    deactivateAllNeurons() {
+      for (let neuron of this.neurons) {
+        neuron.deactivate();
+      }
+    }
+
     clear() {
       for (let neuron of this.neurons) {
         neuron.clearAllValues();
