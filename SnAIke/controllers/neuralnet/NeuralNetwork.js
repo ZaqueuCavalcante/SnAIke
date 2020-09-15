@@ -111,7 +111,7 @@ class NeuralNetwork {
       let output;
       for (let neuron of this.hiddenLayer.neurons) {
         neuron.calculateActivationPotential();
-        output = neuron.ReLUFunction(neuron.activationPotential);
+        output = neuron.SigmoidFunction(neuron.activationPotential);
         neuron.setOutputValue(output);
       }
     }
