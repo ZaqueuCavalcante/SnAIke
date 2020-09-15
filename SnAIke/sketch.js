@@ -27,7 +27,7 @@ function draw() {
 
 	view.showNeuralNetwork(nn);
 
-	// snake.move();
+	snake.move();
 
 	master.checkSnakeStatus(board, snake, food);
 	if (snake.isDead()) {
@@ -50,8 +50,8 @@ function keyPressed() {
 		case UP_ARROW:
 			snake.head.pointToUp();
 			break;
-		case CONTROL:
-			snake.move();
-			break;
+		// case CONTROL:
+		// 	snake.move();
+		// 	break;
 	}
 }
