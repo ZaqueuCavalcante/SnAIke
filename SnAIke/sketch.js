@@ -3,7 +3,7 @@ function setup() {
 	view = new View();
 	board = new Board();
 
-	population = new Population(500);
+	population = new Population(1);
 	population.generationLimit = 100;
 	foods = [];
 
@@ -30,7 +30,7 @@ function draw() {
 		let currentFood = foods[c];
 		if (currentSnake.isNotDead()) {
 		  radar.calculateAndNormalizeDistances(board, currentSnake, currentFood);
-		  nn.processDataAndMakeDecision(radar, currentSnake);
+		  //nn.processDataAndMakeDecision(radar, currentSnake);
 		  master.checkSnakeStatus(board, currentSnake, currentFood);
 		}
 	}
@@ -43,22 +43,22 @@ function draw() {
 	  }
 }
 
-// function keyPressed() {
-// 	switch (keyCode) {
-// 		case RIGHT_ARROW:
-// 			snake.head.pointToRight();
-// 			break;
-// 		case DOWN_ARROW:
-// 			snake.head.pointToDown();
-// 			break;
-// 		case LEFT_ARROW:
-// 			snake.head.pointToLeft();
-// 			break;
-// 		case UP_ARROW:
-// 			snake.head.pointToUp();
-// 			break;
-// 		// case CONTROL:
-// 		// 	snake.move();
-// 		// 	break;
-// 	}
-// }
+function keyPressed() {
+	switch (keyCode) {
+		case RIGHT_ARROW:
+			population.snakes[0].head.pointToRight();
+			break;
+		case DOWN_ARROW:
+			population.snakes[0].head.pointToDown();
+			break;
+		case LEFT_ARROW:
+			population.snakes[0].head.pointToLeft();
+			break;
+		case UP_ARROW:
+			population.snakes[0].head.pointToUp();
+			break;
+		case CONTROL:
+			population.snakes[0].move();
+			break;
+	}
+}
