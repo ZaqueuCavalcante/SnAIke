@@ -2,11 +2,11 @@ class NeuralNetwork {
     constructor() {
         this.distances = new ZVector2D();
 
-        this.inputNames = ["Bias", "FoodX", "FoodY", "LeftD", "FrontD", "RightD"];
+        this.inputNames = ["Bias", "FoodX", "FoodY"];//, "LeftD", "FrontD", "RightD"];
         this.outputNames = ["Left", "Front", "Right"];
     
-        this.inputLayer = new Layer(6);
-        this.hiddenLayer = new Layer(8);
+        this.inputLayer = new Layer(3);
+        this.hiddenLayer = new Layer(5);
         this.outputLayer = new Layer(3);
     
         this.bias = 1.0;
@@ -87,9 +87,9 @@ class NeuralNetwork {
       this.inputLayer.neurons[0].setOutputValue(this.bias);
       this.inputLayer.neurons[1].setOutputValue(radar.distanceToFoodX);
       this.inputLayer.neurons[2].setOutputValue(radar.distanceToFoodY);
-      this.inputLayer.neurons[3].setOutputValue(radar.distanceToLeft.size);
-      this.inputLayer.neurons[4].setOutputValue(radar.distanceToFront.size);
-      this.inputLayer.neurons[5].setOutputValue(radar.distanceToRight.size);
+      // this.inputLayer.neurons[3].setOutputValue(radar.distanceToLeft.size);
+      // this.inputLayer.neurons[4].setOutputValue(radar.distanceToFront.size);
+      // this.inputLayer.neurons[5].setOutputValue(radar.distanceToRight.size);
     }
   
     flowValuesAndWeightsInputToHidden() {

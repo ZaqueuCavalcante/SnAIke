@@ -13,8 +13,7 @@ class ZPixel {
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	setPosition(x, y) {
-		this.position.x = x;
-		this.position.y = y;
+		this.position.set(x, y);
 		this.velocity.setOrigin(x, y);
 		this.velocity.updateTip();
 	}

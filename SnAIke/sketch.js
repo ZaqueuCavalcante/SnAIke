@@ -3,13 +3,13 @@ function setup() {
 	view = new View();
 	board = new Board();
 
-	population = new Population(1);
-	population.generationLimit = 100;
+	population = new Population(1000);
+	population.generationLimit = 1000;
 	foods = [];
 
 	master = new Master();
 
-	nn = new NeuralNetwork(8);
+	nn = new NeuralNetwork();
 	radar = new SnakeRadar();
 
 	master.setInitialSnakesAndFoods(board, population, foods);
@@ -21,7 +21,7 @@ function draw() {
 	view.showBoard(board);
 
 	view.showStatus(population);
-	view.showPopulation(population, foods);
+	view.showPopulation(population, foods, 100);
 
 	view.showNeuralNetwork(nn);
 
@@ -30,7 +30,7 @@ function draw() {
 		let currentFood = foods[c];
 		if (currentSnake.isNotDead()) {
 		  radar.calculateAndNormalizeDistances(board, currentSnake, currentFood);
-		  //nn.processDataAndMakeDecision(radar, currentSnake);
+		  nn.processDataAndMakeDecision(radar, currentSnake);
 		  master.checkSnakeStatus(board, currentSnake, currentFood);
 		}
 	}

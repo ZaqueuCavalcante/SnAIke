@@ -75,14 +75,15 @@ class View {
 		text("MUTATION RATE : " + pop.mutationRate + " % ", 20+dx, 180);
 	  }
 	  
-	  showPopulation(pop, foods) {
-		for (let c = 0; c < pop.size; c++) {
-		  if (pop.snakes[c].isNotDead()) {
-			this.showZPixel(foods[c]);
-			this.showSnake(pop.snakes[c]);
-		  }
+	showPopulation(pop, foods, percentageToShow=10) {
+		let popLimit = int(pop.size * percentageToShow/100);
+		for (let c = 0; c < popLimit; c++) {
+			if (pop.snakes[c].isNotDead()) {
+				this.showZPixel(foods[c]);
+				this.showSnake(pop.snakes[c]);
+			}
 		}
-	  }
+	}
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 	// Radars objects show()

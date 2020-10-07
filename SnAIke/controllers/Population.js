@@ -70,10 +70,11 @@ class Population {
         this.ranking[i] = j;
         this.snakesFitness[j] = -1.0;
       }
-      if (this.snakes[ this.ranking[0] ].score > this.bestScore) {
-        this.bestScore = this.snakes[ this.ranking[0] ].score;
+      let currentBestSnake = this.snakes[ this.ranking[0] ];
+      if (currentBestSnake.score > this.bestScore) {
+        this.bestScore = currentBestSnake.score;
       }
-      this.bestSnake = this.snakes[ this.ranking[0] ];
+      this.bestSnake = currentBestSnake;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

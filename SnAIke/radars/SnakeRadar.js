@@ -91,9 +91,9 @@ class SnakeRadar {
     calculateAndNormalizeDistances(board, snake, food) {
       this.calculateDistanceToFood(snake, food);
 
-      this.calculateDistanceToLeft(snake, board);
-      this.calculateDistanceToFront(snake, board);
-      this.calculateDistanceToRight(snake, board);
+      // this.calculateDistanceToLeft(snake, board);
+      // this.calculateDistanceToFront(snake, board);
+      // this.calculateDistanceToRight(snake, board);
 
       this.normalizeDistances(snake, board);
     }
